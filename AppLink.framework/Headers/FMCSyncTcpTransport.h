@@ -1,0 +1,12 @@
+//  FMCSyncTcpTransport.h
+//  SyncProxy
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
+#import <Foundation/Foundation.h>
+#import <AppLink/FMCAbstractSyncTransport.h>
+
+@interface FMCSyncTcpTransport : FMCAbstractSyncTransport {
+	CFSocketRef socket;
+}
+
+@end

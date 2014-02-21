@@ -1,0 +1,53 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <AppLink/AppLink.h>
+    #import "SyncBrain.h"
+    #import "AppDelegate.h"
+
+    # define ESS_OK @"OK"
+    # define ESS_SEEKLEFT @"SEEKLEFT"
+    # define ESS_SEEKRIGHT @"SEEKRIGHT"
+    # define ESS_TUNEUP @"TUNEUP"
+    # define ESS_TUNEDOWN @"TUNEDOWN"
+    # define ESS_PRESET_0 @"PRESET_0"
+    # define ESS_PRESET_1 @"PRESET_1"
+    # define ESS_PRESET_2 @"PRESET_2"
+    # define ESS_PRESET_3 @"PRESET_3"
+    # define ESS_PRESET_4 @"PRESET_4"
+    # define ESS_PRESET_5 @"PRESET_5"
+    # define ESS_PRESET_6 @"PRESET_6"
+    # define ESS_PRESET_7 @"PRESET_7"
+    # define ESS_PRESET_8 @"PRESET_8"
+    # define ESS_PRESET_9 @"PRESET_9"
+    # define VR_SELECT_SONG @"Select Song"
+    # define VR_RESUME_SONG @"resume"
+    # define VR_STOP_PLAYING @"stop playing"
+    # define VR_NEXT @"next"
+    # define VR_PREVIOUS @"previous"
+    # define VR_PLAY @"play"
+    # define VR_PAUSE @"pause"
+    # define VR_FORWARD @"forword"
+    # define VR_BACKWARD @"backword"
+    # define SUB_MENU_NAME @"Info"
+    # define SUBMENU_OPTION_APPLICATION @"Application"
+    # define SUBMENU_OPTION_APPLINK @"Applink"
+    # define SUBMENU_OPTION_APPLICATION_FEATURE @"Application Feature"
+    # define CHID_APPLICTION 4533
+    # define CHID_FEATURE 4534
+    # define CHID_APPLINK 4535
+    # define CHID_INTRACTION 1985
+    # define SUBMENUID 585
+#endif

@@ -1,0 +1,759 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4C11AE8A1814E3F70088E169 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C11AE891814E3F70088E169 /* Foundation.framework */; };
+		4C11AE8C1814E3F70088E169 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C11AE8B1814E3F70088E169 /* CoreGraphics.framework */; };
+		4C11AE8E1814E3F70088E169 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C11AE8D1814E3F70088E169 /* UIKit.framework */; };
+		4C11AE941814E3F70088E169 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AE921814E3F70088E169 /* InfoPlist.strings */; };
+		4C11AE961814E3F70088E169 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C11AE951814E3F70088E169 /* main.m */; };
+		4C11AE9A1814E3F70088E169 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C11AE991814E3F70088E169 /* AppDelegate.m */; };
+		4C11AE9D1814E3F70088E169 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AE9B1814E3F70088E169 /* Main.storyboard */; };
+		4C11AEA01814E3F70088E169 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C11AE9F1814E3F70088E169 /* ViewController.m */; };
+		4C11AEA21814E3F70088E169 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AEA11814E3F70088E169 /* Images.xcassets */; };
+		4C11AEA91814E3F70088E169 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C11AEA81814E3F70088E169 /* XCTest.framework */; };
+		4C11AEAA1814E3F70088E169 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C11AE891814E3F70088E169 /* Foundation.framework */; };
+		4C11AEAB1814E3F70088E169 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C11AE8D1814E3F70088E169 /* UIKit.framework */; };
+		4C11AEB31814E3F70088E169 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AEB11814E3F70088E169 /* InfoPlist.strings */; };
+		4C11AEB51814E3F70088E169 /* ESSMusicPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C11AEB41814E3F70088E169 /* ESSMusicPlayerTests.m */; };
+		4C11AF3E1814E6ED0088E169 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C11AF3D1814E6ED0088E169 /* ExternalAccessory.framework */; };
+		4C11AF441814F3D40088E169 /* SyncIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AF431814F3D40088E169 /* SyncIcon.png */; };
+		4C11AF4D181501630088E169 /* cog_02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AF4C181501630088E169 /* cog_02@2x.png */; };
+		4C11AF501815019F0088E169 /* Fordlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AF4E1815019F0088E169 /* Fordlogo.png */; };
+		4C11AF511815019F0088E169 /* game_controller.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AF4F1815019F0088E169 /* game_controller.png */; };
+		4C11AF53181501A90088E169 /* cog_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C11AF52181501A90088E169 /* cog_02.png */; };
+		4C14DA1E1816418D00E0157F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C14DA1D1816418D00E0157F /* AVFoundation.framework */; };
+		4C14DA241816452400E0157F /* AppLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C14DA231816452400E0157F /* AppLinkViewController.m */; };
+		4C30B5DF18B747A400F389A6 /* AppLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C30B5DE18B747A400F389A6 /* AppLink.framework */; };
+		4C95918618163B57008250D5 /* SyncLockScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C95918518163B57008250D5 /* SyncLockScreen.png */; };
+		4C99DF39181A36FE006D4991 /* iphone5sync.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C99DF38181A36FE006D4991 /* iphone5sync.jpg */; };
+		4C99DF3D181A3995006D4991 /* FPRB_10DrOneURL_4C_RvVtHt_WK.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C99DF3C181A3995006D4991 /* FPRB_10DrOneURL_4C_RvVtHt_WK.png */; };
+		4C99DF3F181A404B006D4991 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C99DF3E181A404B006D4991 /* icon.png */; };
+		4C9DDAC91817C10800E2C6F0 /* SyncPlayerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DDAC81817C10800E2C6F0 /* SyncPlayerPlugin.m */; };
+		4C9DDACB1817CBF000E2C6F0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9DDACA1817CBF000E2C6F0 /* AudioToolbox.framework */; };
+		4C9DDACD1817CC0800E2C6F0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9DDACC1817CC0800E2C6F0 /* MediaPlayer.framework */; };
+		4C9DDACF1817CC3000E2C6F0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9DDACE1817CC3000E2C6F0 /* CoreMedia.framework */; };
+		4C9DDADA1817D78600E2C6F0 /* Again and again.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4C9DDAD01817D78600E2C6F0 /* Again and again.mp3 */; };
+		4C9DDADB1817D78600E2C6F0 /* Bandits in the Woods - Boston Strangler.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4C9DDAD11817D78600E2C6F0 /* Bandits in the Woods - Boston Strangler.mp3 */; };
+		8D0A6A291820C218002FDEFA /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A121820C218002FDEFA /* blank.png */; };
+		8D0A6A2A1820C218002FDEFA /* iphone5sync 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A131820C218002FDEFA /* iphone5sync 2.jpg */; };
+		8D0A6A2B1820C218002FDEFA /* ipod-shuffle-control-button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A141820C218002FDEFA /* ipod-shuffle-control-button.jpg */; };
+		8D0A6A2C1820C218002FDEFA /* Next_img.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A151820C218002FDEFA /* Next_img.png */; };
+		8D0A6A2D1820C218002FDEFA /* NoArtworkAvilable.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A161820C218002FDEFA /* NoArtworkAvilable.png */; };
+		8D0A6A2E1820C218002FDEFA /* PanCard.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A171820C218002FDEFA /* PanCard.png */; };
+		8D0A6A2F1820C218002FDEFA /* pause_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A181820C218002FDEFA /* pause_button.png */; };
+		8D0A6A301820C218002FDEFA /* pause_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A191820C218002FDEFA /* pause_button@2x.png */; };
+		8D0A6A311820C218002FDEFA /* play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A1A1820C218002FDEFA /* play_button.png */; };
+		8D0A6A321820C218002FDEFA /* play_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A1B1820C218002FDEFA /* play_button@2x.png */; };
+		8D0A6A331820C218002FDEFA /* player2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A1C1820C218002FDEFA /* player2.png */; };
+		8D0A6A341820C218002FDEFA /* PlayerButtons.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A1D1820C218002FDEFA /* PlayerButtons.png */; };
+		8D0A6A351820C218002FDEFA /* previous_img.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A1E1820C218002FDEFA /* previous_img.png */; };
+		8D0A6A361820C218002FDEFA /* sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A1F1820C218002FDEFA /* sample.png */; };
+		8D0A6A371820C218002FDEFA /* SyncLockImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A201820C218002FDEFA /* SyncLockImage.png */; };
+		8D0A6A381820C218002FDEFA /* Vol_dicrease.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A211820C218002FDEFA /* Vol_dicrease.png */; };
+		8D0A6A391820C218002FDEFA /* Vol_incrise.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A221820C218002FDEFA /* Vol_incrise.png */; };
+		8D0A6A3A1820C218002FDEFA /* vol-.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A231820C218002FDEFA /* vol-.png */; };
+		8D0A6A3B1820C218002FDEFA /* vol+.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A241820C218002FDEFA /* vol+.png */; };
+		8D0A6A3C1820C218002FDEFA /* Volum+.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A251820C218002FDEFA /* Volum+.png */; };
+		8D0A6A3D1820C218002FDEFA /* Volume-.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A261820C218002FDEFA /* Volume-.png */; };
+		8D0A6A3E1820C218002FDEFA /* Volume--.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A271820C218002FDEFA /* Volume--.png */; };
+		8D0A6A3F1820C218002FDEFA /* Volume++.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A281820C218002FDEFA /* Volume++.png */; };
+		8D0A6A411821177C002FDEFA /* NoArtworkAvilableBigThumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A401821177C002FDEFA /* NoArtworkAvilableBigThumb.png */; };
+		8D91F025183628220017B7F7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8D91EFAA183628220017B7F7 /* Settings.bundle */; };
+		8D91F026183628220017B7F7 /* SyncBrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91EFAC183628220017B7F7 /* SyncBrain.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4C11AEAC1814E3F70088E169 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C11AE7E1814E3F70088E169 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C11AE851814E3F70088E169;
+			remoteInfo = ESSMusicPlayer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4C11AE861814E3F70088E169 /* ESSMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ESSMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C11AE891814E3F70088E169 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4C11AE8B1814E3F70088E169 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4C11AE8D1814E3F70088E169 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4C11AE911814E3F70088E169 /* ESSMusicPlayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ESSMusicPlayer-Info.plist"; sourceTree = "<group>"; };
+		4C11AE931814E3F70088E169 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4C11AE951814E3F70088E169 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4C11AE971814E3F70088E169 /* ESSMusicPlayer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ESSMusicPlayer-Prefix.pch"; sourceTree = "<group>"; };
+		4C11AE981814E3F70088E169 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4C11AE991814E3F70088E169 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4C11AE9C1814E3F70088E169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4C11AE9E1814E3F70088E169 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		4C11AE9F1814E3F70088E169 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4C11AEA11814E3F70088E169 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4C11AEA71814E3F70088E169 /* ESSMusicPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ESSMusicPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C11AEA81814E3F70088E169 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		4C11AEB01814E3F70088E169 /* ESSMusicPlayerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ESSMusicPlayerTests-Info.plist"; sourceTree = "<group>"; };
+		4C11AEB21814E3F70088E169 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4C11AEB41814E3F70088E169 /* ESSMusicPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ESSMusicPlayerTests.m; sourceTree = "<group>"; };
+		4C11AF3D1814E6ED0088E169 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		4C11AF431814F3D40088E169 /* SyncIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SyncIcon.png; path = Resource/Images/SyncIcon.png; sourceTree = "<group>"; };
+		4C11AF4C181501630088E169 /* cog_02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cog_02@2x.png"; path = "Resource/Images/cog_02@2x.png"; sourceTree = "<group>"; };
+		4C11AF4E1815019F0088E169 /* Fordlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Fordlogo.png; path = Resource/Images/Fordlogo.png; sourceTree = "<group>"; };
+		4C11AF4F1815019F0088E169 /* game_controller.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = game_controller.png; path = Resource/Images/game_controller.png; sourceTree = "<group>"; };
+		4C11AF52181501A90088E169 /* cog_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cog_02.png; path = Resource/Images/cog_02.png; sourceTree = "<group>"; };
+		4C14DA1D1816418D00E0157F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4C14DA221816452400E0157F /* AppLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppLinkViewController.h; path = Classes/AppLinkViewController.h; sourceTree = "<group>"; };
+		4C14DA231816452400E0157F /* AppLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppLinkViewController.m; path = Classes/AppLinkViewController.m; sourceTree = "<group>"; };
+		4C30B5DE18B747A400F389A6 /* AppLink.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppLink.framework; sourceTree = "<group>"; };
+		4C95918518163B57008250D5 /* SyncLockScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SyncLockScreen.png; path = Resource/Images/SyncLockScreen.png; sourceTree = "<group>"; };
+		4C99DF38181A36FE006D4991 /* iphone5sync.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = iphone5sync.jpg; path = Resource/Images/iphone5sync.jpg; sourceTree = "<group>"; };
+		4C99DF3C181A3995006D4991 /* FPRB_10DrOneURL_4C_RvVtHt_WK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FPRB_10DrOneURL_4C_RvVtHt_WK.png; sourceTree = "<group>"; };
+		4C99DF3E181A404B006D4991 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resource/Images/icon.png; sourceTree = "<group>"; };
+		4C9DDAC71817C10800E2C6F0 /* SyncPlayerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncPlayerPlugin.h; path = Classes/SyncPlayerPlugin.h; sourceTree = "<group>"; };
+		4C9DDAC81817C10800E2C6F0 /* SyncPlayerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SyncPlayerPlugin.m; path = Classes/SyncPlayerPlugin.m; sourceTree = "<group>"; };
+		4C9DDACA1817CBF000E2C6F0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		4C9DDACC1817CC0800E2C6F0 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		4C9DDACE1817CC3000E2C6F0 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		4C9DDAD01817D78600E2C6F0 /* Again and again.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Again and again.mp3"; path = "Resource/Media/Again and again.mp3"; sourceTree = "<group>"; };
+		4C9DDAD11817D78600E2C6F0 /* Bandits in the Woods - Boston Strangler.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Bandits in the Woods - Boston Strangler.mp3"; path = "Resource/Media/Bandits in the Woods - Boston Strangler.mp3"; sourceTree = "<group>"; };
+		8D0A6A121820C218002FDEFA /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blank.png; path = Resource/Images/blank.png; sourceTree = "<group>"; };
+		8D0A6A131820C218002FDEFA /* iphone5sync 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "iphone5sync 2.jpg"; path = "Resource/Images/iphone5sync 2.jpg"; sourceTree = "<group>"; };
+		8D0A6A141820C218002FDEFA /* ipod-shuffle-control-button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "ipod-shuffle-control-button.jpg"; path = "Resource/Images/ipod-shuffle-control-button.jpg"; sourceTree = "<group>"; };
+		8D0A6A151820C218002FDEFA /* Next_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Next_img.png; path = Resource/Images/Next_img.png; sourceTree = "<group>"; };
+		8D0A6A161820C218002FDEFA /* NoArtworkAvilable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NoArtworkAvilable.png; path = Resource/Images/NoArtworkAvilable.png; sourceTree = "<group>"; };
+		8D0A6A171820C218002FDEFA /* PanCard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PanCard.png; path = Resource/Images/PanCard.png; sourceTree = "<group>"; };
+		8D0A6A181820C218002FDEFA /* pause_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause_button.png; path = Resource/Images/pause_button.png; sourceTree = "<group>"; };
+		8D0A6A191820C218002FDEFA /* pause_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pause_button@2x.png"; path = "Resource/Images/pause_button@2x.png"; sourceTree = "<group>"; };
+		8D0A6A1A1820C218002FDEFA /* play_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play_button.png; path = Resource/Images/play_button.png; sourceTree = "<group>"; };
+		8D0A6A1B1820C218002FDEFA /* play_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "play_button@2x.png"; path = "Resource/Images/play_button@2x.png"; sourceTree = "<group>"; };
+		8D0A6A1C1820C218002FDEFA /* player2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = player2.png; path = Resource/Images/player2.png; sourceTree = "<group>"; };
+		8D0A6A1D1820C218002FDEFA /* PlayerButtons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlayerButtons.png; path = Resource/Images/PlayerButtons.png; sourceTree = "<group>"; };
+		8D0A6A1E1820C218002FDEFA /* previous_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = previous_img.png; path = Resource/Images/previous_img.png; sourceTree = "<group>"; };
+		8D0A6A1F1820C218002FDEFA /* sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sample.png; path = Resource/Images/sample.png; sourceTree = "<group>"; };
+		8D0A6A201820C218002FDEFA /* SyncLockImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SyncLockImage.png; path = Resource/Images/SyncLockImage.png; sourceTree = "<group>"; };
+		8D0A6A211820C218002FDEFA /* Vol_dicrease.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Vol_dicrease.png; path = Resource/Images/Vol_dicrease.png; sourceTree = "<group>"; };
+		8D0A6A221820C218002FDEFA /* Vol_incrise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Vol_incrise.png; path = Resource/Images/Vol_incrise.png; sourceTree = "<group>"; };
+		8D0A6A231820C218002FDEFA /* vol-.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "vol-.png"; path = "Resource/Images/vol-.png"; sourceTree = "<group>"; };
+		8D0A6A241820C218002FDEFA /* vol+.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "vol+.png"; path = "Resource/Images/vol+.png"; sourceTree = "<group>"; };
+		8D0A6A251820C218002FDEFA /* Volum+.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Volum+.png"; path = "Resource/Images/Volum+.png"; sourceTree = "<group>"; };
+		8D0A6A261820C218002FDEFA /* Volume-.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Volume-.png"; path = "Resource/Images/Volume-.png"; sourceTree = "<group>"; };
+		8D0A6A271820C218002FDEFA /* Volume--.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Volume--.png"; path = "Resource/Images/Volume--.png"; sourceTree = "<group>"; };
+		8D0A6A281820C218002FDEFA /* Volume++.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Volume++.png"; path = "Resource/Images/Volume++.png"; sourceTree = "<group>"; };
+		8D0A6A401821177C002FDEFA /* NoArtworkAvilableBigThumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NoArtworkAvilableBigThumb.png; path = Resource/Images/NoArtworkAvilableBigThumb.png; sourceTree = "<group>"; };
+		8D91EFAA183628220017B7F7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		8D91EFAB183628220017B7F7 /* SyncBrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncBrain.h; sourceTree = "<group>"; };
+		8D91EFAC183628220017B7F7 /* SyncBrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncBrain.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4C11AE831814E3F70088E169 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C30B5DF18B747A400F389A6 /* AppLink.framework in Frameworks */,
+				4C9DDACF1817CC3000E2C6F0 /* CoreMedia.framework in Frameworks */,
+				4C9DDACD1817CC0800E2C6F0 /* MediaPlayer.framework in Frameworks */,
+				4C9DDACB1817CBF000E2C6F0 /* AudioToolbox.framework in Frameworks */,
+				4C14DA1E1816418D00E0157F /* AVFoundation.framework in Frameworks */,
+				4C11AF3E1814E6ED0088E169 /* ExternalAccessory.framework in Frameworks */,
+				4C11AE8C1814E3F70088E169 /* CoreGraphics.framework in Frameworks */,
+				4C11AE8E1814E3F70088E169 /* UIKit.framework in Frameworks */,
+				4C11AE8A1814E3F70088E169 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C11AEA41814E3F70088E169 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C11AEA91814E3F70088E169 /* XCTest.framework in Frameworks */,
+				4C11AEAB1814E3F70088E169 /* UIKit.framework in Frameworks */,
+				4C11AEAA1814E3F70088E169 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4C11AE7D1814E3F70088E169 = {
+			isa = PBXGroup;
+			children = (
+				4C11AE8F1814E3F70088E169 /* ESSMusicPlayer */,
+				4C11AEAE1814E3F70088E169 /* ESSMusicPlayerTests */,
+				4C11AE881814E3F70088E169 /* Frameworks */,
+				4C11AE871814E3F70088E169 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4C11AE871814E3F70088E169 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C11AE861814E3F70088E169 /* ESSMusicPlayer.app */,
+				4C11AEA71814E3F70088E169 /* ESSMusicPlayerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4C11AE881814E3F70088E169 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C30B5DE18B747A400F389A6 /* AppLink.framework */,
+				4C9DDACE1817CC3000E2C6F0 /* CoreMedia.framework */,
+				4C9DDACC1817CC0800E2C6F0 /* MediaPlayer.framework */,
+				4C9DDACA1817CBF000E2C6F0 /* AudioToolbox.framework */,
+				4C14DA1D1816418D00E0157F /* AVFoundation.framework */,
+				4C11AF3D1814E6ED0088E169 /* ExternalAccessory.framework */,
+				4C11AE891814E3F70088E169 /* Foundation.framework */,
+				4C11AE8B1814E3F70088E169 /* CoreGraphics.framework */,
+				4C11AE8D1814E3F70088E169 /* UIKit.framework */,
+				4C11AEA81814E3F70088E169 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C11AE8F1814E3F70088E169 /* ESSMusicPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				8D91EFA8183628220017B7F7 /* AppLink */,
+				8D8CBA7A1837726E001A6D05 /* UI */,
+				4C11AF451814FCC30088E169 /* Classes */,
+				4C11AE981814E3F70088E169 /* AppDelegate.h */,
+				4C11AE991814E3F70088E169 /* AppDelegate.m */,
+				4C11AEA11814E3F70088E169 /* Images.xcassets */,
+				4C11AF411814F3690088E169 /* Resource */,
+				4C11AE901814E3F70088E169 /* Supporting Files */,
+			);
+			path = ESSMusicPlayer;
+			sourceTree = "<group>";
+		};
+		4C11AE901814E3F70088E169 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4C11AE911814E3F70088E169 /* ESSMusicPlayer-Info.plist */,
+				4C11AE921814E3F70088E169 /* InfoPlist.strings */,
+				4C11AE951814E3F70088E169 /* main.m */,
+				4C11AE971814E3F70088E169 /* ESSMusicPlayer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4C11AEAE1814E3F70088E169 /* ESSMusicPlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				4C11AEB41814E3F70088E169 /* ESSMusicPlayerTests.m */,
+				4C11AEAF1814E3F70088E169 /* Supporting Files */,
+			);
+			path = ESSMusicPlayerTests;
+			sourceTree = "<group>";
+		};
+		4C11AEAF1814E3F70088E169 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4C11AEB01814E3F70088E169 /* ESSMusicPlayerTests-Info.plist */,
+				4C11AEB11814E3F70088E169 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4C11AF411814F3690088E169 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				4C14DA1F181641C200E0157F /* Media */,
+				4C11AF421814F3940088E169 /* Images */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		4C11AF421814F3940088E169 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				8D0A6A401821177C002FDEFA /* NoArtworkAvilableBigThumb.png */,
+				8D0A6A121820C218002FDEFA /* blank.png */,
+				8D0A6A131820C218002FDEFA /* iphone5sync 2.jpg */,
+				8D0A6A141820C218002FDEFA /* ipod-shuffle-control-button.jpg */,
+				8D0A6A151820C218002FDEFA /* Next_img.png */,
+				8D0A6A161820C218002FDEFA /* NoArtworkAvilable.png */,
+				8D0A6A171820C218002FDEFA /* PanCard.png */,
+				8D0A6A181820C218002FDEFA /* pause_button.png */,
+				8D0A6A191820C218002FDEFA /* pause_button@2x.png */,
+				8D0A6A1A1820C218002FDEFA /* play_button.png */,
+				8D0A6A1B1820C218002FDEFA /* play_button@2x.png */,
+				8D0A6A1C1820C218002FDEFA /* player2.png */,
+				8D0A6A1D1820C218002FDEFA /* PlayerButtons.png */,
+				8D0A6A1E1820C218002FDEFA /* previous_img.png */,
+				8D0A6A1F1820C218002FDEFA /* sample.png */,
+				8D0A6A201820C218002FDEFA /* SyncLockImage.png */,
+				8D0A6A211820C218002FDEFA /* Vol_dicrease.png */,
+				8D0A6A221820C218002FDEFA /* Vol_incrise.png */,
+				8D0A6A231820C218002FDEFA /* vol-.png */,
+				8D0A6A241820C218002FDEFA /* vol+.png */,
+				8D0A6A251820C218002FDEFA /* Volum+.png */,
+				8D0A6A261820C218002FDEFA /* Volume-.png */,
+				8D0A6A271820C218002FDEFA /* Volume--.png */,
+				8D0A6A281820C218002FDEFA /* Volume++.png */,
+				4C99DF3E181A404B006D4991 /* icon.png */,
+				4C99DF38181A36FE006D4991 /* iphone5sync.jpg */,
+				4C99DF3C181A3995006D4991 /* FPRB_10DrOneURL_4C_RvVtHt_WK.png */,
+				4C95918518163B57008250D5 /* SyncLockScreen.png */,
+				4C11AF52181501A90088E169 /* cog_02.png */,
+				4C11AF4E1815019F0088E169 /* Fordlogo.png */,
+				4C11AF4F1815019F0088E169 /* game_controller.png */,
+				4C11AF4C181501630088E169 /* cog_02@2x.png */,
+				4C11AF431814F3D40088E169 /* SyncIcon.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		4C11AF451814FCC30088E169 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4C11AE9E1814E3F70088E169 /* ViewController.h */,
+				4C11AE9F1814E3F70088E169 /* ViewController.m */,
+				4C9DDAC71817C10800E2C6F0 /* SyncPlayerPlugin.h */,
+				4C9DDAC81817C10800E2C6F0 /* SyncPlayerPlugin.m */,
+				4C14DA221816452400E0157F /* AppLinkViewController.h */,
+				4C14DA231816452400E0157F /* AppLinkViewController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		4C14DA1F181641C200E0157F /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				4C9DDAD01817D78600E2C6F0 /* Again and again.mp3 */,
+				4C9DDAD11817D78600E2C6F0 /* Bandits in the Woods - Boston Strangler.mp3 */,
+			);
+			name = Media;
+			sourceTree = "<group>";
+		};
+		8D8CBA7A1837726E001A6D05 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				4C11AE9B1814E3F70088E169 /* Main.storyboard */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		8D91EFA8183628220017B7F7 /* AppLink */ = {
+			isa = PBXGroup;
+			children = (
+				8D91EFAA183628220017B7F7 /* Settings.bundle */,
+				8D91EFAB183628220017B7F7 /* SyncBrain.h */,
+				8D91EFAC183628220017B7F7 /* SyncBrain.m */,
+			);
+			name = AppLink;
+			path = ../AppLink;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4C11AE851814E3F70088E169 /* ESSMusicPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C11AEB81814E3F70088E169 /* Build configuration list for PBXNativeTarget "ESSMusicPlayer" */;
+			buildPhases = (
+				4C11AE821814E3F70088E169 /* Sources */,
+				4C11AE831814E3F70088E169 /* Frameworks */,
+				4C11AE841814E3F70088E169 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ESSMusicPlayer;
+			productName = ESSMusicPlayer;
+			productReference = 4C11AE861814E3F70088E169 /* ESSMusicPlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4C11AEA61814E3F70088E169 /* ESSMusicPlayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C11AEBB1814E3F70088E169 /* Build configuration list for PBXNativeTarget "ESSMusicPlayerTests" */;
+			buildPhases = (
+				4C11AEA31814E3F70088E169 /* Sources */,
+				4C11AEA41814E3F70088E169 /* Frameworks */,
+				4C11AEA51814E3F70088E169 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C11AEAD1814E3F70088E169 /* PBXTargetDependency */,
+			);
+			name = ESSMusicPlayerTests;
+			productName = ESSMusicPlayerTests;
+			productReference = 4C11AEA71814E3F70088E169 /* ESSMusicPlayerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4C11AE7E1814E3F70088E169 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = ESSIndia;
+				TargetAttributes = {
+					4C11AE851814E3F70088E169 = {
+						DevelopmentTeam = 6EMHA38T58;
+					};
+					4C11AEA61814E3F70088E169 = {
+						TestTargetID = 4C11AE851814E3F70088E169;
+					};
+				};
+			};
+			buildConfigurationList = 4C11AE811814E3F70088E169 /* Build configuration list for PBXProject "ESSMusicPlayer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4C11AE7D1814E3F70088E169;
+			productRefGroup = 4C11AE871814E3F70088E169 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4C11AE851814E3F70088E169 /* ESSMusicPlayer */,
+				4C11AEA61814E3F70088E169 /* ESSMusicPlayerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4C11AE841814E3F70088E169 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D0A6A351820C218002FDEFA /* previous_img.png in Resources */,
+				4C11AEA21814E3F70088E169 /* Images.xcassets in Resources */,
+				8D0A6A2D1820C218002FDEFA /* NoArtworkAvilable.png in Resources */,
+				8D0A6A371820C218002FDEFA /* SyncLockImage.png in Resources */,
+				4C11AF4D181501630088E169 /* cog_02@2x.png in Resources */,
+				8D0A6A3E1820C218002FDEFA /* Volume--.png in Resources */,
+				8D0A6A3D1820C218002FDEFA /* Volume-.png in Resources */,
+				4C9DDADB1817D78600E2C6F0 /* Bandits in the Woods - Boston Strangler.mp3 in Resources */,
+				4C11AF511815019F0088E169 /* game_controller.png in Resources */,
+				8D0A6A2B1820C218002FDEFA /* ipod-shuffle-control-button.jpg in Resources */,
+				8D0A6A3F1820C218002FDEFA /* Volume++.png in Resources */,
+				8D0A6A331820C218002FDEFA /* player2.png in Resources */,
+				8D0A6A381820C218002FDEFA /* Vol_dicrease.png in Resources */,
+				8D0A6A411821177C002FDEFA /* NoArtworkAvilableBigThumb.png in Resources */,
+				4C11AE941814E3F70088E169 /* InfoPlist.strings in Resources */,
+				8D0A6A321820C218002FDEFA /* play_button@2x.png in Resources */,
+				4C99DF3D181A3995006D4991 /* FPRB_10DrOneURL_4C_RvVtHt_WK.png in Resources */,
+				4C11AE9D1814E3F70088E169 /* Main.storyboard in Resources */,
+				8D0A6A3C1820C218002FDEFA /* Volum+.png in Resources */,
+				4C11AF501815019F0088E169 /* Fordlogo.png in Resources */,
+				8D0A6A3A1820C218002FDEFA /* vol-.png in Resources */,
+				8D0A6A341820C218002FDEFA /* PlayerButtons.png in Resources */,
+				8D0A6A2A1820C218002FDEFA /* iphone5sync 2.jpg in Resources */,
+				8D0A6A301820C218002FDEFA /* pause_button@2x.png in Resources */,
+				8D0A6A2E1820C218002FDEFA /* PanCard.png in Resources */,
+				8D0A6A2C1820C218002FDEFA /* Next_img.png in Resources */,
+				4C99DF39181A36FE006D4991 /* iphone5sync.jpg in Resources */,
+				8D0A6A291820C218002FDEFA /* blank.png in Resources */,
+				8D91F025183628220017B7F7 /* Settings.bundle in Resources */,
+				8D0A6A391820C218002FDEFA /* Vol_incrise.png in Resources */,
+				4C9DDADA1817D78600E2C6F0 /* Again and again.mp3 in Resources */,
+				8D0A6A361820C218002FDEFA /* sample.png in Resources */,
+				4C99DF3F181A404B006D4991 /* icon.png in Resources */,
+				8D0A6A2F1820C218002FDEFA /* pause_button.png in Resources */,
+				4C11AF441814F3D40088E169 /* SyncIcon.png in Resources */,
+				4C11AF53181501A90088E169 /* cog_02.png in Resources */,
+				4C95918618163B57008250D5 /* SyncLockScreen.png in Resources */,
+				8D0A6A311820C218002FDEFA /* play_button.png in Resources */,
+				8D0A6A3B1820C218002FDEFA /* vol+.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C11AEA51814E3F70088E169 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C11AEB31814E3F70088E169 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C11AE821814E3F70088E169 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C9DDAC91817C10800E2C6F0 /* SyncPlayerPlugin.m in Sources */,
+				4C11AEA01814E3F70088E169 /* ViewController.m in Sources */,
+				4C14DA241816452400E0157F /* AppLinkViewController.m in Sources */,
+				8D91F026183628220017B7F7 /* SyncBrain.m in Sources */,
+				4C11AE9A1814E3F70088E169 /* AppDelegate.m in Sources */,
+				4C11AE961814E3F70088E169 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C11AEA31814E3F70088E169 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C11AEB51814E3F70088E169 /* ESSMusicPlayerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4C11AEAD1814E3F70088E169 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C11AE851814E3F70088E169 /* ESSMusicPlayer */;
+			targetProxy = 4C11AEAC1814E3F70088E169 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4C11AE921814E3F70088E169 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C11AE931814E3F70088E169 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4C11AE9B1814E3F70088E169 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C11AE9C1814E3F70088E169 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4C11AEB11814E3F70088E169 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C11AEB21814E3F70088E169 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4C11AEB61814E3F70088E169 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rahul Gupta (HYLWAUGE5B)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rahul Gupta (HYLWAUGE5B)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-all_load";
+				PROVISIONING_PROFILE = "D511CF83-B7FE-48B2-B355-06FEA2CD06DE";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4C11AEB71814E3F70088E169 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rahul Gupta (HYLWAUGE5B)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rahul Gupta (HYLWAUGE5B)";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "-all_load";
+				PROVISIONING_PROFILE = "D511CF83-B7FE-48B2-B355-06FEA2CD06DE";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4C11AEB91814E3F70088E169 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rahul Gupta (HYLWAUGE5B)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					../ESSMusicPlayer_V4,
+					"/Users/fordmods/Desktop/Applink\\ 2.0/MusicPlayer_V4/ESSMusicPlayer_V4_bg",
+					"/Desktop/App\\ For\\ Demo/ESSMusicPlayer_V4_bg",
+					"/Users/essadmin/Desktop/App\\ For\\ Demo/ESSMusicPlayer_V4_bg",
+					/Users/essadmin/Desktop/DeskTop/DemoProject/ESSMusicPlayer_V6_bg,
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ESSMusicPlayer/ESSMusicPlayer-Prefix.pch";
+				INFOPLIST_FILE = "ESSMusicPlayer/ESSMusicPlayer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					../ESSMusicPlayer_V4/AppLink,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "D511CF83-B7FE-48B2-B355-06FEA2CD06DE";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4C11AEBA1814E3F70088E169 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rahul Gupta (HYLWAUGE5B)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					../ESSMusicPlayer_V4,
+					"/Users/fordmods/Desktop/Applink\\ 2.0/MusicPlayer_V4/ESSMusicPlayer_V4_bg",
+					"/Desktop/App\\ For\\ Demo/ESSMusicPlayer_V4_bg",
+					"/Users/essadmin/Desktop/App\\ For\\ Demo/ESSMusicPlayer_V4_bg",
+					/Users/essadmin/Desktop/DeskTop/DemoProject/ESSMusicPlayer_V6_bg,
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ESSMusicPlayer/ESSMusicPlayer-Prefix.pch";
+				INFOPLIST_FILE = "ESSMusicPlayer/ESSMusicPlayer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					../ESSMusicPlayer_V4/AppLink,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "D511CF83-B7FE-48B2-B355-06FEA2CD06DE";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		4C11AEBC1814E3F70088E169 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ESSMusicPlayer.app/ESSMusicPlayer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ESSMusicPlayer/ESSMusicPlayer-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ESSMusicPlayerTests/ESSMusicPlayerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		4C11AEBD1814E3F70088E169 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ESSMusicPlayer.app/ESSMusicPlayer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ESSMusicPlayer/ESSMusicPlayer-Prefix.pch";
+				INFOPLIST_FILE = "ESSMusicPlayerTests/ESSMusicPlayerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C11AE811814E3F70088E169 /* Build configuration list for PBXProject "ESSMusicPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C11AEB61814E3F70088E169 /* Debug */,
+				4C11AEB71814E3F70088E169 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C11AEB81814E3F70088E169 /* Build configuration list for PBXNativeTarget "ESSMusicPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C11AEB91814E3F70088E169 /* Debug */,
+				4C11AEBA1814E3F70088E169 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C11AEBB1814E3F70088E169 /* Build configuration list for PBXNativeTarget "ESSMusicPlayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C11AEBC1814E3F70088E169 /* Debug */,
+				4C11AEBD1814E3F70088E169 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4C11AE7E1814E3F70088E169 /* Project object */;
+}
