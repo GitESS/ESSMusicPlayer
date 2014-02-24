@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D2388315-83C0-4040-883F-2A49D970240E</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ESSMusicPlayer</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C317105C-6B66-471B-BD27-EA64867D6060</key>
+		<string>https://github.com/GitESS/ESSMusicPlayer</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ESSMusicPlayer.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C317105C-6B66-471B-BD27-EA64867D6060</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/GitESS/ESSMusicPlayer</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C317105C-6B66-471B-BD27-EA64867D6060</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C317105C-6B66-471B-BD27-EA64867D6060</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ESSMusicPlayer</string>
+		</dict>
+	</array>
+</dict>
+</plist>

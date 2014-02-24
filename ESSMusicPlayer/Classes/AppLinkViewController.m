@@ -271,20 +271,6 @@
         [self playTrackNumber:9];
     }
     
-/*  if ([buttonPress.customButtonID intValue] == 5001 || [buttonPress.customButtonID intValue] == 5002) {
-        if([syncPlayer  playpauseSong]){
-            [self metaCuntentOfCurrentPlayingSong];
-        }
-        else{
-#if TARGET_IPHONE_SIMULATOR
-            [syncBrain showPressed:[[syncPlayer  getMediaFilesList] objectAtIndex:[(SyncPlayerPlugin *)syncPlayer currentSongIndex]] WithSubMessage:@"Pause"];
-#else
-            MPMediaItem *song = [[syncPlayer  getMediaFilesList] objectAtIndex:[syncPlayer   currentSongIndex]];
-            NSString *songTitle = [song valueForProperty: MPMediaItemPropertyTitle];
-            [syncBrain showPressed:songTitle WithSubMessage:@"Pause"];
-#endif
-        }
-    }*/
     if ([buttonPress.customButtonID intValue] == 5001) {
         albumCount=0;
         ifAlbum=TRUE;
