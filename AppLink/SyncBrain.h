@@ -14,6 +14,8 @@
     int cmdID;
     BOOL firstTimeStartUp;
     BOOL syncInitialized;
+    NSMutableData *audioPassThruData;
+
 }
 
 @property (strong, nonatomic)NSMutableDictionary * allVoiceCommand;
@@ -101,6 +103,9 @@
                                               softButtons:(NSArray *)softbuttons;
 
 - (void)showPressed2:(NSString *)msg1 message2:(NSString *)msg2 message3:(NSString *)msg3 message4:(NSString *)msg4 count:(int)msgCount;
+
+-(void) postToConsoleLog:(id) object;
+- (void)subscribeVehicalData;
 @end
 
 

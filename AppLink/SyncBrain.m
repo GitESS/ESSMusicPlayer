@@ -16,8 +16,8 @@
 #define PREFS_TYPE @"type"
 
 
-@implementation SyncBrain  
-static SyncBrain *gInstance = NULL; 
+@implementation SyncBrain
+static SyncBrain *gInstance = NULL;
 + (SyncBrain *)sharedInstance
 {
 	@synchronized(self)
@@ -30,7 +30,7 @@ static SyncBrain *gInstance = NULL;
 
 
 -(void)initProperties{
-      _allVoiceCommand=[[NSMutableDictionary alloc] init];
+    _allVoiceCommand=[[NSMutableDictionary alloc] init];
 }
 //Populating Sync Display Screen with relevant information upon creation
 -(void) setup {
@@ -43,7 +43,7 @@ static SyncBrain *gInstance = NULL;
 
 -(void) sendRPCMessage:(FMCRPCRequest *)rpcMsg {
     [proxy sendRPCRequest:rpcMsg];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:rpcMsg]];
+    [self postToConsoleLog:rpcMsg];
 }
 
 
@@ -66,8 +66,8 @@ static SyncBrain *gInstance = NULL;
     [proxy sendRPCRequest:listFile];
 }
 
--(void) vehicalDataSubscribe{
-   
+-(void) subscribeVehicalData{
+    
     FMCSubscribeVehicleData * SVD = [FMCRPCRequestFactory buildSubscribeVehicleDataWithGPS:[NSNumber numberWithBool:TRUE]
                                                                                      speed:[NSNumber numberWithBool:TRUE]
                                                                                        rpm:[NSNumber numberWithBool:TRUE]
@@ -113,11 +113,11 @@ static SyncBrain *gInstance = NULL;
 -(void) onSetAppIconResponse:(FMCSetAppIconResponse*) response{
 }
 
-- (void) showPressed:(NSString *)message {    
+- (void) showPressed:(NSString *)message {
     FMCShow* msg = [FMCRPCRequestFactory buildShowWithMainField1:message mainField2:@"" alignment:[FMCTextAlignment CENTERED] correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
 	//msg.mediaTrack = @"AppLink";
     [proxy sendRPCRequest:msg];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:msg]];
+    [self postToConsoleLog:message];;
 }
 
 -(void) showAdvancedPressedWithLine1Text:(NSString *)line1Text line2:(NSString *)line2Text line3:(NSString *)line3Text line4:(NSString *)line4Text  statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(FMCTextAlignment *)textAlignment {
@@ -134,7 +134,7 @@ static SyncBrain *gInstance = NULL;
                                                    customPresets:nil
                                                    correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:msg];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:msg]];
+    [self postToConsoleLog:msg];;
 }
 
 - (void)showPressed:(NSString *)msg1 message2:(NSString *)msg2 message3:(NSString *)msg3 message4:(NSString *)msg4 {
@@ -151,7 +151,7 @@ static SyncBrain *gInstance = NULL;
                                                    customPresets:nil
                                                    correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:msg];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:msg]];
+    [self postToConsoleLog:msg];;
 }
 
 - (void)showPressed2:(NSString *)msg1 message2:(NSString *)msg2 message3:(NSString *)msg3 message4:(NSString *)msg4  count:(int)msgCount{
@@ -205,8 +205,8 @@ static SyncBrain *gInstance = NULL;
         
     }else if (msgCount == 3){
         
-       // [self alert:@"Sync 3"];
-         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+        // [self alert:@"Sync 3"];
+        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:msg2
                                                           mainField3:msg3
                                                           mainField4:@""
@@ -222,8 +222,8 @@ static SyncBrain *gInstance = NULL;
         [proxy sendRPCRequest:msg];
         
     }else if (msgCount == 2){
-
-      //[self alert:@"Sync 2"];
+        
+        //[self alert:@"Sync 2"];
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:msg2
                                                           mainField3:@""
@@ -257,12 +257,13 @@ static SyncBrain *gInstance = NULL;
         
         [proxy sendRPCRequest:msg];
     }
-   
-
     
-  
+    
+    
+    
     
 }
+
 //ScrollableMessage
 - (void)scrollableMessagePressedWithScrollableMessageBody:(NSString *)scrollableMessageBody timeOut :(NSNumber *)timeOut softButtons:(NSArray *)softbuttons
 {
@@ -273,6 +274,8 @@ static SyncBrain *gInstance = NULL;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
 }
 
+
+//SoftButton Example with FMCShow RPC method
 - (void) showPressed:(NSString *)message  WithSubMessage:(NSString *)subMessage{
     NSMutableArray *softButtonArray = [[NSMutableArray alloc] init];
     FMCSoftButton *softButton = [[FMCSoftButton alloc] init];
@@ -310,7 +313,7 @@ static SyncBrain *gInstance = NULL;
     softButton = nil;
     softButton = [[FMCSoftButton alloc] init];
     softButton.softButtonID = [NSNumber numberWithInt:5004];
-    softButton.text = @"AppInfo";
+    softButton.text = @"Vehicle";
     //softButton.image = [[FMCImage alloc] init] ;
     //softButton.image.imageType = [FMCImageType STATIC];
     //softButton.image.value = [NSString stringWithFormat:@"%d", i];
@@ -321,7 +324,7 @@ static SyncBrain *gInstance = NULL;
     softButton = nil;
     softButton = [[FMCSoftButton alloc] init];
     softButton.softButtonID = [NSNumber numberWithInt:5005];
-    softButton.text = @"AppLink";
+    softButton.text = @"VocRec.";
     //softButton.image = [[FMCImage alloc] init] ;
     //softButton.image.imageType = [FMCImageType STATIC];
     //softButton.image.value = [NSString stringWithFormat:@"%d", i];
@@ -341,7 +344,29 @@ static SyncBrain *gInstance = NULL;
     softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
     [softButtonArray addObject:softButton];
     softButton = nil;
-
+    softButton = [[FMCSoftButton alloc] init];
+    softButton.softButtonID = [NSNumber numberWithInt:5007];
+    softButton.text = @"AppInfo";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    softButton = [[FMCSoftButton alloc] init];
+    softButton.softButtonID = [NSNumber numberWithInt:5008];
+    softButton.text = @"AppLink";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    
     FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:message
                                                       mainField2:subMessage
                                                       mainField3:nil
@@ -359,31 +384,31 @@ static SyncBrain *gInstance = NULL;
     //FMCShow* msg = [FMCRPCRequestFactory buildShowWithMainField1:message mainField2:subMessage alignment:[FMCTextAlignment CENTERED] correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
 	//msg.mediaTrack = @"AppLink";
     [proxy sendRPCRequest:msg];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:msg]];
+    [self postToConsoleLog:msg];;
 }
 
 -(void) unregisterAppInterfacePressed {
 	FMCUnregisterAppInterface* req = [FMCRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) setMediaClockTimerPressedwithHours:(NSNumber *)hours minutes:(NSNumber *)minutes seconds:(NSNumber *)seconds updateMode:(FMCUpdateMode *)updateMode {
     FMCSetMediaClockTimer *req = [FMCRPCRequestFactory buildSetMediaClockTimerWithHours:hours minutes:minutes seconds:seconds updateMode:updateMode correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 - (void) speakPressed:(NSString *)message {
     FMCSpeak* req = [FMCRPCRequestFactory buildSpeakWithTTS:message correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 - (void) alertPressed:(NSString *)message {
     FMCAlert* req = [FMCRPCRequestFactory buildAlertWithTTS:message alertText1:message alertText2:@"" playTone:[NSNumber numberWithBool:YES] duration:[NSNumber numberWithInt:5000] correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) alertAdvancedPressedwithTTSChunks:(NSArray *)ttsChucks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3  playTone:(NSNumber *)playTone duration:(NSNumber *)duration softButtons:(NSArray *)softButtons {
@@ -391,7 +416,7 @@ static SyncBrain *gInstance = NULL;
     
     FMCAlert *req = [FMCRPCRequestFactory buildAlertWithTTSChunks:ttsChucks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:softButtons correlationID:[NSNumber numberWithInt:autoIncCorrID++] ];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) addCommand:(NSString *)message {
@@ -401,7 +426,7 @@ static SyncBrain *gInstance = NULL;
     //[self alert:message];
     [_allVoiceCommand setObject:message forKey:[NSString stringWithFormat:@"%d",cmdID]];
     cmdID++;
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:command]];
+    [self postToConsoleLog:command];
 }
 
 
@@ -410,7 +435,7 @@ static SyncBrain *gInstance = NULL;
     FMCAddCommand *command = [FMCRPCRequestFactory buildAddCommandWithID:[NSNumber numberWithInt:cmdID] menuName:menuName parentID:parentID position:position vrCommands:vrCommands iconValue:iconValue iconType:iconType correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:command];
     cmdID++;
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:command]];
+   [self postToConsoleLog:command];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AddCommandRequest" object:command]];
 }
 
@@ -422,15 +447,13 @@ static SyncBrain *gInstance = NULL;
     [(NSMutableArray*)req.ttsChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:@", Read." type:FMCSpeechCapabilities.SAPI_PHONEMES]];
     [(NSMutableArray*)req.ttsChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:@"_ R a d ." type:FMCSpeechCapabilities.SAPI_PHONEMES]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 - (void) speakStringUsingTTS:(NSString *)stringValue {
     FMCSpeak* req = [FMCRPCRequestFactory buildSpeakWithTTS:stringValue correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:
-     [NSNotification notificationWithName:@"NewConsoleControllerObject"
-                                   object:req]];
+     [self postToConsoleLog:req];
 }
 - (void) speakStringUsingTTSChunks:(NSArray *)featureChunkArray {
     
@@ -442,7 +465,7 @@ static SyncBrain *gInstance = NULL;
         }
         [proxy sendRPCRequest:req];
         
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+        [self postToConsoleLog:req];
     }
 }
 
@@ -452,7 +475,7 @@ static SyncBrain *gInstance = NULL;
                              correlationID:[NSNumber
                                             numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) addSubMenuPressedwithID:(NSNumber *)menuID menuName:(NSString *)menuName
@@ -462,69 +485,293 @@ static SyncBrain *gInstance = NULL;
                                        menuName:menuName
                                        position:position correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AddSubMenuRequest" object:req]];
 }
 
 -(void) deleteSubMenuPressedwithID:(NSNumber *)menuID {
     FMCDeleteSubMenu *req = [FMCRPCRequestFactory buildDeleteSubMenuWithID:menuID correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) createInteractionChoiceSetPressedWithID:(NSNumber *)interactionChoiceSetID choiceSet:(NSArray *)choices {
     FMCCreateInteractionChoiceSet *req = [FMCRPCRequestFactory buildCreateInteractionChoiceSetWithID:interactionChoiceSetID choiceSet:choices correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) deleteInteractionChoiceSetPressedWithID:(NSNumber *)interactionChoiceSetID {
     FMCDeleteInteractionChoiceSet *req = [FMCRPCRequestFactory buildDeleteInteractionChoiceSetWithID:interactionChoiceSetID correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) performInteractionPressedwithInitialPrompt:(NSArray*)initialChunks initialText:(NSString*)initialText interactionChoiceSetIDList:(NSArray*)interactionChoiceSetIDList helpChunks:(NSArray*)helpChunks timeoutChunks:(NSArray*)timeoutChunks interactionMode:(FMCInteractionMode*) interactionMode timeout:(NSNumber*)timeout vrHelp:(NSArray*)vrHelp {
     FMCPerformInteraction *req = [FMCRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp: vrHelp correlationID:[NSNumber numberWithInt:autoIncCorrID++] ];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) subscribeButtonPressed:(FMCButtonName *)buttonName {
     FMCSubscribeButton *req = [FMCRPCRequestFactory buildSubscribeButtonWithName:buttonName correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SubscribeButtonRequest" object:req]];
 }
 
 -(void) unsubscribeButtonPressed:(FMCButtonName *)buttonName {
     FMCUnsubscribeButton *req = [FMCRPCRequestFactory buildUnsubscribeButtonWithName:buttonName correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) sendEncodedSyncPData:(NSMutableArray *)data {
- /*   FMCEncodedSyncPData* req = [FMCRPCRequestFactory buildEncodedSyncPDataWithData:data correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-    [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
-  */
+    /*   FMCEncodedSyncPData* req = [FMCRPCRequestFactory buildEncodedSyncPDataWithData:data correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+     [proxy sendRPCRequest:req];
+     [self postToConsoleLog:response];
+     */
 }
 
 -(void) setGlobalPropertiesPressedWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText {
     FMCSetGlobalProperties *req = [FMCRPCRequestFactory buildSetGlobalPropertiesWithHelpText:helpText timeoutText:timeoutText correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
 }
 
 -(void) resetGlobalPropertiesPressedwithProperties:(NSArray *)properties {
     FMCResetGlobalProperties *req = [FMCRPCRequestFactory buildResetGlobalPropertiesWithProperties:properties correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:req]];
+    [self postToConsoleLog:req];
     
 }
 
+//PerformAudioPassThru
+- (void)performAudioPassThruPressedWithInitialPrompt:(NSString *)initialPrompt
+                                        disPlayText1:(NSString *)disPlayText1
+                                        disPlayText2:(NSString *)disPlayText2
+                                        samplingRate:(FMCSamplingRate *)samplingRate
+                                         maxDuration:(NSNumber *)maxDuration
+                                       bitsPerSample:(FMCBitsPerSample *)bitsPerSample
+                                           audioType:(FMCAudioType *)audioType
+                                           muteAudio:(NSNumber *)muteAudio
 
+{
+    audioPassThruData = [[NSMutableData alloc] init];
+    
+    FMCPerformAudioPassThru *req = [FMCRPCRequestFactory buildPerformAudioPassThruWithInitialPrompt:initialPrompt
+                                                                          audioPassThruDisplayText1:disPlayText1
+                                                                          audioPassThruDisplayText2:disPlayText2
+                                                                                       samplingRate:samplingRate
+                                                                                        maxDuration:maxDuration
+                                                                                      bitsPerSample:bitsPerSample
+                                                                                          audioType:audioType
+                                                                                          muteAudio:muteAudio
+                                                                                      correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    [proxy sendRPCRequest:req];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+    
+}
 
+//EndAudioPassThru
+- (void)endAudioPassThruPressed
+{
+    FMCEndAudioPassThru *req = [FMCRPCRequestFactory buildEndAudioPassThruWithCorrelationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    [proxy sendRPCRequest:req];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+}
+
+//SubscribeVehicleData
+- (void)subscribeVehicleDataPressedWithGps:(NSNumber *)gps speed:(NSNumber *)speed rpm:(NSNumber *)rpm fuelLevel:(NSNumber *)fuelLevel
+                            fuelLevelState:(NSNumber *)fuelLevelState  instantFuelConsumption:(NSNumber *)instantFuelConsumption
+                      externalTemperature :(NSNumber *)externalTemperature prndl:(NSNumber *)prndl tirePressure:(NSNumber *)tirePressure
+                                  odometer:(NSNumber *)odometer
+                                beltStatus:(NSNumber *)beltStatus
+                           bodyInformation:(NSNumber *)bodyInformation
+                              deviceStatus:(NSNumber *)deviceStatus
+                             driverBraking:(NSNumber *)driverBraking
+                               wiperStatus:(NSNumber *)wiperStatus
+                            headLampStatus:(NSNumber *)headLampStatus
+                              engineTorque:(NSNumber *)engineTorque
+                          accPedalPosition:(NSNumber *)accPedalPosition
+                        steeringWheelAngle:(NSNumber *)steeringWheelAngle
+{
+    FMCSubscribeVehicleData  *req = [FMCRPCRequestFactory  buildSubscribeVehicleDataWithGPS:gps  speed:speed  rpm:rpm
+                                                                                  fuelLevel:fuelLevel
+                                                                             fuelLevelState:fuelLevelState
+                                                                     instantFuelConsumption:instantFuelConsumption
+                                                                        externalTemperature:externalTemperature
+                                                                                      prndl:prndl
+                                                                               tirePressure:tirePressure
+                                                                                   odometer:odometer
+                                                                                 beltStatus:beltStatus
+                                                                            bodyInformation:bodyInformation
+                                                                               deviceStatus:deviceStatus
+                                                                              driverBraking:driverBraking
+                                                                                wiperStatus:wiperStatus
+                                                                             headLampStatus:headLampStatus
+                                                                               engineTorque:engineTorque
+                                                                           accPedalPosition:accPedalPosition
+                                                                         steeringWheelAngle:steeringWheelAngle
+                                                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    
+    [proxy sendRPCRequest:req];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+}
+
+//UnsubscribeVehicleData
+- (void)unSubscribeVehicleDataPressedWithGps:(NSNumber *)gps speed:(NSNumber *)speed rpm:(NSNumber *)rpm fuelLevel:(NSNumber *)fuelLevel
+                              fuelLevelState:(NSNumber *)fuelLevelState  instantFuelConsumption:(NSNumber *)instantFuelConsumption
+                        externalTemperature :(NSNumber *)externalTemperature prndl:(NSNumber *)prndl
+                                tirePressure:(NSNumber *)tirePressure
+                                    odometer:(NSNumber *)odometer
+                                  beltStatus:(NSNumber *)beltStatus
+                             bodyInformation:(NSNumber *)bodyInformation
+                                deviceStatus:(NSNumber *)deviceStatus
+                               driverBraking:(NSNumber *)driverBraking
+                                 wiperStatus:(NSNumber *)wiperStatus
+                              headLampStatus:(NSNumber *)headLampStatus
+                                engineTorque:(NSNumber *)engineTorque
+                            accPedalPosition:(NSNumber *)accPedalPosition
+                          steeringWheelAngle:(NSNumber *)steeringWheelAngle
+{
+    FMCUnsubscribeVehicleData *req = [FMCRPCRequestFactory buildUnsubscribeVehicleDataWithGPS:gps speed:speed rpm:rpm
+                                                                                    fuelLevel:fuelLevel
+                                                                               fuelLevelState:fuelLevelState
+                                                                       instantFuelConsumption:instantFuelConsumption
+                                                                          externalTemperature:externalTemperature
+                                                                                        prndl:prndl
+                                                                                 tirePressure:tirePressure
+                                                                                     odometer:odometer
+                                                                                   beltStatus:beltStatus
+                                                                              bodyInformation:bodyInformation
+                                                                                 deviceStatus:deviceStatus
+                                                                                driverBraking:driverBraking
+                                                                                  wiperStatus:wiperStatus
+                                                                               headLampStatus:headLampStatus
+                                                                                 engineTorque:engineTorque
+                                                                             accPedalPosition:accPedalPosition
+                                                                           steeringWheelAngle:steeringWheelAngle
+                                                                                correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    [proxy sendRPCRequest:req];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+}
+
+//GetVehicleData
+- (void)getVehicleDataPressedWithGps:(NSNumber *)gps speed:(NSNumber *)speed rpm:(NSNumber *)rpm fuelLevel:(NSNumber *)fuelLevel
+                      fuelLevelState:(NSNumber *)fuelLevelState  instantFuelConsumption:(NSNumber *)instantFuelConsumption
+                externalTemperature :(NSNumber *)externalTemperature
+                                 vin:(NSNumber *)vin
+                               prndl:(NSNumber *)prndl
+                        tirePressure:(NSNumber *)tirePressure
+                            odometer:(NSNumber *)odometer
+                          beltStatus:(NSNumber *)beltStatus
+                     bodyInformation:(NSNumber *)bodyInformation
+                        deviceStatus:(NSNumber *)deviceStatus
+                       driverBraking:(NSNumber *)driverBraking
+                         wiperStatus:(NSNumber *)wiperStatus
+                      headLampStatus:(NSNumber *)headLampStatus
+                        engineTorque:(NSNumber *)engineTorque
+                    accPedalPosition:(NSNumber *)accPedalPosition
+                  steeringWheelAngle:(NSNumber *)steeringWheelAngle
+{
+    FMCGetVehicleData *req = [FMCRPCRequestFactory buildGetVehicleDataWithGPS:gps
+                                                                        speed:speed
+                                                                          rpm:rpm
+                                                                    fuelLevel:fuelLevel
+                                                               fuelLevelState:fuelLevelState
+                                                       instantFuelConsumption:instantFuelConsumption
+                                                          externalTemperature:externalTemperature
+                                                                          vin:vin
+                                                                        prndl:prndl
+                                                                 tirePressure:tirePressure
+                                                                     odometer:odometer
+                                                                   beltStatus:beltStatus
+                                                              bodyInformation:bodyInformation
+                                                                 deviceStatus:deviceStatus
+                                                                driverBraking:driverBraking
+                                                                  wiperStatus:wiperStatus
+                                                               headLampStatus:headLampStatus
+                                                                 engineTorque:engineTorque
+                                                             accPedalPosition:accPedalPosition
+                                                           steeringWheelAngle:steeringWheelAngle
+                                                                correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    [proxy sendRPCRequest:req];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+    
+}
+
+//Slider
+- (void)sliderPressedWithNumTicks:(NSNumber *)numTicks position:(NSNumber *)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSArray *)
+sliderFooter timeOut :(NSNumber *)timeout
+{
+    FMCSlider *req = [FMCRPCRequestFactory buildSliderDynamicFooterWithNumTicks:numTicks position:position sliderHeader:sliderHeader    sliderFooter:sliderFooter timeout:timeout correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    
+    [proxy sendRPCRequest:req];
+    
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+}
+
+//ShowConstantTBT
+- (void)showConstantTBTPressedWithNavigationText1:(NSString *)navigationText1 WithNavigationText2:(NSString *)navigationText2 eta:(NSString *)eta
+                                    totalDistance:(NSString *)totalDistance turnIcon :(FMCImage *)turnImage
+                               distanceToManeuver:(NSNumber *)distanceToManeuver
+                          distanceToManeuverScale:(NSNumber *)distanceToManeuverScale
+                                 maneuverComplete:(NSNumber *) maneuverComplete
+                                      softButtons:(NSArray *)softButton
+{
+    FMCShowConstantTBT *req = [FMCRPCRequestFactory buildShowConstantTBTWithNavigationText1:navigationText1 navigationText2:navigationText2
+                                                                                        eta:eta
+                                                                              totalDistance:totalDistance
+                                                                                   turnIcon:turnImage
+                                                                         distanceToManeuver:distanceToManeuver
+                                                                    distanceToManeuverScale:distanceToManeuverScale
+                                                                           maneuverComplete:maneuverComplete
+                                                                                softButtons:softButton
+                                                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    
+    [proxy sendRPCRequest:req];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+    
+}
+
+//AlertManeuver
+- (void)alertManeuverPressedWithTTsChunks:(NSArray *)ttsChunk softButtons:(NSArray *)softButton
+{
+    FMCAlertManeuver *req = [FMCRPCRequestFactory buildAlertManeuverWithTTSChunks:ttsChunk softButtons:softButton correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    
+    [proxy sendRPCRequest:req];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+}
+
+//UpdateTurnList
+
+- (void)updateTurnListPressedWithTurnList:(NSArray *)turnList softButtons:(NSArray *)softButton
+{
+    //FMCTurn  FMCSoftButton
+    FMCUpdateTurnList *req = [FMCRPCRequestFactory buildUpdateTurnList:turnList softButtons:softButton correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    
+    [proxy sendRPCRequest:req];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+}
+
+//ChangeRegistration
+- (void)changeRegistrationPressedWithLanguage:(FMCLanguage *)language WithHmiDisplayLanguage:(FMCLanguage *)hmiDisplayLanguage
+{
+    FMCChangeRegistration *req = [FMCRPCRequestFactory buildChangeRegistrationWithLanguage:language hmiDisplayLanguage:hmiDisplayLanguage correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+    
+    [proxy sendRPCRequest:req];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+    
+}
 -(int)getCMDID {
     return cmdID;
 }
@@ -601,7 +848,7 @@ static SyncBrain *gInstance = NULL;
         [FMCDebugTool logInfo:@"HMI_FULL"];
         if	(syncInitialized)
             return;
-       syncInitialized = YES;
+        syncInitialized = YES;
         [self setup];
         FMCShow* msg = [FMCRPCRequestFactory buildShowWithMainField1:@"Sync" mainField2:@"Music Player" alignment:[FMCTextAlignment CENTERED] correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
 		[proxy sendRPCRequest:msg];
@@ -617,6 +864,27 @@ static SyncBrain *gInstance = NULL;
 }
 
 -(void) tearDownProxy {
+    
+    [self unSubscribeVehicleDataPressedWithGps:[NSNumber numberWithInt:1]
+                                         speed:[NSNumber numberWithInt:1]
+                                           rpm:[NSNumber numberWithInt:1]
+                                     fuelLevel:[NSNumber numberWithInt:1]
+                                fuelLevelState:[NSNumber numberWithInt:1]
+                        instantFuelConsumption:[NSNumber numberWithInt:1]
+                           externalTemperature:[NSNumber numberWithInt:1]
+                                         prndl:[NSNumber numberWithInt:1]
+                                  tirePressure:[NSNumber numberWithInt:1]
+                                      odometer:[NSNumber numberWithInt:1]
+                                    beltStatus:[NSNumber numberWithInt:1]
+                               bodyInformation:[NSNumber numberWithInt:1]
+                                  deviceStatus:[NSNumber numberWithInt:1]
+                                 driverBraking:[NSNumber numberWithInt:1]
+                                   wiperStatus:[NSNumber numberWithInt:1]
+                                headLampStatus:[NSNumber numberWithInt:1]
+                                  engineTorque:[NSNumber numberWithInt:1]
+                              accPedalPosition:[NSNumber numberWithInt:1]
+                            steeringWheelAngle:[NSNumber numberWithInt:1]];
+    
 	[FMCDebugTool logInfo:@"tearDownProxy"];
 	[proxy dispose];
     
@@ -647,7 +915,7 @@ static SyncBrain *gInstance = NULL;
     
 }
 - (void) onBytesReceived:(Byte*)bytes length:(long) length{
- 
+    
     
 }
 
@@ -676,63 +944,63 @@ static SyncBrain *gInstance = NULL;
 }
 
 -(void) onAddCommandResponse:(FMCAddCommandResponse*) response {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+    [self postToConsoleLog:response];
 }
 -(void) onAddSubMenuResponse:(FMCAddSubMenuResponse*) response {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+    [self postToConsoleLog:response];
 }
 -(void) onCreateInteractionChoiceSetResponse:(FMCCreateInteractionChoiceSetResponse*) response {
-  	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+  	[self postToConsoleLog:response];
 }
 -(void) onDeleteCommandResponse:(FMCDeleteCommandResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 -(void) onDeleteInteractionChoiceSetResponse:(FMCDeleteInteractionChoiceSetResponse*) response {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+    [self postToConsoleLog:response];
 }
 -(void) onDeleteSubMenuResponse:(FMCDeleteSubMenuResponse*) response {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+    [self postToConsoleLog:response];
 }
 -(void) onPerformInteractionResponse:(FMCPerformInteractionResponse*) response {
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onChoice" object:response]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 -(void) onRegisterAppInterfaceResponse:(FMCRegisterAppInterfaceResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 -(void) onSetGlobalPropertiesResponse:(FMCSetGlobalPropertiesResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 -(void) onResetGlobalPropertiesResponse:(FMCResetGlobalPropertiesResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 -(void) onSetMediaClockTimerResponse:(FMCSetMediaClockTimerResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 
 -(void) onShowResponse:(FMCShowResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 
 -(void) onSpeakResponse:(FMCSpeakResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 -(void) onAlertResponse:(FMCAlertResponse*) response {
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AddCommand" object:response]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 -(void) onSubscribeButtonResponse:(FMCSubscribeButtonResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+	[self postToConsoleLog:response];
 }
 -(void) onUnregisterAppInterfaceResponse:(FMCUnregisterAppInterfaceResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+    [self postToConsoleLog:response];
 }
 -(void) onUnsubscribeButtonResponse:(FMCUnsubscribeButtonResponse*) response {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object:response]];
+    [self postToConsoleLog:response];
 }
 -(void) onGenericResponse:(FMCGenericResponse*) response
 {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:response]];
+    [self postToConsoleLog:response];
 }
 
 -(void)alert:(NSString *)msg
@@ -746,4 +1014,183 @@ static SyncBrain *gInstance = NULL;
     
 }
 
+
+-(void) onAlertManeuverResponse:(FMCAlertManeuverResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+-(void) onChangeRegistrationResponse:(FMCChangeRegistrationResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+-(void) onDeleteFileResponse:(FMCDeleteFileResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+-(void) onEndAudioPassThruResponse:(FMCEndAudioPassThruResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+
+-(void) onGetDTCsResponse:(FMCGetDTCsResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+
+-(void) onOnAudioPassThru:(FMCOnAudioPassThru*) notification {
+    [self postToConsoleLog:notification];
+    
+    //Fill Buffer
+    // NSData *test = [NSData dataWithData:notification.bulkData];
+    //notification.
+    // [audioPassThruData appendData:test];
+    
+}
+
+-(void) onPerformAudioPassThruResponse:(FMCPerformAudioPassThruResponse*) response {
+    [self postToConsoleLog:response];
+    
+    //Write Data To File
+    NSData *dataToWrite = [NSData dataWithData:audioPassThruData];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *savePath = [documentsDirectory stringByAppendingPathComponent:@"Recording.pcm"];
+    [dataToWrite writeToFile:savePath atomically:NO];
+    
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PerformAudioPassThruResponse" object:nil];
+}
+
+-(void) onOnLanguageChange:(FMCOnLanguageChange*) notification {
+    [self postToConsoleLog:notification];
+}
+-(void) onOnPermissionsChange:(FMCOnPermissionsChange*) notification {
+    [self postToConsoleLog:notification];
+}
+-(void) onOnTBTClientState:(FMCOnTBTClientState*) notification {
+	[self postToConsoleLog:notification];
+}
+-(void) onOnVehicleData:(FMCOnVehicleData*) notification {
+    [self postToConsoleLog:notification];
+    
+    NSMutableString *vDataStr = [[NSMutableString alloc] init];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle Speed :  %d\n    ", [notification.speed intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle Fuel Level :  %d\n    ", [notification.fuelLevel intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle rpm :  %d\n    ", [notification.rpm intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle instantFuelConsumption :  %d\n    ", [notification.instantFuelConsumption intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle externalTemperature :  %d\n    ", [notification.externalTemperature intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle vin :  %@\n    ", notification.vin ]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle odometer :  %d\n    ", [notification.odometer intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle steeringWheelAngle :  %d\n    ", [notification.steeringWheelAngle intValue]]];
+    
+    NSMutableArray *softButtonArray = [[NSMutableArray alloc] init];
+    FMCSoftButton *softButton = [[FMCSoftButton alloc] init];
+    softButton.softButtonID = [NSNumber numberWithInt:2001];
+    softButton.text = @"-";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+
+   
+    softButton.softButtonID = [NSNumber numberWithInt:2002];
+    softButton.text = @"-";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    
+    softButton.softButtonID = [NSNumber numberWithInt:2003];
+    softButton.text = @"-";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    
+    softButton.softButtonID = [NSNumber numberWithInt:2004];
+    softButton.text = @"-";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    
+
+    
+    [self scrollableMessagePressedWithScrollableMessageBody:vDataStr timeOut:[NSNumber numberWithInt:10] softButtons:softButtonArray];
+    
+}
+
+
+-(void) onReadDIDResponse:(FMCReadDIDResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+-(void) onScrollableMessageResponse:(FMCScrollableMessageResponse*) response {
+    
+    [self alert:[NSString stringWithFormat:@"%@",response]];
+    [self postToConsoleLog:response];
+}
+
+-(void) onSetDisplayLayoutResponse:(FMCSetDisplayLayoutResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+-(void) onShowConstantTBTResponse:(FMCShowConstantTBTResponse*) response {
+    [self postToConsoleLog:response];
+}
+-(void) onSliderResponse:(FMCSliderResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+-(void) onSubscribeVehicleDataResponse:(FMCSubscribeVehicleDataResponse*) response {
+    [self postToConsoleLog:response];
+    
+    [self getVehicleDataPressedWithGps:[NSNumber numberWithBool:TRUE]
+                                 speed:[NSNumber numberWithBool:TRUE]
+                                   rpm:[NSNumber numberWithBool:TRUE]
+                             fuelLevel:[NSNumber numberWithBool:TRUE]
+                        fuelLevelState:[NSNumber numberWithBool:TRUE]
+                instantFuelConsumption:[NSNumber numberWithBool:TRUE]
+                   externalTemperature:[NSNumber numberWithBool:TRUE]
+                                   vin:[NSNumber numberWithBool:TRUE]
+                                 prndl:[NSNumber numberWithBool:TRUE]
+                          tirePressure:[NSNumber numberWithBool:TRUE]
+                              odometer:[NSNumber numberWithBool:TRUE]
+                            beltStatus:[NSNumber numberWithBool:TRUE]
+                       bodyInformation:[NSNumber numberWithBool:TRUE]
+                          deviceStatus:[NSNumber numberWithBool:TRUE]
+                         driverBraking:[NSNumber numberWithBool:TRUE]
+                           wiperStatus:[NSNumber numberWithBool:TRUE]
+                        headLampStatus:[NSNumber numberWithBool:TRUE]
+                          engineTorque:[NSNumber numberWithBool:TRUE] accPedalPosition:[NSNumber numberWithBool:TRUE]
+                    steeringWheelAngle:[NSNumber numberWithBool:TRUE]];
+}
+
+-(void) onUnsubscribeVehicleDataResponse:(FMCUnsubscribeVehicleDataResponse*) response {
+	[self postToConsoleLog:response];
+}
+-(void) onUpdateTurnListResponse:(FMCUpdateTurnListResponse*) response {
+    [self postToConsoleLog:response];
+}
+
+-(void) postToConsoleLog:(id) object {
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object :object]];
+}
 @end

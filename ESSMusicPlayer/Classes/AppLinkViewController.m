@@ -284,15 +284,27 @@
         [self softButtonSongInfo];
     }
     if ([buttonPress.customButtonID intValue] == 5004) {
-        [self softButtonApplicationInfo];
+        [self vehicleData];
+        
     }
     if ([buttonPress.customButtonID intValue] == 5005) {
-        [self softButtonApplinkInfo];
+        
+        [self voiceRecorder];
+        
     }
     if ([buttonPress.customButtonID intValue] == 5006) {
         [self softButtonAppfeatureInfo];
     }
+    if ([buttonPress.customButtonID intValue] == 5007) {
+        
+        [self softButtonApplicationInfo];
+    }
+    if ([buttonPress.customButtonID intValue] == 5008) {
+        [self softButtonApplinkInfo];
+    }
     
+    
+    //Sub SoftButton message Functionality(Next,Previous and Back in Album and Song List).
     if ([buttonPress.customButtonID intValue] == 1001) {
         if (ifAlbum) {
             
@@ -317,6 +329,13 @@
         
         [syncBrain showPressed:songTitle WithSubMessage:@"Playing"];
     }
+    
+    //Close option in scrollable message if found custom Button ID of close softbutton in scrollable message
+    if ([buttonPress.customButtonID intValue] == 3001) {
+        
+        
+    }
+
     
 }
 
@@ -437,19 +456,34 @@
                   message4:[song valueForProperty: MPMediaItemPropertyLyrics]];
     
 }
+//Vehicle Data
+- (void)vehicleData{
+    [syncBrain  subscribeVehicalData];
+    
+}
 
+//AudioPassthrough
+
+- (void)voiceRecorder{
+    
+    
+}
+
+//Scrollable Message
 -(void)softButtonApplicationInfo{
     //
     [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"It is a Music player appliction,\
      which is applink enabled, We can handle songs through SYNC." timeOut:[NSNumber numberWithInt:10] softButtons:nil];
 }
 
+//Scrollable Message
 -(void)softButtonApplinkInfo{
     [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"AppLink enabled applications \
      shall communicate with SYNC over a known transport layer" timeOut:[NSNumber numberWithInt:10] softButtons:nil];
     
 }
 
+//Scrollable Message
 -(void)softButtonAppfeatureInfo{
     
     NSString *feature = @"Application features. When this app is connected with SYNC a lock screen will apear then you can handle app threough SYNC only. For play and pause use ok button Or speek, stop playing. For previous and next song seek previous and seek next button used  Or speek, previous next. For select a random song use numeric keys combination Or speek, select song when sync ask for choice speek song title or say track with number or album name";

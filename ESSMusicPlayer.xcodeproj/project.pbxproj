@@ -629,7 +629,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rahul Gupta (HYLWAUGE5B)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Prem Verma (LZ657GC2B4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../ESSMusicPlayer_V4,
@@ -646,7 +646,7 @@
 					../ESSMusicPlayer_V4/AppLink,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D511CF83-B7FE-48B2-B355-06FEA2CD06DE";
+				PROVISIONING_PROFILE = "9019CB57-48B4-48C7-AFFF-3B11A1181957";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
@@ -657,7 +657,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rahul Gupta (HYLWAUGE5B)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Prem Verma (LZ657GC2B4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../ESSMusicPlayer_V4,
@@ -674,7 +674,7 @@
 					../ESSMusicPlayer_V4/AppLink,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D511CF83-B7FE-48B2-B355-06FEA2CD06DE";
+				PROVISIONING_PROFILE = "9019CB57-48B4-48C7-AFFF-3B11A1181957";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
