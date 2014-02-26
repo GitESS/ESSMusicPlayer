@@ -183,7 +183,6 @@ static SyncBrain *gInstance = NULL;
     softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
     [softButtonArray addObject:softButton];
     
-    //[self alert:[NSString stringWithFormat:@"msg Count: %d",msgCount]];
     
     if (msgCount==4) {
         
@@ -380,9 +379,6 @@ static SyncBrain *gInstance = NULL;
                                                    customPresets:nil
                                                    correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     
-    
-    //FMCShow* msg = [FMCRPCRequestFactory buildShowWithMainField1:message mainField2:subMessage alignment:[FMCTextAlignment CENTERED] correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-	//msg.mediaTrack = @"AppLink";
     [proxy sendRPCRequest:msg];
     [self postToConsoleLog:msg];;
 }
@@ -435,7 +431,7 @@ static SyncBrain *gInstance = NULL;
     FMCAddCommand *command = [FMCRPCRequestFactory buildAddCommandWithID:[NSNumber numberWithInt:cmdID] menuName:menuName parentID:parentID position:position vrCommands:vrCommands iconValue:iconValue iconType:iconType correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:command];
     cmdID++;
-   [self postToConsoleLog:command];
+    [self postToConsoleLog:command];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AddCommandRequest" object:command]];
 }
 
@@ -453,7 +449,7 @@ static SyncBrain *gInstance = NULL;
 - (void) speakStringUsingTTS:(NSString *)stringValue {
     FMCSpeak* req = [FMCRPCRequestFactory buildSpeakWithTTS:stringValue correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     [proxy sendRPCRequest:req];
-     [self postToConsoleLog:req];
+    [self postToConsoleLog:req];
 }
 - (void) speakStringUsingTTSChunks:(NSArray *)featureChunkArray {
     
@@ -864,27 +860,8 @@ sliderFooter timeOut :(NSNumber *)timeout
 }
 
 -(void) tearDownProxy {
-    
-    [self unSubscribeVehicleDataPressedWithGps:[NSNumber numberWithInt:1]
-                                         speed:[NSNumber numberWithInt:1]
-                                           rpm:[NSNumber numberWithInt:1]
-                                     fuelLevel:[NSNumber numberWithInt:1]
-                                fuelLevelState:[NSNumber numberWithInt:1]
-                        instantFuelConsumption:[NSNumber numberWithInt:1]
-                           externalTemperature:[NSNumber numberWithInt:1]
-                                         prndl:[NSNumber numberWithInt:1]
-                                  tirePressure:[NSNumber numberWithInt:1]
-                                      odometer:[NSNumber numberWithInt:1]
-                                    beltStatus:[NSNumber numberWithInt:1]
-                               bodyInformation:[NSNumber numberWithInt:1]
-                                  deviceStatus:[NSNumber numberWithInt:1]
-                                 driverBraking:[NSNumber numberWithInt:1]
-                                   wiperStatus:[NSNumber numberWithInt:1]
-                                headLampStatus:[NSNumber numberWithInt:1]
-                                  engineTorque:[NSNumber numberWithInt:1]
-                              accPedalPosition:[NSNumber numberWithInt:1]
-                            steeringWheelAngle:[NSNumber numberWithInt:1]];
-    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UnsubscribeVehicleData" object:nil]];
+   
 	[FMCDebugTool logInfo:@"tearDownProxy"];
 	[proxy dispose];
     
@@ -1073,67 +1050,8 @@ sliderFooter timeOut :(NSNumber *)timeout
 }
 -(void) onOnVehicleData:(FMCOnVehicleData*) notification {
     [self postToConsoleLog:notification];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"DisplayVehicleData" object:nil]];
     
-    NSMutableString *vDataStr = [[NSMutableString alloc] init];
-    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle Speed :  %d\n    ", [notification.speed intValue]]];
-    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle Fuel Level :  %d\n    ", [notification.fuelLevel intValue]]];
-    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle rpm :  %d\n    ", [notification.rpm intValue]]];
-    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle instantFuelConsumption :  %d\n    ", [notification.instantFuelConsumption intValue]]];
-    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle externalTemperature :  %d\n    ", [notification.externalTemperature intValue]]];
-    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle vin :  %@\n    ", notification.vin ]];
-    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle odometer :  %d\n    ", [notification.odometer intValue]]];
-    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle steeringWheelAngle :  %d\n    ", [notification.steeringWheelAngle intValue]]];
-    
-    NSMutableArray *softButtonArray = [[NSMutableArray alloc] init];
-    FMCSoftButton *softButton = [[FMCSoftButton alloc] init];
-    softButton.softButtonID = [NSNumber numberWithInt:2001];
-    softButton.text = @"-";
-    //softButton.image = [[FMCImage alloc] init] ;
-    //softButton.image.imageType = [FMCImageType STATIC];
-    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
-    softButton.type = [FMCSoftButtonType BOTH];
-    softButton.isHighlighted = [NSNumber numberWithBool:false];
-    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
-    [softButtonArray addObject:softButton];
-    softButton = nil;
-
-   
-    softButton.softButtonID = [NSNumber numberWithInt:2002];
-    softButton.text = @"-";
-    //softButton.image = [[FMCImage alloc] init] ;
-    //softButton.image.imageType = [FMCImageType STATIC];
-    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
-    softButton.type = [FMCSoftButtonType BOTH];
-    softButton.isHighlighted = [NSNumber numberWithBool:false];
-    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
-    [softButtonArray addObject:softButton];
-    softButton = nil;
-    
-    softButton.softButtonID = [NSNumber numberWithInt:2003];
-    softButton.text = @"-";
-    //softButton.image = [[FMCImage alloc] init] ;
-    //softButton.image.imageType = [FMCImageType STATIC];
-    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
-    softButton.type = [FMCSoftButtonType BOTH];
-    softButton.isHighlighted = [NSNumber numberWithBool:false];
-    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
-    [softButtonArray addObject:softButton];
-    softButton = nil;
-    
-    softButton.softButtonID = [NSNumber numberWithInt:2004];
-    softButton.text = @"-";
-    //softButton.image = [[FMCImage alloc] init] ;
-    //softButton.image.imageType = [FMCImageType STATIC];
-    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
-    softButton.type = [FMCSoftButtonType BOTH];
-    softButton.isHighlighted = [NSNumber numberWithBool:false];
-    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
-    [softButtonArray addObject:softButton];
-    softButton = nil;
-    
-
-    
-    [self scrollableMessagePressedWithScrollableMessageBody:vDataStr timeOut:[NSNumber numberWithInt:10] softButtons:softButtonArray];
     
 }
 
@@ -1161,26 +1079,8 @@ sliderFooter timeOut :(NSNumber *)timeout
 
 -(void) onSubscribeVehicleDataResponse:(FMCSubscribeVehicleDataResponse*) response {
     [self postToConsoleLog:response];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GetVehicleData" object:nil]];
     
-    [self getVehicleDataPressedWithGps:[NSNumber numberWithBool:TRUE]
-                                 speed:[NSNumber numberWithBool:TRUE]
-                                   rpm:[NSNumber numberWithBool:TRUE]
-                             fuelLevel:[NSNumber numberWithBool:TRUE]
-                        fuelLevelState:[NSNumber numberWithBool:TRUE]
-                instantFuelConsumption:[NSNumber numberWithBool:TRUE]
-                   externalTemperature:[NSNumber numberWithBool:TRUE]
-                                   vin:[NSNumber numberWithBool:TRUE]
-                                 prndl:[NSNumber numberWithBool:TRUE]
-                          tirePressure:[NSNumber numberWithBool:TRUE]
-                              odometer:[NSNumber numberWithBool:TRUE]
-                            beltStatus:[NSNumber numberWithBool:TRUE]
-                       bodyInformation:[NSNumber numberWithBool:TRUE]
-                          deviceStatus:[NSNumber numberWithBool:TRUE]
-                         driverBraking:[NSNumber numberWithBool:TRUE]
-                           wiperStatus:[NSNumber numberWithBool:TRUE]
-                        headLampStatus:[NSNumber numberWithBool:TRUE]
-                          engineTorque:[NSNumber numberWithBool:TRUE] accPedalPosition:[NSNumber numberWithBool:TRUE]
-                    steeringWheelAngle:[NSNumber numberWithBool:TRUE]];
 }
 
 -(void) onUnsubscribeVehicleDataResponse:(FMCUnsubscribeVehicleDataResponse*) response {

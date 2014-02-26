@@ -93,7 +93,7 @@
 -(void) speakStringUsingTTSChunks:(NSArray *)Chunks;
 -(void) putFileToSYNC:(NSString *)iconFileName;
 -(void) setupAppIcon:(NSString *)iconFileName;
--(void) vehicalDataSubscribe;
+//-(void) vehicalDataSubscribe;
 -(void) showPressed:(NSString *)msg1
            message2:(NSString *)msg2
            message3:(NSString *)msg3
@@ -101,8 +101,52 @@
 - (void)scrollableMessagePressedWithScrollableMessageBody:(NSString *)scrollableMessageBody
                                                  timeOut :(NSNumber *)timeOut
                                               softButtons:(NSArray *)softbuttons;
+- (void)getVehicleDataPressedWithGps:(NSNumber *)gps
+                               speed:(NSNumber *)speed
+                                 rpm:(NSNumber *)rpm
+                           fuelLevel:(NSNumber *)fuelLevel
+                      fuelLevelState:(NSNumber *)fuelLevelState
+              instantFuelConsumption:(NSNumber *)instantFuelConsumption
+                externalTemperature :(NSNumber *)externalTemperature
+                                 vin:(NSNumber *)vin
+                               prndl:(NSNumber *)prndl
+                        tirePressure:(NSNumber *)tirePressure
+                            odometer:(NSNumber *)odometer
+                          beltStatus:(NSNumber *)beltStatus
+                     bodyInformation:(NSNumber *)bodyInformation
+                        deviceStatus:(NSNumber *)deviceStatus
+                       driverBraking:(NSNumber *)driverBraking
+                         wiperStatus:(NSNumber *)wiperStatus
+                      headLampStatus:(NSNumber *)headLampStatus
+                        engineTorque:(NSNumber *)engineTorque
+                    accPedalPosition:(NSNumber *)accPedalPosition
+                  steeringWheelAngle:(NSNumber *)steeringWheelAngle;
 
-- (void)showPressed2:(NSString *)msg1 message2:(NSString *)msg2 message3:(NSString *)msg3 message4:(NSString *)msg4 count:(int)msgCount;
+- (void)unSubscribeVehicleDataPressedWithGps:(NSNumber *)gps
+                                       speed:(NSNumber *)speed
+                                         rpm:(NSNumber *)rpm
+                                   fuelLevel:(NSNumber *)fuelLevel
+                              fuelLevelState:(NSNumber *)fuelLevelState
+                      instantFuelConsumption:(NSNumber *)instantFuelConsumption
+                        externalTemperature :(NSNumber *)externalTemperature
+                                       prndl:(NSNumber *)prndl
+                                tirePressure:(NSNumber *)tirePressure
+                                    odometer:(NSNumber *)odometer
+                                  beltStatus:(NSNumber *)beltStatus
+                             bodyInformation:(NSNumber *)bodyInformation
+                                deviceStatus:(NSNumber *)deviceStatus
+                               driverBraking:(NSNumber *)driverBraking
+                                 wiperStatus:(NSNumber *)wiperStatus
+                              headLampStatus:(NSNumber *)headLampStatus
+                                engineTorque:(NSNumber *)engineTorque
+                            accPedalPosition:(NSNumber *)accPedalPosition
+                          steeringWheelAngle:(NSNumber *)steeringWheelAngle;
+
+- (void)showPressed2:(NSString *)msg1
+            message2:(NSString *)msg2
+            message3:(NSString *)msg3
+            message4:(NSString *)msg4
+               count:(int)msgCount;
 
 -(void) postToConsoleLog:(id) object;
 - (void)subscribeVehicalData;

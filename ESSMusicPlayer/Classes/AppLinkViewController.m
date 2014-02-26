@@ -67,6 +67,24 @@
                                name:AVPlayerItemDidPlayToEndTimeNotification
                              object:[(SyncPlayerPlugin *)syncPlayer currentItem]];
     
+    [notificationCenter addObserver:self
+                           selector:@selector(getVehicleData:)
+                               name:@"GetVehicleData"
+                             object:nil];
+    
+    [notificationCenter addObserver:self
+                           selector:@selector(displayVehicleData:)
+                               name:@"DisplayVehicleData"
+                             object:nil];
+    
+    [notificationCenter addObserver:self
+                           selector:@selector(unsubscribeVehicleData:)
+                               name:@"UnsubscribeVehicleData"
+                             object:nil];
+    
+    
+    
+    
     [self metaCuntentOfCurrentPlayingSong];
     [self setUpChoiceSet];
     
@@ -103,19 +121,10 @@
         FMCc.menuName = [self specialChar:[songTitles objectAtIndex:j]];
         FMCc.choiceID = [NSNumber numberWithInt: j];
         FMCc.vrCommands=[NSMutableArray arrayWithObjects:
-                         [NSString stringWithFormat:@"Track %d", j],
+                         [self specialChar:[songTitles objectAtIndex:j]],
                          nil];
-        
         [choices addObject:FMCc];
     }
- /*   for ( int k = j ; k < (j+[songAlbum count]); k++) {
-        FMCChoice *FMCc = [[FMCChoice alloc] init];
-        FMCc.menuName = [self specialChar:[songAlbum objectAtIndex:k-j]];
-        FMCc.choiceID = [NSNumber numberWithInt: k];
-        FMCc.vrCommands=[NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%@",[self specialChar:[songAlbum objectAtIndex:k-j] ]] , nil];
-        [choices addObject:FMCc];
-    }
-    */
     NSNumber * CSID=[[NSNumber alloc] initWithInt:CHID_INTRACTION];
     [syncBrain createInteractionChoiceSetPressedWithID:CSID choiceSet:choices];
 }
@@ -493,6 +502,114 @@
 //SoftButton End Functionality
 
 
+- (void)getVehicleData:(NSNotification *)notify{
+    [syncBrain getVehicleDataPressedWithGps:[NSNumber numberWithBool:TRUE]
+                                 speed:[NSNumber numberWithBool:TRUE]
+                                   rpm:[NSNumber numberWithBool:TRUE]
+                             fuelLevel:[NSNumber numberWithBool:TRUE]
+                        fuelLevelState:[NSNumber numberWithBool:TRUE]
+                instantFuelConsumption:[NSNumber numberWithBool:TRUE]
+                   externalTemperature:[NSNumber numberWithBool:TRUE]
+                                   vin:[NSNumber numberWithBool:TRUE]
+                                 prndl:[NSNumber numberWithBool:TRUE]
+                          tirePressure:[NSNumber numberWithBool:TRUE]
+                              odometer:[NSNumber numberWithBool:TRUE]
+                            beltStatus:[NSNumber numberWithBool:TRUE]
+                       bodyInformation:[NSNumber numberWithBool:TRUE]
+                          deviceStatus:[NSNumber numberWithBool:TRUE]
+                         driverBraking:[NSNumber numberWithBool:TRUE]
+                           wiperStatus:[NSNumber numberWithBool:TRUE]
+                        headLampStatus:[NSNumber numberWithBool:TRUE]
+                          engineTorque:[NSNumber numberWithBool:TRUE]
+                           accPedalPosition:[NSNumber numberWithBool:TRUE]
+                    steeringWheelAngle:[NSNumber numberWithBool:TRUE]];
+}
+- (void)displayVehicleData:(NSNotification *)notify{
+    FMCOnVehicleData *notification = (FMCOnVehicleData *)notify;
+    
+    NSMutableString *vDataStr = [[NSMutableString alloc] init];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle Speed :  %d\n    ", [notification.speed intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle Fuel Level :  %d\n    ", [notification.fuelLevel intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle rpm :  %d\n    ", [notification.rpm intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle instantFuelConsumption :  %d\n    ", [notification.instantFuelConsumption intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle externalTemperature :  %d\n    ", [notification.externalTemperature intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle vin :  %@\n    ", notification.vin ]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle odometer :  %d\n    ", [notification.odometer intValue]]];
+    [vDataStr appendString:[NSString stringWithFormat:@"Vehicle steeringWheelAngle :  %d\n    ", [notification.steeringWheelAngle intValue]]];
+    
+    NSMutableArray *softButtonArray = [[NSMutableArray alloc] init];
+    FMCSoftButton *softButton = [[FMCSoftButton alloc] init];
+    softButton.softButtonID = [NSNumber numberWithInt:2001];
+    softButton.text = @"-";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    
+    
+    softButton.softButtonID = [NSNumber numberWithInt:2002];
+    softButton.text = @"-";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    
+    softButton.softButtonID = [NSNumber numberWithInt:2003];
+    softButton.text = @"-";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    
+    softButton.softButtonID = [NSNumber numberWithInt:2004];
+    softButton.text = @"-";
+    //softButton.image = [[FMCImage alloc] init] ;
+    //softButton.image.imageType = [FMCImageType STATIC];
+    //softButton.image.value = [NSString stringWithFormat:@"%d", i];
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    softButton = nil;
+    
+    [syncBrain scrollableMessagePressedWithScrollableMessageBody:vDataStr
+                                                         timeOut:[NSNumber numberWithInt:10]
+                                                     softButtons:softButtonArray];
+}
+- (void)UnsubscribeVehicleData:(NSNotification *)notify{
+    [syncBrain unSubscribeVehicleDataPressedWithGps:[NSNumber numberWithInt:1]
+                                         speed:[NSNumber numberWithInt:1]
+                                           rpm:[NSNumber numberWithInt:1]
+                                     fuelLevel:[NSNumber numberWithInt:1]
+                                fuelLevelState:[NSNumber numberWithInt:1]
+                        instantFuelConsumption:[NSNumber numberWithInt:1]
+                           externalTemperature:[NSNumber numberWithInt:1]
+                                         prndl:[NSNumber numberWithInt:1]
+                                  tirePressure:[NSNumber numberWithInt:1]
+                                      odometer:[NSNumber numberWithInt:1]
+                                    beltStatus:[NSNumber numberWithInt:1]
+                               bodyInformation:[NSNumber numberWithInt:1]
+                                  deviceStatus:[NSNumber numberWithInt:1]
+                                 driverBraking:[NSNumber numberWithInt:1]
+                                   wiperStatus:[NSNumber numberWithInt:1]
+                                headLampStatus:[NSNumber numberWithInt:1]
+                                  engineTorque:[NSNumber numberWithInt:1]
+                              accPedalPosition:[NSNumber numberWithInt:1]
+                            steeringWheelAngle:[NSNumber numberWithInt:1]];
+    
+}
 // For playing a particular Track number
 -(void)playTrackNumber:(int)index{
     
@@ -712,48 +829,96 @@
                              initialText:(NSString *)initialText
                                 helpText:(NSString *)helpText
                              timeoutText:(NSString *)timeoutText
-                                choiceID:(int)choiceID{
+                                choiceID:(int)choiceID1{
     
-   // [syncBrain alert:@"Choice Set !!!"];
-    NSArray *tempPrompt = [initPrompt componentsSeparatedByString:@", "];
+    NSArray *tempPrompt = [initPrompt componentsSeparatedByString:@","];
     NSMutableArray *initialPrompt = [[NSMutableArray alloc] init];
     for (int i = 0; i < [tempPrompt count]; i++) {
-        [initialPrompt addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempPrompt objectAtIndex:i]
-                                                                       type:[FMCSpeechCapabilities TEXT]]];
+        [initialPrompt addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempPrompt objectAtIndex:i] type:[FMCSpeechCapabilities TEXT]]];
     }
-     // [syncBrain alert:@"tempPrompt !!!"];
-    NSArray *tempHelp = [helpText  componentsSeparatedByString:@", "];
+    
+    NSArray *tempHelp = [helpText componentsSeparatedByString:@","];
     NSMutableArray *helpChunks = [[NSMutableArray alloc] init];
     for (int i = 0; i < [tempHelp count]; i++) {
-        [helpChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempHelp objectAtIndex:i]
-                                                                    type:[FMCSpeechCapabilities TEXT]]];
+        [helpChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempHelp objectAtIndex:i] type:[FMCSpeechCapabilities TEXT]]];
     }
-    //[syncBrain alert:@"Help !!!"];
-    NSArray *tempTimeout = [timeoutText componentsSeparatedByString:@", "];
+    
+    NSArray *tempTimeout = [timeoutText componentsSeparatedByString:@","];
     NSMutableArray *timeoutChunks = [[NSMutableArray alloc] init];
     for (int i = 0; i < [tempTimeout count]; i++) {
-        [timeoutChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempTimeout objectAtIndex:i]
-                                                                       type:[FMCSpeechCapabilities TEXT]]];
+        [timeoutChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempTimeout objectAtIndex:i] type:[FMCSpeechCapabilities TEXT]]];
     }
-    //[syncBrain alert:@"tempTimeout !!!"];
-    FMCInteractionMode *im= [FMCInteractionMode VR_ONLY];
+    
+    FMCInteractionMode *im = [FMCInteractionMode BOTH];;
+    /* if (_interactionModeSeg.selectedSegmentIndex == 0) {
+     im = [FMCInteractionMode MANUAL_ONLY];
+     }
+     else if (_interactionModeSeg.selectedSegmentIndex == 1) {
+     im = [FMCInteractionMode VR_ONLY];
+     }
+     else {
+     im = [FMCInteractionMode BOTH];
+     }*/
+    
+    NSNumber *duration = nil;
     float  timeout=10.000000;
-    NSArray * choiceArray =[NSArray arrayWithObject:[NSNumber numberWithInt:choiceID] ];
+    if (![timeoutText isEqualToString:@""]) {
+        duration = [NSNumber numberWithDouble:(round(timeout)*1000)];
+    }
     
-    NSNumber * timeOut =[NSNumber numberWithDouble:(round(timeout)*1000)];
+    NSNumber *choiceID  = [NSNumber numberWithInt:1985];
+    // if (![[_choiceIDTextField text] isEqualToString:@""]) {
+    // choiceID = [NSNumber numberWithInt:1985];
+    // }
     
-    //[syncBrain alert:@"NSArray !!!"];
-    [syncBrain  performInteractionPressedwithInitialPrompt:initialPrompt
-                                               initialText:initialText
-                                interactionChoiceSetIDList:choiceArray
-                                                helpChunks:helpChunks
-                                             timeoutChunks:timeoutChunks
-                                           interactionMode:im
-                                                   timeout:timeOut
-                                                    vrHelp:helpChunks];
+    FMCPerformInteraction *req = [FMCRPCRequestFactory buildPerformInteractionWithInitialChunks:initialPrompt initialText:initialText interactionChoiceSetIDList:[NSArray arrayWithObject:choiceID] helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:im timeout:duration vrHelp:nil correlationID:duration];
     
+    //[syncBrain perforintraction:req];
+    [syncBrain sendRPCMessage:req];
+    
+    
+    //TODO:vrHelp was added...
+    
+    
+    
+    /*
+     NSArray *tempPrompt = [initPrompt componentsSeparatedByString:@","];
+     NSMutableArray *initialPrompt = [[NSMutableArray alloc] init];
+     for (int i = 0; i < [tempPrompt count]; i++) {
+     [initialPrompt addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempPrompt objectAtIndex:i]
+     type:[FMCSpeechCapabilities TEXT]]];
+     }
+     
+     NSArray *tempHelp = [helpText  componentsSeparatedByString:@","];
+     NSMutableArray *helpChunks = [[NSMutableArray alloc] init];
+     for (int i = 0; i < [tempHelp count]; i++) {
+     [helpChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempHelp objectAtIndex:i]
+     type:[FMCSpeechCapabilities TEXT]]];
+     }
+     
+     NSArray *tempTimeout = [timeoutText componentsSeparatedByString:@","];
+     NSMutableArray *timeoutChunks = [[NSMutableArray alloc] init];
+     for (int i = 0; i < [tempTimeout count]; i++) {
+     [timeoutChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempTimeout objectAtIndex:i]
+     type:[FMCSpeechCapabilities TEXT]]];
+     }
+     
+     FMCInteractionMode *im= [FMCInteractionMode VR_ONLY];
+     float  timeout=10.000000;
+     NSNumber * CSID=[[NSNumber alloc] initWithInt:1985];
+     NSArray * choiceArray =[NSArray arrayWithObject:CSID];
+     NSNumber * timeOut =[NSNumber numberWithDouble:(round(timeout)*1000)];
+     
+     [syncBrain  performInteractionPressedwithInitialPrompt:initialPrompt
+     initialText:initialText
+     interactionChoiceSetIDList:choiceArray
+     helpChunks:helpChunks
+     timeoutChunks:timeoutChunks
+     interactionMode:im
+     timeout:timeOut
+     vrHelp:helpChunks];
+     */
 }
-
 - (void)selectTTSwithIndex:(int)subMenue{
     if (subMenue==1) {
         [syncBrain speakStringUsingTTS:@"It is a Music player appliction,\

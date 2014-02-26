@@ -24,9 +24,12 @@
     BOOL ifAlbum;
 }
 
--(void)NextSong;
--(void)PreviousSong;
--(void)softButtonAlbumAndSongList:(NSMutableArray *)tempArray;
--(void)softButtonAlbumAndSongListPrevious:(NSMutableArray *)tempArray;
--(NSString *)specialChar:(NSString *)message;
+- (void)NextSong;
+- (void)PreviousSong;
+- (void)softButtonAlbumAndSongList:(NSMutableArray *)tempArray;
+- (void)softButtonAlbumAndSongListPrevious:(NSMutableArray *)tempArray;
+- (NSString *)specialChar:(NSString *)message;
+- (void)displayVehicleData:(NSNotification *)notify;
+- (void)getVehicleData:(NSNotification *)notify;
+- (void)unsubscribeVehicleData:(NSNotification *)notify;
 @end
