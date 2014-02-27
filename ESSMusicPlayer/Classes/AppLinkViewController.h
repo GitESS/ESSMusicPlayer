@@ -31,5 +31,11 @@
 - (NSString *)specialChar:(NSString *)message;
 - (void)displayVehicleData:(NSNotification *)notify;
 - (void)getVehicleData:(NSNotification *)notify;
-- (void)unsubscribeVehicleData:(NSNotification *)notify;
+- (void)UnsubscribeVehicleData:(NSNotification *)notify;
+- (void)endAudioPassThruPressed;
+- (void)setUpChoiceSetForAudioList : (NSMutableArray *)recordArray;
+- (NSMutableArray *)recordArray;
+- (NSString *)getFileName;
+- (void)doConvertAudio:(NSString *)originalPath;
+- (void)receiveAudioResponse:(NSNotification *)obj;
 @end

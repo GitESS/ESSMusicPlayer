@@ -78,11 +78,14 @@
                              object:nil];
     
     [notificationCenter addObserver:self
-                           selector:@selector(unsubscribeVehicleData:)
+                           selector:@selector(receiveAudioResponse:)
                                name:@"UnsubscribeVehicleData"
                              object:nil];
     
-    
+    [notificationCenter addObserver:self
+                           selector:@selector(receiveAudioResponse:)
+                               name:@"PerformAudioPassThruResponse"
+                             object:nil];
     
     
     [self metaCuntentOfCurrentPlayingSong];
@@ -286,7 +289,7 @@
         [self softButtonAlbumAndSongList:songAlbum];
     }
     if ([buttonPress.customButtonID intValue] == 5002) {
-          ifAlbum=FALSE;
+        ifAlbum=FALSE;
         [self softButtonAlbumAndSongList:songTitles];
     }
     if ([buttonPress.customButtonID intValue] == 5003) {
@@ -344,7 +347,7 @@
         
         
     }
-
+    
     
 }
 
@@ -364,40 +367,40 @@
     if (albumCount<=songcount) {
         if (countDiffrent>=4) {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-             message2:[tempArray objectAtIndex:albumCount+1]
-             message3:[tempArray objectAtIndex:albumCount+2]
-             message4:[tempArray objectAtIndex:albumCount+3]
-             count:4];
-             
+                           message2:[tempArray objectAtIndex:albumCount+1]
+                           message3:[tempArray objectAtIndex:albumCount+2]
+                           message4:[tempArray objectAtIndex:albumCount+3]
+                              count:4];
+            
             albumCount=albumCount+4;
         }else  if (countDiffrent==3)
         {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-             message2:[tempArray objectAtIndex:albumCount+1]
-             message3:[tempArray objectAtIndex:albumCount+2]
-             message4:nil
-             count:3];
-             
+                           message2:[tempArray objectAtIndex:albumCount+1]
+                           message3:[tempArray objectAtIndex:albumCount+2]
+                           message4:nil
+                              count:3];
+            
             albumCount=albumCount+3;
             
         }else  if (countDiffrent==2)
         {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-             message2:[tempArray objectAtIndex:albumCount+1]
-             message3:nil
-             message4:nil
-             count:2];
-             
+                           message2:[tempArray objectAtIndex:albumCount+1]
+                           message3:nil
+                           message4:nil
+                              count:2];
+            
             albumCount=albumCount+2;
             
         }else  if (countDiffrent==1)
         {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-             message2:nil
-             message3:nil
-             message4:nil
-             count:1];
-             
+                           message2:nil
+                           message3:nil
+                           message4:nil
+                              count:1];
+            
             albumCount=albumCount+1;
             
         }
@@ -418,36 +421,36 @@
     if (albumCount>0) {
         if (albumCount>=4) {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount-1]
-             message2:[tempArray objectAtIndex:albumCount-2]
-             message3:[tempArray objectAtIndex:albumCount-3]
-             message4:[tempArray objectAtIndex:albumCount-4]
-                count:4];
+                           message2:[tempArray objectAtIndex:albumCount-2]
+                           message3:[tempArray objectAtIndex:albumCount-3]
+                           message4:[tempArray objectAtIndex:albumCount-4]
+                              count:4];
             albumCount=albumCount-4;
         }else  if (albumCount==3)
         {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-             message2:[tempArray objectAtIndex:albumCount-1]
-             message3:[tempArray objectAtIndex:albumCount-2]
-             message4:nil
-                count:3];
+                           message2:[tempArray objectAtIndex:albumCount-1]
+                           message3:[tempArray objectAtIndex:albumCount-2]
+                           message4:nil
+                              count:3];
             albumCount=albumCount-3;
             
         }else  if (albumCount==2)
         {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-             message2:[tempArray objectAtIndex:albumCount-1]
-             message3:nil
-             message4:nil
-                count:2];
+                           message2:[tempArray objectAtIndex:albumCount-1]
+                           message3:nil
+                           message4:nil
+                              count:2];
             albumCount=albumCount-2;
             
         }else  if (albumCount==1)
         {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-             message2:nil
-             message3:nil
-             message4:nil
-                count:1];
+                           message2:nil
+                           message3:nil
+                           message4:nil
+                              count:1];
             albumCount=albumCount-1;
             
         }
@@ -465,18 +468,7 @@
                   message4:[song valueForProperty: MPMediaItemPropertyLyrics]];
     
 }
-//Vehicle Data
-- (void)vehicleData{
-    [syncBrain  subscribeVehicalData];
-    
-}
 
-//AudioPassthrough
-
-- (void)voiceRecorder{
-    
-    
-}
 
 //Scrollable Message
 -(void)softButtonApplicationInfo{
@@ -499,30 +491,36 @@
     
     [syncBrain scrollableMessagePressedWithScrollableMessageBody:feature timeOut:[NSNumber numberWithInt:10] softButtons:nil];
 }
-//SoftButton End Functionality
+
+
+//Vehicle Data
+- (void)vehicleData{
+    [syncBrain  subscribeVehicalData];
+    
+}
 
 
 - (void)getVehicleData:(NSNotification *)notify{
     [syncBrain getVehicleDataPressedWithGps:[NSNumber numberWithBool:TRUE]
-                                 speed:[NSNumber numberWithBool:TRUE]
-                                   rpm:[NSNumber numberWithBool:TRUE]
-                             fuelLevel:[NSNumber numberWithBool:TRUE]
-                        fuelLevelState:[NSNumber numberWithBool:TRUE]
-                instantFuelConsumption:[NSNumber numberWithBool:TRUE]
-                   externalTemperature:[NSNumber numberWithBool:TRUE]
-                                   vin:[NSNumber numberWithBool:TRUE]
-                                 prndl:[NSNumber numberWithBool:TRUE]
-                          tirePressure:[NSNumber numberWithBool:TRUE]
-                              odometer:[NSNumber numberWithBool:TRUE]
-                            beltStatus:[NSNumber numberWithBool:TRUE]
-                       bodyInformation:[NSNumber numberWithBool:TRUE]
-                          deviceStatus:[NSNumber numberWithBool:TRUE]
-                         driverBraking:[NSNumber numberWithBool:TRUE]
-                           wiperStatus:[NSNumber numberWithBool:TRUE]
-                        headLampStatus:[NSNumber numberWithBool:TRUE]
-                          engineTorque:[NSNumber numberWithBool:TRUE]
+                                      speed:[NSNumber numberWithBool:TRUE]
+                                        rpm:[NSNumber numberWithBool:TRUE]
+                                  fuelLevel:[NSNumber numberWithBool:TRUE]
+                             fuelLevelState:[NSNumber numberWithBool:TRUE]
+                     instantFuelConsumption:[NSNumber numberWithBool:TRUE]
+                        externalTemperature:[NSNumber numberWithBool:TRUE]
+                                        vin:[NSNumber numberWithBool:TRUE]
+                                      prndl:[NSNumber numberWithBool:TRUE]
+                               tirePressure:[NSNumber numberWithBool:TRUE]
+                                   odometer:[NSNumber numberWithBool:TRUE]
+                                 beltStatus:[NSNumber numberWithBool:TRUE]
+                            bodyInformation:[NSNumber numberWithBool:TRUE]
+                               deviceStatus:[NSNumber numberWithBool:TRUE]
+                              driverBraking:[NSNumber numberWithBool:TRUE]
+                                wiperStatus:[NSNumber numberWithBool:TRUE]
+                             headLampStatus:[NSNumber numberWithBool:TRUE]
+                               engineTorque:[NSNumber numberWithBool:TRUE]
                            accPedalPosition:[NSNumber numberWithBool:TRUE]
-                    steeringWheelAngle:[NSNumber numberWithBool:TRUE]];
+                         steeringWheelAngle:[NSNumber numberWithBool:TRUE]];
 }
 - (void)displayVehicleData:(NSNotification *)notify{
     FMCOnVehicleData *notification = (FMCOnVehicleData *)notify;
@@ -590,26 +588,239 @@
 }
 - (void)UnsubscribeVehicleData:(NSNotification *)notify{
     [syncBrain unSubscribeVehicleDataPressedWithGps:[NSNumber numberWithInt:1]
-                                         speed:[NSNumber numberWithInt:1]
-                                           rpm:[NSNumber numberWithInt:1]
-                                     fuelLevel:[NSNumber numberWithInt:1]
-                                fuelLevelState:[NSNumber numberWithInt:1]
-                        instantFuelConsumption:[NSNumber numberWithInt:1]
-                           externalTemperature:[NSNumber numberWithInt:1]
-                                         prndl:[NSNumber numberWithInt:1]
-                                  tirePressure:[NSNumber numberWithInt:1]
-                                      odometer:[NSNumber numberWithInt:1]
-                                    beltStatus:[NSNumber numberWithInt:1]
-                               bodyInformation:[NSNumber numberWithInt:1]
-                                  deviceStatus:[NSNumber numberWithInt:1]
-                                 driverBraking:[NSNumber numberWithInt:1]
-                                   wiperStatus:[NSNumber numberWithInt:1]
-                                headLampStatus:[NSNumber numberWithInt:1]
-                                  engineTorque:[NSNumber numberWithInt:1]
-                              accPedalPosition:[NSNumber numberWithInt:1]
-                            steeringWheelAngle:[NSNumber numberWithInt:1]];
+                                              speed:[NSNumber numberWithInt:1]
+                                                rpm:[NSNumber numberWithInt:1]
+                                          fuelLevel:[NSNumber numberWithInt:1]
+                                     fuelLevelState:[NSNumber numberWithInt:1]
+                             instantFuelConsumption:[NSNumber numberWithInt:1]
+                                externalTemperature:[NSNumber numberWithInt:1]
+                                              prndl:[NSNumber numberWithInt:1]
+                                       tirePressure:[NSNumber numberWithInt:1]
+                                           odometer:[NSNumber numberWithInt:1]
+                                         beltStatus:[NSNumber numberWithInt:1]
+                                    bodyInformation:[NSNumber numberWithInt:1]
+                                       deviceStatus:[NSNumber numberWithInt:1]
+                                      driverBraking:[NSNumber numberWithInt:1]
+                                        wiperStatus:[NSNumber numberWithInt:1]
+                                     headLampStatus:[NSNumber numberWithInt:1]
+                                       engineTorque:[NSNumber numberWithInt:1]
+                                   accPedalPosition:[NSNumber numberWithInt:1]
+                                 steeringWheelAngle:[NSNumber numberWithInt:1]];
     
 }
+
+
+//AudioPassthrough
+
+- (void)voiceRecorder{
+    [[SyncBrain sharedInstance] performAudioPassThruPressedWithInitialPrompt:@"Speak to record"
+                                                                disPlayText1:@"Please speak !"
+                                                                disPlayText2:@"Please say something !"
+                                                                samplingRate:[FMCSamplingRate _16KHZ]
+                                                                 maxDuration:[NSNumber numberWithInt:10000]
+                                                               bitsPerSample:FMCBitsPerSample._16_BIT
+                                                                   audioType:[FMCAudioType PCM]
+                                                                   muteAudio:[NSNumber numberWithBool:1]];
+}
+
+
+- (void)receiveAudioResponse:(NSNotification *)obj{
+    
+    NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsFolde = [folders objectAtIndex:0];
+    NSString *filename = [documentsFolde stringByAppendingPathComponent:@"Recording.pcm"];
+    [self doConvertAudio:filename];
+    [self setUpChoiceSetForAudioList:[self recordArray]];
+    //[]
+}
+
+
+- (void)doConvertAudio:(NSString *)originalPath
+{
+    NSLog(@"Transcoding start");
+    const char *m_fileName = [originalPath cStringUsingEncoding:NSASCIIStringEncoding];
+    NSString *resultPath = [self getFileName];
+    const char *m_tranName = [resultPath cStringUsingEncoding:NSASCIIStringEncoding];
+    
+    @try {
+        
+        //wav header structure is as follows:
+        typedef   struct
+        {
+            char     fccID[4];
+            unsigned   long      dwSize;
+            char     fccType[4];
+        }HEADER; //RIFF WAVE Chunk
+        
+        typedef   struct
+        {
+            char    fccID[4];
+            unsigned   long  dwSize;
+            unsigned   short    wFormatTag;
+            unsigned   short    wChannels;
+            unsigned   long     dwSamplesPerSec;
+            unsigned   long     dwAvgBytesPerSec;
+            unsigned   short    wBlockAlign;
+            unsigned   short    uiBitsPerSample;
+        }FMT; //Format Chunk
+        
+        typedef   struct
+        {
+            char    fccID[4];
+            unsigned   long     dwSize;
+        }DATA; //Data Chunk
+        //These are the wav header file
+        
+        //The following variables to create. Wav head prepared
+        HEADER  pcmHEADER;
+        FMT  pcmFMT;
+        DATA pcmDATA;
+        //These are the variables in order to establish. Wav head and prepared
+        
+        unsigned   short   m_pcmData;                       //Read. Pcm and write files. Wav data variables
+        FILE   *fp,*fpCpy;
+        
+        if((fp=fopen(m_fileName,   "rb "))   ==   NULL)  //Read the file
+        {
+            printf( "Open pcm file error \n");
+            exit(0);
+        }
+        
+        if((fpCpy=fopen(m_tranName,   "wb+ "))   ==   NULL)  //Create a new file for the conversion
+        {
+            printf( "Create a wav file error\n ");
+            exit(0);
+        }
+        
+        //The following is to create wav header HEADER;., But dwsize yet, because they do not know the length of Data
+        strcpy(pcmHEADER.fccID, "RIFF");
+        //pcmHEADER.dwsize==?
+        strncpy(pcmHEADER.fccType, "WAVE", 4);
+        fseek(fpCpy,sizeof(HEADER),1); //Skip HEADER length to continue to write data following wav file;
+        //These are created wav header HEADER;
+        
+        if(ferror(fpCpy))
+        {
+            printf( "error!\n ");
+        }
+        int sample = 16000;
+        int bit = 16;
+        /* NSString *sampleString = samplingRatePicker.fieldContentText.text;
+         int sample;
+         if ([sampleString isEqualToString:@"8KHZ"]) {
+         sample = 8000;
+         } else if ([sampleString isEqualToString:@"16KHZ"]) {
+         sample = 16000;
+         } else if ([sampleString isEqualToString:@"22KHZ"]) {
+         sample = 22050;
+         } else if ([sampleString isEqualToString:@"44KHZ"]) {
+         sample = 44100;
+         }
+         
+         NSString *bitString = bitsPerSamplePicker.fieldContentText.text;
+         int bit;
+         if ([bitString isEqualToString:@"8_BIT"]) {
+         bit = 8;
+         } else if ([bitString isEqualToString:@"16_BIT"]) {
+         bit = 16;
+         }*/
+        
+        //The following is to create wav head FMT;
+        strcpy(pcmFMT.fccID, "fmt   ");
+        pcmFMT.dwSize=16;
+        pcmFMT.wFormatTag=1;
+        pcmFMT.wChannels=1;
+        pcmFMT.dwSamplesPerSec = sample;
+        pcmFMT.dwAvgBytesPerSec=pcmFMT.dwSamplesPerSec*sizeof(m_pcmData);
+        pcmFMT.wBlockAlign= 1;
+        pcmFMT.uiBitsPerSample = bit;
+        //These are created wav head FMT;
+        
+        
+        fwrite(&pcmFMT,sizeof(FMT),1,fpCpy); //The FMT write wav files.;
+        //The following are created DATA wav head; But because it can not be written DATA.dwsize unknown wav file.
+        strcpy(pcmDATA.fccID, "data ");
+        //These are created wav head DATA;
+        
+        pcmDATA.dwSize=0; //To pcmDATA.dwsize 0 in order to give it a value below
+        fseek(fpCpy,sizeof(DATA),1); //Skip DATA length, in order to later write DATA wav head;
+        fread(&m_pcmData,sizeof(unsigned   short),1,fp); //Read data from. Pcm in
+        while(!feof(fp)) //At the end of the pcm file and assigns the data into his wav.;
+        {
+            
+            pcmDATA.dwSize+=2; //Calculate the length of the data; each read into a data length is incremented by 1
+            fwrite(&m_pcmData,sizeof(unsigned   short),1,fpCpy); //Wav file to write data.;
+            fread(&m_pcmData,sizeof(unsigned   short),1,fp); //Read data from. Pcm in
+        }
+        
+        fclose(fp); //Close the file
+        pcmHEADER.dwSize=44+pcmDATA.dwSize;   //Derived value pcmHEADER.dwsize according pcmDATA.dwsize
+        rewind(fpCpy); //The fpCpy into wav head, in order to write HEADER and DATA.;
+        fwrite(&pcmHEADER,sizeof(HEADER),1,fpCpy); //Write HEADER
+        fseek(fpCpy,sizeof(FMT),1); //Skip FMT, because FMT has been written
+        fwrite(&pcmDATA,sizeof(DATA),1,fpCpy);   //Write DATA;
+        fclose(fpCpy);   //Close the file
+        
+        return;
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+}
+
+- (NSString *)getFileName
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+    //[dateFormatter release];
+    
+    NSString *result = nil;
+    NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsFolde = [folders objectAtIndex:0];
+    result = [documentsFolde stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@_%@.wav", @"16KHZ", @"16_BIT", dateString]];
+    return (result);
+    
+}
+
+- (NSMutableArray *)recordArray{
+    NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsFolder = [folders objectAtIndex:0];
+    
+    NSArray *tempFileList = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsFolder error:nil] pathsMatchingExtensions:[NSArray arrayWithObject:@"wav"]];
+    
+    
+    return [[NSMutableArray alloc] initWithArray:tempFileList];
+}
+
+-(void)setUpChoiceSetForAudioList : (NSMutableArray *)recordArray{
+    //Choice Set
+    //Choices of Songs and Album
+    NSMutableArray *choices = [[NSMutableArray alloc] init];
+    int j=0;
+    for (j = 0 ; j < [songTitles count]; j++) {
+        FMCChoice *FMCc = [[FMCChoice alloc] init];
+        FMCc.menuName = [self specialChar:[recordArray objectAtIndex:j]];
+        FMCc.choiceID = [NSNumber numberWithInt: j];
+        FMCc.vrCommands=[NSMutableArray arrayWithObjects:
+                         [self specialChar:[recordArray objectAtIndex:j]],
+                         nil];
+        [choices addObject:FMCc];
+    }
+    NSNumber * CSID=[[NSNumber alloc] initWithInt:CHID_INTRACTION_AUDIOPASSTHROUGH];
+    [syncBrain createInteractionChoiceSetPressedWithID:CSID choiceSet:choices];
+    
+}
+
+- (void)endAudioPassThruPressed{
+    [syncBrain endAudioPassThruPressed];
+}
+
+//End SoftButton Functionality
+
 // For playing a particular Track number
 -(void)playTrackNumber:(int)index{
     
@@ -732,8 +943,8 @@
 #endif
             
         }else if([cmdText isEqualToString:VR_SELECT_SONG]){
-             // [syncBrain alert:@"CVR_SELECT_SONG!!!"];
-           [self setupChoiceSetIntractionPerformer:@"Please Say, Song title, or, Song Track number, or, Album Name"
+            // [syncBrain alert:@"CVR_SELECT_SONG!!!"];
+            [self setupChoiceSetIntractionPerformer:@"Please Say, Song title, or, Song Track number, or, Album Name"
                                         initialText:@"Select Song."
                                            helpText:@"you can selct any song by saying it's title, or, Track number, or, Album Name"
                                         timeoutText:@"try again Later"
@@ -757,17 +968,26 @@
 
 -(void)onChoice:(NSNotification *)notify{
     
-    FMCPerformInteractionResponse *notification = [notify object];
-   // [syncBrain alert:[NSString stringWithFormat:@"on Voice Command %d",[notification.choiceID intValue]]];
+    FMCPerformInteractionResponse *response = (FMCPerformInteractionResponse *)notify;
     
-    NSArray * medialist=[syncPlayer getMediaFilesList];
-    
-    if ([notification.choiceID intValue]>=[medialist count]){
-        [self getAlbumFirstSong:(int)([notification.choiceID intValue]-[medialist count] )];
-    }else{
-        [syncPlayer playTrackForIndex:[notification.choiceID intValue]];
-        [self metaCuntentOfCurrentPlayingSong];
+    if (response.choiceID == [ NSNumber numberWithInt:CHID_INTRACTION]) {
+        FMCPerformInteractionResponse *notification = [notify object];
+        // [syncBrain alert:[NSString stringWithFormat:@"on Voice Command %d",[notification.choiceID intValue]]];
+        
+        NSArray * medialist=[syncPlayer getMediaFilesList];
+        
+        if ([notification.choiceID intValue]>=[medialist count]){
+            [self getAlbumFirstSong:(int)([notification.choiceID intValue]-[medialist count] )];
+        }else{
+            [syncPlayer playTrackForIndex:[notification.choiceID intValue]];
+            [self metaCuntentOfCurrentPlayingSong];
+        }
+        
+    }else  if (response.choiceID == [ NSNumber numberWithInt:CHID_INTRACTION_AUDIOPASSTHROUGH]){
+        
+        
     }
+    
 }
 
 -(void)getAlbumFirstSong:(int)albumIndex{

@@ -1018,9 +1018,8 @@ sliderFooter timeOut :(NSNumber *)timeout
     [self postToConsoleLog:notification];
     
     //Fill Buffer
-    // NSData *test = [NSData dataWithData:notification.bulkData];
-    //notification.
-    // [audioPassThruData appendData:test];
+     NSData *test = [NSData dataWithData:notification.bulkData];
+    [audioPassThruData appendData:test];
     
 }
 

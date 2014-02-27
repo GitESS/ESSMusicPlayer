@@ -49,5 +49,6 @@
     # define CHID_FEATURE 4534
     # define CHID_APPLINK 4535
     # define CHID_INTRACTION 1985
+    # define CHID_INTRACTION_AUDIOPASSTHROUGH 1986
     # define SUBMENUID 585
 #endif

@@ -141,6 +141,14 @@
                                 engineTorque:(NSNumber *)engineTorque
                             accPedalPosition:(NSNumber *)accPedalPosition
                           steeringWheelAngle:(NSNumber *)steeringWheelAngle;
+- (void)performAudioPassThruPressedWithInitialPrompt:(NSString *)initialPrompt
+                                        disPlayText1:(NSString *)disPlayText1
+                                        disPlayText2:(NSString *)disPlayText2
+                                        samplingRate:(FMCSamplingRate *)samplingRate
+                                         maxDuration:(NSNumber *)maxDuration
+                                       bitsPerSample:(FMCBitsPerSample *)bitsPerSample
+                                           audioType:(FMCAudioType *)audioType
+                                           muteAudio:(NSNumber *)muteAudio;
 
 - (void)showPressed2:(NSString *)msg1
             message2:(NSString *)msg2
