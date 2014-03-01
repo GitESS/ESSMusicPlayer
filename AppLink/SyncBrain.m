@@ -1006,6 +1006,9 @@ sliderFooter timeOut :(NSNumber *)timeout
 
 -(void) onEndAudioPassThruResponse:(FMCEndAudioPassThruResponse*) response {
     [self postToConsoleLog:response];
+    [self alert:@"EndAudioPassThroughResponse"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"EndAudioPassThruResponse" object:nil];
+    
 }
 
 
@@ -1020,22 +1023,21 @@ sliderFooter timeOut :(NSNumber *)timeout
     //Fill Buffer
      NSData *test = [NSData dataWithData:notification.bulkData];
     [audioPassThruData appendData:test];
+    //Write Data To File
+   
     
 }
 
 -(void) onPerformAudioPassThruResponse:(FMCPerformAudioPassThruResponse*) response {
     [self postToConsoleLog:response];
-    
-    //Write Data To File
     NSData *dataToWrite = [NSData dataWithData:audioPassThruData];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *savePath = [documentsDirectory stringByAppendingPathComponent:@"Recording.pcm"];
     [dataToWrite writeToFile:savePath atomically:NO];
-    
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PerformAudioPassThruResponse" object:nil];
+
 }
 
 -(void) onOnLanguageChange:(FMCOnLanguageChange*) notification {

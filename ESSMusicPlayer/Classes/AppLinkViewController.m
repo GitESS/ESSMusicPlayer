@@ -13,6 +13,7 @@
     id syncBrain ;
     id notificationCenter;
     id syncPlayer;
+    
 }
 
 -(void)buttonsEvent:(NSNotification *)notify;
@@ -23,7 +24,7 @@
 @end
 
 @implementation AppLinkViewController
-
+static int fileIndex = 1;
 - (id)initWithNibName:(NSString *)nibNameOrNil
                bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -85,6 +86,11 @@
     [notificationCenter addObserver:self
                            selector:@selector(receiveAudioResponse:)
                                name:@"PerformAudioPassThruResponse"
+                             object:nil];
+    
+    [notificationCenter addObserver:self
+                           selector:@selector(playRecoredAudio:)
+                               name:@"EndAudioPassThruResponse"
                              object:nil];
     
     
@@ -630,8 +636,9 @@
     NSString *documentsFolde = [folders objectAtIndex:0];
     NSString *filename = [documentsFolde stringByAppendingPathComponent:@"Recording.pcm"];
     [self doConvertAudio:filename];
-    [self setUpChoiceSetForAudioList:[self recordArray]];
-    //[]
+    //[self setUpChoiceSetForAudioList:[self recordArray]];
+    
+    fileIndex++;
 }
 
 
@@ -767,21 +774,22 @@
         
     }
     @finally {
-        
+        [self endAudioPassThruPressed];
     }
 }
 
 - (NSString *)getFileName
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+   // NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //[dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    //NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
     //[dateFormatter release];
     
     NSString *result = nil;
     NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsFolde = [folders objectAtIndex:0];
-    result = [documentsFolde stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@_%@.wav", @"16KHZ", @"16_BIT", dateString]];
+    //result = [documentsFolde stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@_%@_%i.wav", @"16KHZ", @"16_BIT", dateString,fileIndex]];
+     result = [documentsFolde stringByAppendingPathComponent:@"test.wav"];
     return (result);
     
 }
@@ -815,6 +823,26 @@
     
 }
 
+- (void)playRecoredAudio:(NSNotification *)notify{
+    [syncBrain alert:@"Play Recored Voice"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[self getFileName]]) {
+        [syncBrain alert:[self getFileName]];
+        NSError *error = nil;
+        AVAudioPlayer * audioPath1 = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:[self getFileName]] error:&error];
+        if (!error) {
+            [audioPath1 play];
+        }
+        else {
+            [syncBrain alert:@"Error in creating audio player"];
+            NSLog(@"Error in creating audio player:%@",[error description]);
+        }
+    }
+    else {
+        [syncBrain alert:@"File doesn't exists"];
+        NSLog(@"File doesn't exists");
+    }
+ 
+}
 - (void)endAudioPassThruPressed{
     [syncBrain endAudioPassThruPressed];
 }

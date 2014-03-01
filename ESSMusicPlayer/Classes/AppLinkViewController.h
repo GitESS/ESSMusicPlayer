@@ -38,4 +38,5 @@
 - (NSString *)getFileName;
 - (void)doConvertAudio:(NSString *)originalPath;
 - (void)receiveAudioResponse:(NSNotification *)obj;
+- (void)playRecoredAudio:(NSNotification *)notify;
 @end
