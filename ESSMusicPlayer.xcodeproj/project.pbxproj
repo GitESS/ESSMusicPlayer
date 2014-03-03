@@ -30,6 +30,7 @@
 		4C14DA1E1816418D00E0157F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C14DA1D1816418D00E0157F /* AVFoundation.framework */; };
 		4C14DA241816452400E0157F /* AppLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C14DA231816452400E0157F /* AppLinkViewController.m */; };
 		4C30B5DF18B747A400F389A6 /* AppLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C30B5DE18B747A400F389A6 /* AppLink.framework */; };
+		4C3FCED918C1FA47001BE9D0 /* AudioRecordShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FCED818C1FA47001BE9D0 /* AudioRecordShowViewController.m */; };
 		4C95918618163B57008250D5 /* SyncLockScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C95918518163B57008250D5 /* SyncLockScreen.png */; };
 		4C99DF39181A36FE006D4991 /* iphone5sync.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C99DF38181A36FE006D4991 /* iphone5sync.jpg */; };
 		4C99DF3D181A3995006D4991 /* FPRB_10DrOneURL_4C_RvVtHt_WK.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C99DF3C181A3995006D4991 /* FPRB_10DrOneURL_4C_RvVtHt_WK.png */; };
@@ -108,6 +109,8 @@
 		4C14DA221816452400E0157F /* AppLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppLinkViewController.h; path = Classes/AppLinkViewController.h; sourceTree = "<group>"; };
 		4C14DA231816452400E0157F /* AppLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppLinkViewController.m; path = Classes/AppLinkViewController.m; sourceTree = "<group>"; };
 		4C30B5DE18B747A400F389A6 /* AppLink.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppLink.framework; sourceTree = "<group>"; };
+		4C3FCED718C1FA47001BE9D0 /* AudioRecordShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioRecordShowViewController.h; path = ESSMusicPlayer/Classes/AudioRecordShowViewController.h; sourceTree = "<group>"; };
+		4C3FCED818C1FA47001BE9D0 /* AudioRecordShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioRecordShowViewController.m; path = ESSMusicPlayer/Classes/AudioRecordShowViewController.m; sourceTree = "<group>"; };
 		4C95918518163B57008250D5 /* SyncLockScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SyncLockScreen.png; path = Resource/Images/SyncLockScreen.png; sourceTree = "<group>"; };
 		4C99DF38181A36FE006D4991 /* iphone5sync.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = iphone5sync.jpg; path = Resource/Images/iphone5sync.jpg; sourceTree = "<group>"; };
 		4C99DF3C181A3995006D4991 /* FPRB_10DrOneURL_4C_RvVtHt_WK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FPRB_10DrOneURL_4C_RvVtHt_WK.png; sourceTree = "<group>"; };
@@ -181,6 +184,8 @@
 		4C11AE7D1814E3F70088E169 = {
 			isa = PBXGroup;
 			children = (
+				4C3FCED718C1FA47001BE9D0 /* AudioRecordShowViewController.h */,
+				4C3FCED818C1FA47001BE9D0 /* AudioRecordShowViewController.m */,
 				4C11AE8F1814E3F70088E169 /* ESSMusicPlayer */,
 				4C11AEAE1814E3F70088E169 /* ESSMusicPlayerTests */,
 				4C11AE881814E3F70088E169 /* Frameworks */,
@@ -487,6 +492,7 @@
 				4C9DDAC91817C10800E2C6F0 /* SyncPlayerPlugin.m in Sources */,
 				4C11AEA01814E3F70088E169 /* ViewController.m in Sources */,
 				4C14DA241816452400E0157F /* AppLinkViewController.m in Sources */,
+				4C3FCED918C1FA47001BE9D0 /* AudioRecordShowViewController.m in Sources */,
 				8D91F026183628220017B7F7 /* SyncBrain.m in Sources */,
 				4C11AE9A1814E3F70088E169 /* AppDelegate.m in Sources */,
 				4C11AE961814E3F70088E169 /* main.m in Sources */,
@@ -630,6 +636,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Prem Verma (LZ657GC2B4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Prem Verma (LZ657GC2B4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../ESSMusicPlayer_V4,
@@ -646,7 +653,7 @@
 					../ESSMusicPlayer_V4/AppLink,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9019CB57-48B4-48C7-AFFF-3B11A1181957";
+				PROVISIONING_PROFILE = "EBF3470D-0D7B-400C-AACC-99BF7A0E4885";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
@@ -658,6 +665,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Prem Verma (LZ657GC2B4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Prem Verma (LZ657GC2B4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../ESSMusicPlayer_V4,
@@ -674,7 +682,7 @@
 					../ESSMusicPlayer_V4/AppLink,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9019CB57-48B4-48C7-AFFF-3B11A1181957";
+				PROVISIONING_PROFILE = "EBF3470D-0D7B-400C-AACC-99BF7A0E4885";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;

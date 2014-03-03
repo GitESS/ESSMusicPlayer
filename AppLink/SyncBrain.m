@@ -1024,7 +1024,6 @@ sliderFooter timeOut :(NSNumber *)timeout
      NSData *test = [NSData dataWithData:notification.bulkData];
     [audioPassThruData appendData:test];
     //Write Data To File
-   
     
 }
 
@@ -1036,6 +1035,7 @@ sliderFooter timeOut :(NSNumber *)timeout
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *savePath = [documentsDirectory stringByAppendingPathComponent:@"Recording.pcm"];
     [dataToWrite writeToFile:savePath atomically:NO];
+   
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PerformAudioPassThruResponse" object:nil];
 
 }

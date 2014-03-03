@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SyncPlayerPlugin.h"
+#import "AudioRecordShowViewController.h"
 
 @interface AppLinkViewController : UIViewController<AVAudioPlayerDelegate>{
     BOOL musicIsPlaying;
@@ -39,4 +40,5 @@
 - (void)doConvertAudio:(NSString *)originalPath;
 - (void)receiveAudioResponse:(NSNotification *)obj;
 - (void)playRecoredAudio:(NSNotification *)notify;
+- (IBAction)testRecord:(id)sender;
 @end

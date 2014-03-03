@@ -79,7 +79,7 @@ static int fileIndex = 1;
                              object:nil];
     
     [notificationCenter addObserver:self
-                           selector:@selector(receiveAudioResponse:)
+                           selector:@selector(UnsubscribeVehicleData:)
                                name:@"UnsubscribeVehicleData"
                              object:nil];
     
@@ -623,7 +623,7 @@ static int fileIndex = 1;
                                                                 disPlayText1:@"Please speak !"
                                                                 disPlayText2:@"Please say something !"
                                                                 samplingRate:[FMCSamplingRate _16KHZ]
-                                                                 maxDuration:[NSNumber numberWithInt:10000]
+                                                                 maxDuration:[NSNumber numberWithInt:1000]
                                                                bitsPerSample:FMCBitsPerSample._16_BIT
                                                                    audioType:[FMCAudioType PCM]
                                                                    muteAudio:[NSNumber numberWithBool:1]];
@@ -632,6 +632,7 @@ static int fileIndex = 1;
 
 - (void)receiveAudioResponse:(NSNotification *)obj{
     
+    [syncBrain alert:@"Response Recived"];
     NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsFolde = [folders objectAtIndex:0];
     NSString *filename = [documentsFolde stringByAppendingPathComponent:@"Recording.pcm"];
@@ -710,27 +711,27 @@ static int fileIndex = 1;
         {
             printf( "error!\n ");
         }
-        int sample = 16000;
-        int bit = 16;
-        /* NSString *sampleString = samplingRatePicker.fieldContentText.text;
-         int sample;
-         if ([sampleString isEqualToString:@"8KHZ"]) {
-         sample = 8000;
-         } else if ([sampleString isEqualToString:@"16KHZ"]) {
-         sample = 16000;
-         } else if ([sampleString isEqualToString:@"22KHZ"]) {
-         sample = 22050;
-         } else if ([sampleString isEqualToString:@"44KHZ"]) {
-         sample = 44100;
-         }
-         
-         NSString *bitString = bitsPerSamplePicker.fieldContentText.text;
-         int bit;
-         if ([bitString isEqualToString:@"8_BIT"]) {
-         bit = 8;
-         } else if ([bitString isEqualToString:@"16_BIT"]) {
-         bit = 16;
-         }*/
+        //int sample = 16000;
+        // int bit = 16;
+        NSString *sampleString = @"16KHZ";
+        int sample;
+        if ([sampleString isEqualToString:@"8KHZ"]) {
+            sample = 8000;
+        } else if ([sampleString isEqualToString:@"16KHZ"]) {
+            sample = 16000;
+        } else if ([sampleString isEqualToString:@"22KHZ"]) {
+            sample = 22050;
+        } else if ([sampleString isEqualToString:@"44KHZ"]) {
+            sample = 44100;
+        }
+        
+        NSString *bitString = @"16_BIT";
+        int bit;
+        if ([bitString isEqualToString:@"8_BIT"]) {
+            bit = 8;
+        } else if ([bitString isEqualToString:@"16_BIT"]) {
+            bit = 16;
+        }
         
         //The following is to create wav head FMT;
         strcpy(pcmFMT.fccID, "fmt   ");
@@ -771,25 +772,27 @@ static int fileIndex = 1;
         return;
     }
     @catch (NSException *exception) {
-        
+        [syncBrain alert:@"Exception"];
+
     }
     @finally {
-        [self endAudioPassThruPressed];
+        [syncBrain alert:@"File Converted pcm to wav"];
+        //[self endAudioPassThruPressed];
     }
 }
 
 - (NSString *)getFileName
 {
-   // NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //[dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    //NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
-    //[dateFormatter release];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+    
     
     NSString *result = nil;
     NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsFolde = [folders objectAtIndex:0];
-    //result = [documentsFolde stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@_%@_%i.wav", @"16KHZ", @"16_BIT", dateString,fileIndex]];
-     result = [documentsFolde stringByAppendingPathComponent:@"test.wav"];
+    result = [documentsFolde stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@_%@_%i.wav", @"16KHZ", @"16_BIT", dateString,fileIndex]];
+    //result = [documentsFolde stringByAppendingPathComponent:@"test.wav"];
     return (result);
     
 }
@@ -824,12 +827,12 @@ static int fileIndex = 1;
 }
 
 - (void)playRecoredAudio:(NSNotification *)notify{
-    [syncBrain alert:@"Play Recored Voice"];
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self getFileName]]) {
-        [syncBrain alert:[self getFileName]];
         NSError *error = nil;
         AVAudioPlayer * audioPath1 = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:[self getFileName]] error:&error];
         if (!error) {
+            [syncBrain alert:[self getFileName]];
             [audioPath1 play];
         }
         else {
@@ -841,7 +844,7 @@ static int fileIndex = 1;
         [syncBrain alert:@"File doesn't exists"];
         NSLog(@"File doesn't exists");
     }
- 
+    
 }
 - (void)endAudioPassThruPressed{
     [syncBrain endAudioPassThruPressed];
@@ -1249,5 +1252,14 @@ static int fileIndex = 1;
     [syncBrain deleteInteractionChoiceSetPressedWithID:[NSNumber numberWithInt:CHID_INTRACTION]];
     
     [syncBrain onProxyClosed];
+}
+
+
+- (IBAction)testRecord:(id)sender{
+    
+    [self playRecoredAudio:nil];
+    AudioRecordShowViewController *currentViewController = [[AudioRecordShowViewController alloc] init];
+    [self.navigationController pushViewController:currentViewController animated:YES];
+    //[self playRecoredAudio:nil];
 }
 @end
