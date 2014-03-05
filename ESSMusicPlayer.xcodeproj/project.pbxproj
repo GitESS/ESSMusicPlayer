@@ -41,6 +41,8 @@
 		4C9DDACF1817CC3000E2C6F0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9DDACE1817CC3000E2C6F0 /* CoreMedia.framework */; };
 		4C9DDADA1817D78600E2C6F0 /* Again and again.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4C9DDAD01817D78600E2C6F0 /* Again and again.mp3 */; };
 		4C9DDADB1817D78600E2C6F0 /* Bandits in the Woods - Boston Strangler.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4C9DDAD11817D78600E2C6F0 /* Bandits in the Woods - Boston Strangler.mp3 */; };
+		4C9F4EB018C72E4500959FF5 /* Storyboard_3.5.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F4EAE18C72E4500959FF5 /* Storyboard_3.5.storyboard */; };
+		4C9F4EB118C72E4500959FF5 /* Storyboard_3.5.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F4EAE18C72E4500959FF5 /* Storyboard_3.5.storyboard */; };
 		8D0A6A291820C218002FDEFA /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A121820C218002FDEFA /* blank.png */; };
 		8D0A6A2A1820C218002FDEFA /* iphone5sync 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A131820C218002FDEFA /* iphone5sync 2.jpg */; };
 		8D0A6A2B1820C218002FDEFA /* ipod-shuffle-control-button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8D0A6A141820C218002FDEFA /* ipod-shuffle-control-button.jpg */; };
@@ -122,6 +124,7 @@
 		4C9DDACE1817CC3000E2C6F0 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4C9DDAD01817D78600E2C6F0 /* Again and again.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Again and again.mp3"; path = "Resource/Media/Again and again.mp3"; sourceTree = "<group>"; };
 		4C9DDAD11817D78600E2C6F0 /* Bandits in the Woods - Boston Strangler.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Bandits in the Woods - Boston Strangler.mp3"; path = "Resource/Media/Bandits in the Woods - Boston Strangler.mp3"; sourceTree = "<group>"; };
+		4C9F4EAF18C72E4500959FF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Storyboard_3.5.storyboard; sourceTree = "<group>"; };
 		8D0A6A121820C218002FDEFA /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blank.png; path = Resource/Images/blank.png; sourceTree = "<group>"; };
 		8D0A6A131820C218002FDEFA /* iphone5sync 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "iphone5sync 2.jpg"; path = "Resource/Images/iphone5sync 2.jpg"; sourceTree = "<group>"; };
 		8D0A6A141820C218002FDEFA /* ipod-shuffle-control-button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "ipod-shuffle-control-button.jpg"; path = "Resource/Images/ipod-shuffle-control-button.jpg"; sourceTree = "<group>"; };
@@ -338,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				4C11AE9B1814E3F70088E169 /* Main.storyboard */,
+				4C9F4EAE18C72E4500959FF5 /* Storyboard_3.5.storyboard */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -462,6 +466,7 @@
 				8D0A6A291820C218002FDEFA /* blank.png in Resources */,
 				8D91F025183628220017B7F7 /* Settings.bundle in Resources */,
 				8D0A6A391820C218002FDEFA /* Vol_incrise.png in Resources */,
+				4C9F4EB018C72E4500959FF5 /* Storyboard_3.5.storyboard in Resources */,
 				4C9DDADA1817D78600E2C6F0 /* Again and again.mp3 in Resources */,
 				8D0A6A361820C218002FDEFA /* sample.png in Resources */,
 				4C99DF3F181A404B006D4991 /* icon.png in Resources */,
@@ -478,6 +483,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C9F4EB118C72E4500959FF5 /* Storyboard_3.5.storyboard in Resources */,
 				4C11AEB31814E3F70088E169 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,6 +546,14 @@
 				4C11AEB21814E3F70088E169 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4C9F4EAE18C72E4500959FF5 /* Storyboard_3.5.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C9F4EAF18C72E4500959FF5 /* Base */,
+			);
+			name = Storyboard_3.5.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

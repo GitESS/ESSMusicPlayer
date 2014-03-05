@@ -21,6 +21,7 @@
 @property (strong, nonatomic)NSMutableDictionary * allVoiceCommand;
 +(SyncBrain *)sharedInstance;
 -(int)  getCMDID;
+-(NSNumber*) getNextCorrID;
 -(void) setupProxy;
 -(void) setup;
 -(void) sendRPCMessage:(FMCRPCRequest *)rpcMsg;

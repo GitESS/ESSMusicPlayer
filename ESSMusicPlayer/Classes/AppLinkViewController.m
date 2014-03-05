@@ -18,8 +18,6 @@
 
 -(void)buttonsEvent:(NSNotification *)notify;
 
--(void)displayConent :(NSString *)content1 withMessage2:(NSString *)msg2 withMessage3:(NSString *)msg3 withMessage4:(NSString *)msg4;
-
 @property (strong, nonatomic) SyncPlayerPlugin * playerPlugin;
 @end
 
@@ -92,11 +90,14 @@ static int fileIndex = 1;
                            selector:@selector(playRecoredAudio:)
                                name:@"EndAudioPassThruResponse"
                              object:nil];
-    
+   /* [notificationCenter addObserver:self
+                           selector:@selector(deleteAndUnsubscribe:)
+                               name:@"UnsubscribeButtonAndDeleteCommand"
+                             object:nil];*/
+
     
     [self metaCuntentOfCurrentPlayingSong];
     [self setUpChoiceSet];
-    
 }
 -(void)setUpChoiceSet {
     
@@ -161,6 +162,9 @@ static int fileIndex = 1;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)setGlobalProperties{
+    [syncPlayer setGlobalPropertiesPressedWithHelpText:@"To play Song use Music Sync Player in Vehicle" timeoutText:@"Please Select VR command"];
+}
 
 // adding All Voice Command
 -(void)subcribeVoiceCommands{
@@ -223,6 +227,7 @@ static int fileIndex = 1;
 }
 
 -(void)viewDidUnload{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [syncBrain onProxyClosed];
 }
 
@@ -422,8 +427,6 @@ static int fileIndex = 1;
         countDiffrent=countDiffrent*(-1);
     }
     
-    //[syncBrain alert:[NSString stringWithFormat:@"albumCount : %d",albumCount]];
-    
     if (albumCount>0) {
         if (albumCount>=4) {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount-1]
@@ -481,6 +484,40 @@ static int fileIndex = 1;
     //
     [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"It is a Music player appliction,\
      which is applink enabled, We can handle songs through SYNC." timeOut:[NSNumber numberWithInt:10] softButtons:nil];
+    
+   /* NSString *strHelpText = @"Help Test";//[NSString stringWithString:[_helpTextView text]];
+    NSString *strTimeoutText =@"Time out text";// [NSString stringWithString:[_timeoutTextView text]];
+    NSString *strVRHelpText = @"VR Help Text";//[NSString stringWithString:[_vrhelpTextView text]];
+    
+    FMCVrHelpItem *vrHelpItem = [[FMCVrHelpItem alloc] init] ;
+    FMCImage *image = [[FMCImage alloc] init] ;
+    image.imageType = [FMCImageType STATIC];
+    image.value = @"";//[_vrhelpitemimagenumberTextView text];
+    vrHelpItem.image = image;
+    vrHelpItem.text = @"Help to play";//[_vrhelpitemTextView text];
+    vrHelpItem.position = [NSNumber numberWithInt:2];//[NSNumber numberWithInt:[[_vrhelpitemnumberTextView text] intValue]];
+    
+    NSArray *arrVRHelpItemText = [[NSMutableArray alloc] initWithObjects:vrHelpItem, nil];
+    
+    if (![_helpSwitch isOn]) {
+        strHelpText = nil;
+    }
+    
+    if (![_timeoutSwitch isOn]) {
+        strTimeoutText  = nil;
+    }
+    
+    if (![_vrhelpSwitch isOn]) {
+        strVRHelpText = nil;
+    }
+    
+    if (![_vrhelpitemSwitch isOn]) {
+        arrVRHelpItemText = nil;
+    }
+    
+    FMCSetGlobalProperties *req = [FMCRPCRequestFactory buildSetGlobalPropertiesWithHelpText:strHelpText timeoutText:strTimeoutText vrHelpTitle:strVRHelpText vrHelp:arrVRHelpItemText correlationID: [[SyncBrain sharedInstance] getNextCorrID]];
+    [[SyncBrain sharedInstance] sendRPCMessage:req];*/
+
 }
 
 //Scrollable Message
@@ -529,7 +566,7 @@ static int fileIndex = 1;
                          steeringWheelAngle:[NSNumber numberWithBool:TRUE]];
 }
 - (void)displayVehicleData:(NSNotification *)notify{
-    FMCOnVehicleData *notification = (FMCOnVehicleData *)notify;
+    FMCOnVehicleData *notification = [notify object];
     
     NSMutableString *vDataStr = [[NSMutableString alloc] init];
     [vDataStr appendString:[NSString stringWithFormat:@"Vehicle Speed :  %d\n    ", [notification.speed intValue]]];
@@ -792,7 +829,6 @@ static int fileIndex = 1;
     NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsFolde = [folders objectAtIndex:0];
     result = [documentsFolde stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@_%@_%i.wav", @"16KHZ", @"16_BIT", dateString,fileIndex]];
-    //result = [documentsFolde stringByAppendingPathComponent:@"test.wav"];
     return (result);
     
 }
@@ -860,25 +896,17 @@ static int fileIndex = 1;
     }else{
         trackNumber=index;
     }
-    //[self displayConent:[NSString stringWithFormat:@"Track :%d",trackNumber] withMessage2:@"" withMessage3:@"" withMessage4:@""] ;
     [syncBrain showPressed:[NSString stringWithFormat:@"Track :%d",trackNumber] WithSubMessage:@""];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(playFinalTrack) object:nil];
     [self performSelector:@selector(playFinalTrack) withObject:Nil afterDelay:2.5 ];
     
 }
 
--(void)displayConent :(NSString *)content1 withMessage2:(NSString *)msg2 withMessage3:(NSString *)msg3 withMessage4:(NSString *)msg4{
-    
-    NSMutableArray *medialist =[[NSMutableArray alloc]initWithArray:[syncPlayer getMediaFilesList] ];
-    NSLog(@"%@",medialist);
-    
-}
+
 
 -(void)playFinalTrack{
     
     if(![syncPlayer playTrackForIndex:trackNumber]){
-        //[self displayConent:@"Track Not Found" withMessage2:@"" withMessage3:@"" withMessage4:@""] ;
-        
         [syncBrain showPressed:@"Track not Found" WithSubMessage:@""];
         [self performSelector:@selector(metaCuntentOfCurrentPlayingSong) withObject:self afterDelay:2.0 ];
         
@@ -886,12 +914,9 @@ static int fileIndex = 1;
         
 #if TARGET_IPHONE_SIMULATOR
         [syncBrain showPressed:[[syncPlayer  getMediaFilesList] objectAtIndex:[(SyncPlayerPlugin *)syncPlayer currentSongIndex]] WithSubMessage:@"Playing"];
-        //[self displayConent:[[syncPlayer  getMediaFilesList] objectAtIndex:[(SyncPlayerPlugin *)syncPlayer currentSongIndex]] withMessage2:@"Playing" withMessage3:@"" withMessage4:@""] ;
-        
 #else
         MPMediaItem *song = [[syncPlayer getMediaFilesList] objectAtIndex:[syncPlayer currentSongIndex]];
         NSString *songTitle = [song valueForProperty: MPMediaItemPropertyTitle];
-        //[self displayConent:songTitle withMessage2:@"Playing" withMessage3:@"" withMessage4:@""] ;
         [syncBrain showPressed:songTitle WithSubMessage:@"Playing"];
 #endif
     }
@@ -902,13 +927,11 @@ static int fileIndex = 1;
 -(void)metaCuntentOfCurrentPlayingSong{
     
 #if TARGET_IPHONE_SIMULATOR
-    //[self displayConent:[[syncPlayer getMediaFilesList] objectAtIndex:[(SyncPlayerPlugin *)syncPlayer currentSongIndex]] withMessage2:@"Playing" withMessage3:@"" withMessage4:@""] ;
     [syncBrain showPressed:[[syncPlayer getMediaFilesList] objectAtIndex:[(SyncPlayerPlugin *)syncPlayer currentSongIndex]] WithSubMessage:@"Playing"];
 #else
     MPMediaItem *song = [[syncPlayer  getMediaFilesList] objectAtIndex:[syncPlayer   currentSongIndex]];
     NSString *songTitle = [song valueForProperty:MPMediaItemPropertyTitle];
     [syncBrain showPressed:songTitle WithSubMessage:@"Playing"];
-    //[self displayConent:songTitle withMessage2:@"Playing" withMessage3:@"" withMessage4:@""] ;
 #endif
     
     
@@ -950,14 +973,12 @@ static int fileIndex = 1;
 -(void)onVoiceCommand:(NSNotification *)notify{
     
     FMCOnCommand *notification = [notify object];
-    //[syncBrain alert:[NSString stringWithFormat:@"CVR_SELECT_SONG!!! %d ",[notification.cmdID intValue]]];
     if ([notification.cmdID intValue] >([[(SyncBrain *)syncBrain allVoiceCommand] count]-1)) {
         int subMenuIndex=[notification.cmdID intValue] -([[(SyncBrain *)syncBrain allVoiceCommand] count]-1);
         [self selectTTSwithIndex:subMenuIndex];
     }else{
         
         NSString * cmdText=  [[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:[NSString stringWithFormat:@"%@",notification.cmdID]];
-        //[syncBrain alert:[NSString stringWithFormat:@"Voice Command : %@ ",cmdText]];
         if([cmdText isEqualToString:VR_STOP_PLAYING]){
             [(SyncPlayerPlugin *)syncPlayer pause];
             
@@ -969,12 +990,10 @@ static int fileIndex = 1;
             MPMediaItem *song =
             [[syncPlayer  getMediaFilesList] objectAtIndex:[syncPlayer   currentSongIndex]];
             NSString *songTitle = [song valueForProperty: MPMediaItemPropertyTitle];
-            [self displayConent:songTitle withMessage2:@"Pause" withMessage3:@"" withMessage4:@""] ;
-            //[syncBrain showPressed:songTitle WithSubMessage:@"Pause"];
+            [syncBrain showPressed:songTitle WithSubMessage:@"Pause"];
 #endif
             
         }else if([cmdText isEqualToString:VR_SELECT_SONG]){
-            // [syncBrain alert:@"CVR_SELECT_SONG!!!"];
             [self setupChoiceSetIntractionPerformer:@"Please Say, Song title, or, Song Track number, or, Album Name"
                                         initialText:@"Select Song."
                                            helpText:@"you can selct any song by saying it's title, or, Track number, or, Album Name"
@@ -998,14 +1017,12 @@ static int fileIndex = 1;
 }
 
 -(void)onChoice:(NSNotification *)notify{
-    
-    FMCPerformInteractionResponse *response = (FMCPerformInteractionResponse *)notify;
+    /*/[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:[NSString stringWithFormat:@"%i",CHID_INTRACTION_AUDIOPASSTHROUGH]];
+    FMCPerformInteractionResponse *response = [notify object];
     
     if (response.choiceID == [ NSNumber numberWithInt:CHID_INTRACTION]) {
         FMCPerformInteractionResponse *notification = [notify object];
-        // [syncBrain alert:[NSString stringWithFormat:@"on Voice Command %d",[notification.choiceID intValue]]];
-        
-        NSArray * medialist=[syncPlayer getMediaFilesList];
+            NSArray * medialist=[syncPlayer getMediaFilesList];
         
         if ([notification.choiceID intValue]>=[medialist count]){
             [self getAlbumFirstSong:(int)([notification.choiceID intValue]-[medialist count] )];
@@ -1017,8 +1034,11 @@ static int fileIndex = 1;
     }else  if (response.choiceID == [ NSNumber numberWithInt:CHID_INTRACTION_AUDIOPASSTHROUGH]){
         
         
-    }
+    }*/
     
+    FMCPerformInteractionResponse *response = [notify object];
+    [syncPlayer playTrackForIndex:[response.choiceID intValue]];
+    [self metaCuntentOfCurrentPlayingSong];
 }
 
 -(void)getAlbumFirstSong:(int)albumIndex{
@@ -1122,54 +1142,20 @@ static int fileIndex = 1;
     // choiceID = [NSNumber numberWithInt:1985];
     // }
     
-    FMCPerformInteraction *req = [FMCRPCRequestFactory buildPerformInteractionWithInitialChunks:initialPrompt initialText:initialText interactionChoiceSetIDList:[NSArray arrayWithObject:choiceID] helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:im timeout:duration vrHelp:nil correlationID:duration];
-    
-    //[syncBrain perforintraction:req];
-    [syncBrain sendRPCMessage:req];
     
     
-    //TODO:vrHelp was added...
-    
-    
-    
-    /*
-     NSArray *tempPrompt = [initPrompt componentsSeparatedByString:@","];
-     NSMutableArray *initialPrompt = [[NSMutableArray alloc] init];
-     for (int i = 0; i < [tempPrompt count]; i++) {
-     [initialPrompt addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempPrompt objectAtIndex:i]
-     type:[FMCSpeechCapabilities TEXT]]];
-     }
-     
-     NSArray *tempHelp = [helpText  componentsSeparatedByString:@","];
-     NSMutableArray *helpChunks = [[NSMutableArray alloc] init];
-     for (int i = 0; i < [tempHelp count]; i++) {
-     [helpChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempHelp objectAtIndex:i]
-     type:[FMCSpeechCapabilities TEXT]]];
-     }
-     
-     NSArray *tempTimeout = [timeoutText componentsSeparatedByString:@","];
-     NSMutableArray *timeoutChunks = [[NSMutableArray alloc] init];
-     for (int i = 0; i < [tempTimeout count]; i++) {
-     [timeoutChunks addObject:[FMCTTSChunkFactory buildTTSChunkForString:[tempTimeout objectAtIndex:i]
-     type:[FMCSpeechCapabilities TEXT]]];
-     }
-     
-     FMCInteractionMode *im= [FMCInteractionMode VR_ONLY];
-     float  timeout=10.000000;
-     NSNumber * CSID=[[NSNumber alloc] initWithInt:1985];
-     NSArray * choiceArray =[NSArray arrayWithObject:CSID];
-     NSNumber * timeOut =[NSNumber numberWithDouble:(round(timeout)*1000)];
-     
-     [syncBrain  performInteractionPressedwithInitialPrompt:initialPrompt
-     initialText:initialText
-     interactionChoiceSetIDList:choiceArray
-     helpChunks:helpChunks
-     timeoutChunks:timeoutChunks
-     interactionMode:im
-     timeout:timeOut
-     vrHelp:helpChunks];
-     */
+    [syncBrain  performInteractionPressedwithInitialPrompt:initialPrompt
+                                               initialText:initialText
+                                interactionChoiceSetIDList:[NSArray arrayWithObject:choiceID]
+                                                helpChunks:helpChunks
+                                             timeoutChunks:timeoutChunks
+                                           interactionMode:im
+                                                   timeout:duration
+                                                    vrHelp:nil];
+
 }
+
+
 - (void)selectTTSwithIndex:(int)subMenue{
     if (subMenue==1) {
         [syncBrain speakStringUsingTTS:@"It is a Music player appliction,\
@@ -1216,7 +1202,7 @@ static int fileIndex = 1;
 
 
 
-//    NSArray * allComandKeys= [[(SyncBrain *)syncBrain allVoiceCommand] allKeys];
+
 -(IBAction)deleteAndUnsubscribe:(id)sender{
     //Delete Command from Sync
     /*
@@ -1257,7 +1243,7 @@ static int fileIndex = 1;
 
 - (IBAction)testRecord:(id)sender{
     
-    [self playRecoredAudio:nil];
+    //[self playRecoredAudio:nil];
     AudioRecordShowViewController *currentViewController = [[AudioRecordShowViewController alloc] init];
     [self.navigationController pushViewController:currentViewController animated:YES];
     //[self playRecoredAudio:nil];

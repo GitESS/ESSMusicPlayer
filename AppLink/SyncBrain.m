@@ -98,15 +98,13 @@ static SyncBrain *gInstance = NULL;
 }
 
 -(void) onPutFileResponse:(FMCPutFileResponse*) response{
-    //[self alert:[NSString stringWithFormat:@"FMCPutFile : Avilable Space %@",response.spaceAvailable]];
     FMCListFiles * listFile=[[FMCListFiles alloc] init];
     [proxy sendRPCRequest:listFile];
 }
 
 -(void) onListFilesResponse:(FMCListFilesResponse*) response{
-    //[self alert:[NSString stringWithFormat:@"Number of PutFile : %lu  ", (unsigned long)[response.filenames count]]];
     if ([response.filenames count]) {
-        //[self alert:[NSString stringWithFormat:@"File Name : %@ ", [response.filenames  objectAtIndex:0]]];
+
     }
 }
 
@@ -185,8 +183,6 @@ static SyncBrain *gInstance = NULL;
     
     
     if (msgCount==4) {
-        
-        //[self alert:@"Sync 4"];
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:msg2
                                                           mainField3:msg3
@@ -203,8 +199,6 @@ static SyncBrain *gInstance = NULL;
         [proxy sendRPCRequest:msg];
         
     }else if (msgCount == 3){
-        
-        // [self alert:@"Sync 3"];
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:msg2
                                                           mainField3:msg3
@@ -221,8 +215,6 @@ static SyncBrain *gInstance = NULL;
         [proxy sendRPCRequest:msg];
         
     }else if (msgCount == 2){
-        
-        //[self alert:@"Sync 2"];
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:msg2
                                                           mainField3:@""
@@ -238,8 +230,6 @@ static SyncBrain *gInstance = NULL;
         
         [proxy sendRPCRequest:msg];
     }else if (msgCount == 1){
-        
-        //[self alert:@"Sync 1"];
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:@""
                                                           mainField3:@""
@@ -366,6 +356,9 @@ static SyncBrain *gInstance = NULL;
     [softButtonArray addObject:softButton];
     softButton = nil;
     
+    
+    
+    [self alert:[NSString stringWithFormat:@"%@----%@",message,subMessage]];
     FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:message
                                                       mainField2:subMessage
                                                       mainField3:nil
@@ -504,7 +497,9 @@ static SyncBrain *gInstance = NULL;
 }
 
 -(void) performInteractionPressedwithInitialPrompt:(NSArray*)initialChunks initialText:(NSString*)initialText interactionChoiceSetIDList:(NSArray*)interactionChoiceSetIDList helpChunks:(NSArray*)helpChunks timeoutChunks:(NSArray*)timeoutChunks interactionMode:(FMCInteractionMode*) interactionMode timeout:(NSNumber*)timeout vrHelp:(NSArray*)vrHelp {
-    FMCPerformInteraction *req = [FMCRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp: vrHelp correlationID:[NSNumber numberWithInt:autoIncCorrID++] ];
+    FMCPerformInteraction *req = [FMCRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp: vrHelp correlationID:[NSNumber numberWithInt:autoIncCorrID] ];
+    
+   // [_allVoiceCommand setObject:[NSString stringWithFormat:@"%d",autoIncCorrID++] forKey:[NSString stringWithFormat:@"%d",CHID_INTRACTION_AUDIOPASSTHROUGH]];
     [proxy sendRPCRequest:req];
     [self postToConsoleLog:req];
 }
@@ -768,8 +763,20 @@ sliderFooter timeOut :(NSNumber *)timeout
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
     
 }
+
+//ReadDiD
+- (void)periodicVehicleDataRequestWithECUName:(int)ecuName didLocation:(NSArray *)didLocation{
+    FMCReadDID *req = [FMCRPCRequestFactory buildReadDIDWithECUName:[NSNumber numberWithInt:ecuName] didLocation:didLocation correlationID:[NSNumber numberWithInt: autoIncCorrID++]];
+    [proxy sendRPCRequest:req];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
+}
 -(int)getCMDID {
     return cmdID;
+}
+
+-(NSNumber*) getNextCorrID {
+    autoIncCorrID++;
+    return [NSNumber numberWithInt:autoIncCorrID];
 }
 
 // =====================================
@@ -809,6 +816,9 @@ sliderFooter timeOut :(NSNumber *)timeout
     } else
         proxy = [FMCSyncProxyFactory buildSyncProxyWithListener: self];
     
+    NSLog(@"%@",[proxy getProxyVersion]);
+   
+    
     [proxy.getTransport addTransportListener:self];
     
     autoIncCorrID = 101;
@@ -829,8 +839,16 @@ sliderFooter timeOut :(NSNumber *)timeout
 
 -(void) onProxyClosed {
     [FMCDebugTool logInfo:@"onProxyClosed"];
+    
+    //UnlockScreen
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
+    
+    //UnsubscribeButtonAndDeleteCommand Notification
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UnsubscribeButtonAndDeleteCommand" object:nil]];
     [self tearDownProxy];
 	[self setupProxy];
+    
+    
 }
 
 -(void) onOnHMIStatus:(FMCOnHMIStatus*) notification {
@@ -839,6 +857,7 @@ sliderFooter timeOut :(NSNumber *)timeout
 		
         [FMCDebugTool logInfo:@"HMI_NONE"];
         
+        
 	} else if (notification.hmiLevel == FMCHMILevel.HMI_FULL ) {
         
         [FMCDebugTool logInfo:@"HMI_FULL"];
@@ -846,9 +865,6 @@ sliderFooter timeOut :(NSNumber *)timeout
             return;
         syncInitialized = YES;
         [self setup];
-        FMCShow* msg = [FMCRPCRequestFactory buildShowWithMainField1:@"Sync" mainField2:@"Music Player" alignment:[FMCTextAlignment CENTERED] correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-		[proxy sendRPCRequest:msg];
-        
     } else if (notification.hmiLevel == FMCHMILevel.HMI_BACKGROUND ) {
         
         [FMCDebugTool logInfo:@"HMI_BACKGROUND"];
@@ -861,10 +877,8 @@ sliderFooter timeOut :(NSNumber *)timeout
 
 -(void) tearDownProxy {
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UnsubscribeVehicleData" object:nil]];
-   
 	[FMCDebugTool logInfo:@"tearDownProxy"];
 	[proxy dispose];
-    
 	proxy = nil;
 }
 
@@ -946,6 +960,7 @@ sliderFooter timeOut :(NSNumber *)timeout
 	[self postToConsoleLog:response];
 }
 -(void) onSetGlobalPropertiesResponse:(FMCSetGlobalPropertiesResponse*) response {
+    [self alert:@"Set global Plroperties"];
 	[self postToConsoleLog:response];
 }
 -(void) onResetGlobalPropertiesResponse:(FMCResetGlobalPropertiesResponse*) response {
@@ -1051,19 +1066,15 @@ sliderFooter timeOut :(NSNumber *)timeout
 }
 -(void) onOnVehicleData:(FMCOnVehicleData*) notification {
     [self postToConsoleLog:notification];
+    
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"DisplayVehicleData" object:nil]];
-    
-    
 }
-
 
 -(void) onReadDIDResponse:(FMCReadDIDResponse*) response {
     [self postToConsoleLog:response];
 }
 
 -(void) onScrollableMessageResponse:(FMCScrollableMessageResponse*) response {
-    
-    [self alert:[NSString stringWithFormat:@"%@",response]];
     [self postToConsoleLog:response];
 }
 

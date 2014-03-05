@@ -237,7 +237,7 @@
 // Button action when user drag the slider position
 - (IBAction)sliderValueChangedAction:(id)sender{
     
-    CMTime total= [SyncPlayerPlugin sharedMPInstance]      .player.currentItem.asset.duration;
+    CMTime total= [SyncPlayerPlugin sharedMPInstance] .player.currentItem.asset.duration;
     float totalSeconds = CMTimeGetSeconds(total);
     float trackTime = [(UISlider *)sender value] * totalSeconds;
     CMTime seekingCM = CMTimeMake(trackTime, 1);
@@ -247,7 +247,8 @@
 
 // Change the view controler 
 - (IBAction)connectWithSync:(id)sender{
-    [self performSegueWithIdentifier:@"segueToSync" sender:nil];
+    [[SyncBrain sharedInstance] setupProxy];
+    //[self performSegueWithIdentifier:@"segueToSync" sender:nil];
 }
 
 @end

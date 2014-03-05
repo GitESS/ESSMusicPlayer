@@ -16,6 +16,27 @@
     // Override point for customization after application launch.
     [[SyncBrain sharedInstance] setupProxy];
     //[self fileList];
+    
+    
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if (iOSDeviceScreenSize.height == 480)
+    {
+        UIStoryboard *iPhone35Storyboard = [UIStoryboard storyboardWithName:@"Storyboard_3.5" bundle:nil];
+        
+        // Instantiate the initial view controller object from the storyboard
+        UIViewController *initialViewController = [iPhone35Storyboard instantiateInitialViewController];
+        
+        // Instantiate a UIWindow object and initialize it with the screen size of the iOS device
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        
+        // Set the initial view controller to be the root view controller of the window object
+        self.window.rootViewController  = initialViewController;
+        
+        // Set the window object to be the key window and show it
+        // [self.window makeKeyAndVisible];
+        
+    }
     return YES;
 }
 -(void)fileList
