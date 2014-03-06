@@ -18,11 +18,13 @@
     
     NSMutableArray * trackArray;
     NSMutableArray * songTitles;
-    NSMutableArray * songAlbum ;
+    NSMutableArray * songAlbum;
     NSMutableArray * choiceSetIdList;
     int albumCount;
+    int albumCountPrevious;
     int songCount;
     BOOL ifAlbum;
+    
 }
 
 - (void)NextSong;
@@ -41,4 +43,5 @@
 - (void)receiveAudioResponse:(NSNotification *)obj;
 - (void)playRecoredAudio:(NSNotification *)notify;
 - (IBAction)testRecord:(id)sender;
+-(void)songAndAlbumArray;
 @end

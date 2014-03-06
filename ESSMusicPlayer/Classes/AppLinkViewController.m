@@ -18,6 +18,8 @@
 
 -(void)buttonsEvent:(NSNotification *)notify;
 
+-(void)displayConent :(NSString *)content1 withMessage2:(NSString *)msg2 withMessage3:(NSString *)msg3 withMessage4:(NSString *)msg4;
+
 @property (strong, nonatomic) SyncPlayerPlugin * playerPlugin;
 @end
 
@@ -41,6 +43,7 @@ static int fileIndex = 1;
     syncPlayer= [SyncPlayerPlugin sharedMPInstance];
     trackNumber=-1;
     //[[SyncBrain sharedInstance] initProperties];
+    [self songAndAlbumArray];
     [self subcribeVoiceCommands];
     [self subcribeButton];
     [self addSubMenu];
@@ -90,18 +93,14 @@ static int fileIndex = 1;
                            selector:@selector(playRecoredAudio:)
                                name:@"EndAudioPassThruResponse"
                              object:nil];
-   /* [notificationCenter addObserver:self
-                           selector:@selector(deleteAndUnsubscribe:)
-                               name:@"UnsubscribeButtonAndDeleteCommand"
-                             object:nil];*/
-
     
     [self metaCuntentOfCurrentPlayingSong];
-    [self setUpChoiceSet];
-}
--(void)setUpChoiceSet {
     
-    choiceSetIdList = [[NSMutableArray alloc] init];
+    // [self setGlobalProperties];
+    
+}
+
+-(void)songAndAlbumArray{
 #if TARGET_IPHONE_SIMULATOR
     songTitles =[NSMutableArray arrayWithArray:[syncPlayer getMediaFilesList]];
 #else
@@ -122,17 +121,24 @@ static int fileIndex = 1;
     }
     
 #endif
-    //Choice Set
-    //Choices of Songs and Album
+    
+}
+-(void)setUpChoiceSet {
+    
+    choiceSetIdList = [[NSMutableArray alloc] init];
+    
     NSMutableArray *choices = [[NSMutableArray alloc] init];
     int j=0;
     for (j = 0 ; j < [songTitles count]; j++) {
         FMCChoice *FMCc = [[FMCChoice alloc] init];
-        FMCc.menuName = [self specialChar:[songTitles objectAtIndex:j]];
+        FMCc.menuName = [self specialChar:[NSString stringWithFormat:@"%@",[songTitles objectAtIndex:j]]];
         FMCc.choiceID = [NSNumber numberWithInt: j];
-        FMCc.vrCommands=[NSMutableArray arrayWithObjects:
-                         [self specialChar:[songTitles objectAtIndex:j]],
+        FMCc.vrCommands=[NSMutableArray arrayWithObjects:[songTitles objectAtIndex:j],
+                         [NSString stringWithFormat:@"Track %d",j],
                          nil];
+        
+        FMCc.image=nil;
+        
         [choices addObject:FMCc];
     }
     NSNumber * CSID=[[NSNumber alloc] initWithInt:CHID_INTRACTION];
@@ -147,7 +153,7 @@ static int fileIndex = 1;
         
         if (!([message isEqualToString:@""])) {
             
-            NSCharacterSet *notAllowedChars = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"] invertedSet];
+            NSCharacterSet *notAllowedChars = [[NSCharacterSet characterSetWithCharactersInString:@" 1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"] invertedSet];
             resultString = [[message componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""];
         }else{
             resultString=@"";
@@ -187,7 +193,7 @@ static int fileIndex = 1;
                                             parentID:[NSNumber numberWithInt:SUBMENUID]
                                           vrCommands:nil
                                            iconValue:@"0B"
-                                            iconType:[FMCImageType DYNAMIC]];
+                                            iconType:[FMCImageType STATIC]];
     [syncBrain addAdvancedCommandPressedwithMenuName:@"Applink"
                                             position:[NSNumber numberWithInt:1]
                                             parentID:[NSNumber numberWithInt:SUBMENUID]
@@ -296,13 +302,17 @@ static int fileIndex = 1;
     
     if ([buttonPress.customButtonID intValue] == 5001) {
         albumCount=0;
+        albumCountPrevious=0;
         ifAlbum=TRUE;
         [self softButtonAlbumAndSongList:songAlbum];
     }
     if ([buttonPress.customButtonID intValue] == 5002) {
+        albumCount=0;
+        albumCountPrevious=0;
         ifAlbum=FALSE;
         [self softButtonAlbumAndSongList:songTitles];
     }
+    
     if ([buttonPress.customButtonID intValue] == 5003) {
         [self softButtonSongInfo];
     }
@@ -363,25 +373,139 @@ static int fileIndex = 1;
 }
 
 //SoftButton Functionality
+/*
+ -(void)softButtonAlbumAndSongList:(NSMutableArray *)tempArray1{
+ NSMutableArray * tempArray;
+ if (ifAlbum) {
+ tempArray =[[NSMutableArray alloc] initWithArray:songAlbum];
+ }else{
+ tempArray =[[NSMutableArray alloc] initWithArray:songTitles];
+ }
+ 
+ int songcount= (int)[songAlbum count];
+ int countDiffrent= (albumCount-songcount);
+ if (countDiffrent<0) {
+ countDiffrent=countDiffrent*(-1);
+ }
+ 
+ NSLog(@"Next albumCount : %d",albumCount);
+ [syncBrain alert:[NSString stringWithFormat:@"albumCount: %lu  songcount: %d countDiffrent : %d",(unsigned long)[songAlbum count],songcount,countDiffrent]];
+ if (albumCount<=songcount) {
+ 
+ if (countDiffrent>=4) {
+ [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+ message2:[tempArray objectAtIndex:albumCount+1]
+ message3:[tempArray objectAtIndex:albumCount+2]
+ message4:[tempArray objectAtIndex:albumCount+3]
+ count:4];
+ 
+ albumCount=albumCount+4;
+ }else  if (countDiffrent==3)
+ {
+ [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+ message2:[tempArray objectAtIndex:albumCount+1]
+ message3:[tempArray objectAtIndex:albumCount+2]
+ message4:nil
+ count:3];
+ 
+ albumCount=albumCount+3;
+ 
+ }else  if (countDiffrent==2)
+ {
+ [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+ message2:[tempArray objectAtIndex:albumCount+1]
+ message3:nil
+ message4:nil
+ count:2];
+ 
+ albumCount=albumCount+2;
+ 
+ }else  if (countDiffrent==1)
+ {
+ [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+ message2:nil
+ message3:nil
+ message4:nil
+ count:1];
+ 
+ albumCount=albumCount+1;
+ 
+ }
+ 
+ }
+ }
+ */
 
 
 -(void)softButtonAlbumAndSongList:(NSMutableArray *)tempArray{
-    
-    int songcount= [tempArray count];
+   // [syncBrain alert:[NSString stringWithFormat:@"Next albumCount : %d  albumCountPrevious: %d",albumCount,albumCountPrevious]];
+    int songcount=(int) [tempArray count];
     int countDiffrent= (albumCount-songcount);
     if (countDiffrent<0) {
         countDiffrent=countDiffrent*(-1);
     }
-    
-    NSLog(@"Next albumCount : %d",albumCount);
-    
+    int next;
+    int previous;
+    if (songcount>4) {
+        next=1;
+        previous=1;
+    }else{
+        next=0;
+        previous=0;
+    }
+    albumCountPrevious=albumCount;
     if (albumCount<=songcount) {
+        if (countDiffrent>4) {
+            
+            if (next==0 && previous ==0) {
+                next=0;
+                previous=0;
+            }else{
+                if (albumCount==0) {
+                    next=1;
+                    previous=0;
+                }else{
+                    next=1;
+                    previous=1;
+                }
+                
+            }
+        }else{
+            if (next==0 && previous ==0) {
+                
+                next=0;
+                previous=0;
+            }else{
+                if (albumCount==0) {
+                    next=0;
+                    previous=0;
+                }else{
+                    next=0;
+                    previous=1;
+                }
+                
+            }
+        }
+        
+       /* if (countDiffrent>4) {
+            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+                           message2:[tempArray objectAtIndex:albumCount+1]
+                           message3:[tempArray objectAtIndex:albumCount+2]
+                           message4:[tempArray objectAtIndex:albumCount+3]
+                              count:4
+                               next:next
+                           previous:previous];
+            
+            albumCount=albumCount+4;
+        }else */
         if (countDiffrent>=4) {
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
                            message2:[tempArray objectAtIndex:albumCount+1]
                            message3:[tempArray objectAtIndex:albumCount+2]
                            message4:[tempArray objectAtIndex:albumCount+3]
-                              count:4];
+                              count:4
+                               next:next
+                           previous:previous];
             
             albumCount=albumCount+4;
         }else  if (countDiffrent==3)
@@ -390,7 +514,9 @@ static int fileIndex = 1;
                            message2:[tempArray objectAtIndex:albumCount+1]
                            message3:[tempArray objectAtIndex:albumCount+2]
                            message4:nil
-                              count:3];
+                              count:3
+                               next:next
+                           previous:previous];
             
             albumCount=albumCount+3;
             
@@ -400,7 +526,9 @@ static int fileIndex = 1;
                            message2:[tempArray objectAtIndex:albumCount+1]
                            message3:nil
                            message4:nil
-                              count:2];
+                              count:2
+                               next:next
+                           previous:previous];
             
             albumCount=albumCount+2;
             
@@ -410,7 +538,9 @@ static int fileIndex = 1;
                            message2:nil
                            message3:nil
                            message4:nil
-                              count:1];
+                              count:1
+                               next:next
+                           previous:previous];
             
             albumCount=albumCount+1;
             
@@ -420,52 +550,103 @@ static int fileIndex = 1;
 }
 
 -(void)softButtonAlbumAndSongListPrevious:(NSMutableArray *)tempArray{
+    //[syncBrain alert:[NSString stringWithFormat:@"Previous albumCount : %d  albumCountPrevious: %d",albumCount,albumCountPrevious]];
     
+     albumCount= albumCountPrevious;
     int songcount= (int)[tempArray count];
     int countDiffrent= (albumCount-songcount);
     if (countDiffrent<0) {
         countDiffrent=countDiffrent*(-1);
     }
+    int next;
+    int previous;
+    if (songcount>4) {
+        next=1;
+        previous=1;
+    }else{
+        next=0;
+        previous=0;
+    }
+   
+    //[syncBrain alert:[NSString stringWithFormat:@"albumCount : %d",albumCount]];
     
     if (albumCount>0) {
+        if (countDiffrent>=4) {
+            
+            if (next==0 && previous ==0) {
+                next=0;
+                previous=0;
+            }else{
+                 if (albumCount<= 4) {
+                next=1;
+                previous=0;
+                 }else{
+                     next=1;
+                     previous=1;
+                 }
+            }
+        }else{
+            if (next==0 && previous ==0) {
+                next=0;
+                previous=0;
+            }else{
+                next=1;
+                previous=0;
+            }
+        }
         if (albumCount>=4) {
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount-1]
-                           message2:[tempArray objectAtIndex:albumCount-2]
-                           message3:[tempArray objectAtIndex:albumCount-3]
-                           message4:[tempArray objectAtIndex:albumCount-4]
-                              count:4];
-            albumCount=albumCount-4;
+              albumCount=albumCount-4;
+            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+                           message2:[tempArray objectAtIndex:albumCount+1]
+                           message3:[tempArray objectAtIndex:albumCount+2]
+                           message4:[tempArray objectAtIndex:albumCount+3]
+                              count:4
+                               next:next
+                           previous:previous];
+          
+            
         }else  if (albumCount==3)
         {
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount-1]
-                           message3:[tempArray objectAtIndex:albumCount-2]
-                           message4:nil
-                              count:3];
             albumCount=albumCount-3;
+            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+                           message2:[tempArray objectAtIndex:albumCount+1]
+                           message3:[tempArray objectAtIndex:albumCount+2]
+                           message4:nil
+                              count:3
+                               next:next
+                           previous:previous];
+            
             
         }else  if (albumCount==2)
         {
+            albumCount=albumCount-2;
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount-1]
+                           message2:[tempArray objectAtIndex:albumCount+1]
                            message3:nil
                            message4:nil
-                              count:2];
-            albumCount=albumCount-2;
+                              count:2
+                               next:next
+                           previous:previous];
+            
             
         }else  if (albumCount==1)
         {
+            albumCount=albumCount-1;
             [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
                            message2:nil
                            message3:nil
                            message4:nil
-                              count:1];
-            albumCount=albumCount-1;
+                              count:1
+                               next:next
+                           previous:previous];
+            
             
         }
         
     }
-    
+    int temp =albumCountPrevious;
+    albumCountPrevious= albumCount;
+    albumCount=temp;
 }
 
 
@@ -482,57 +663,55 @@ static int fileIndex = 1;
 //Scrollable Message
 -(void)softButtonApplicationInfo{
     //
-    [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"It is a Music player appliction,\
-     which is applink enabled, We can handle songs through SYNC." timeOut:[NSNumber numberWithInt:10] softButtons:nil];
+    [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"It is a Music player appliction, which is applink enabled, We can handle songs through SYNC." timeOut:[NSNumber numberWithInt:10000] softButtons:nil];
     
-   /* NSString *strHelpText = @"Help Test";//[NSString stringWithString:[_helpTextView text]];
-    NSString *strTimeoutText =@"Time out text";// [NSString stringWithString:[_timeoutTextView text]];
-    NSString *strVRHelpText = @"VR Help Text";//[NSString stringWithString:[_vrhelpTextView text]];
+    /* NSString *strHelpText = @"Help Test";//[NSString stringWithString:[_helpTextView text]];
+     NSString *strTimeoutText =@"Time out text";// [NSString stringWithString:[_timeoutTextView text]];
+     NSString *strVRHelpText = @"VR Help Text";//[NSString stringWithString:[_vrhelpTextView text]];
+     
+     FMCVrHelpItem *vrHelpItem = [[FMCVrHelpItem alloc] init] ;
+     FMCImage *image = [[FMCImage alloc] init] ;
+     image.imageType = [FMCImageType STATIC];
+     image.value = @"";//[_vrhelpitemimagenumberTextView text];
+     vrHelpItem.image = image;
+     vrHelpItem.text = @"Help to play";//[_vrhelpitemTextView text];
+     vrHelpItem.position = [NSNumber numberWithInt:2];//[NSNumber numberWithInt:[[_vrhelpitemnumberTextView text] intValue]];
+     
+     NSArray *arrVRHelpItemText = [[NSMutableArray alloc] initWithObjects:vrHelpItem, nil];
+     
+     if (![_helpSwitch isOn]) {
+     strHelpText = nil;
+     }
+     
+     if (![_timeoutSwitch isOn]) {
+     strTimeoutText  = nil;
+     }
+     
+     if (![_vrhelpSwitch isOn]) {
+     strVRHelpText = nil;
+     }
+     
+     if (![_vrhelpitemSwitch isOn]) {
+     arrVRHelpItemText = nil;
+     }
+     
+     FMCSetGlobalProperties *req = [FMCRPCRequestFactory buildSetGlobalPropertiesWithHelpText:strHelpText timeoutText:strTimeoutText vrHelpTitle:strVRHelpText vrHelp:arrVRHelpItemText correlationID: [[SyncBrain sharedInstance] getNextCorrID]];
+     [[SyncBrain sharedInstance] sendRPCMessage:req];*/
     
-    FMCVrHelpItem *vrHelpItem = [[FMCVrHelpItem alloc] init] ;
-    FMCImage *image = [[FMCImage alloc] init] ;
-    image.imageType = [FMCImageType STATIC];
-    image.value = @"";//[_vrhelpitemimagenumberTextView text];
-    vrHelpItem.image = image;
-    vrHelpItem.text = @"Help to play";//[_vrhelpitemTextView text];
-    vrHelpItem.position = [NSNumber numberWithInt:2];//[NSNumber numberWithInt:[[_vrhelpitemnumberTextView text] intValue]];
-    
-    NSArray *arrVRHelpItemText = [[NSMutableArray alloc] initWithObjects:vrHelpItem, nil];
-    
-    if (![_helpSwitch isOn]) {
-        strHelpText = nil;
-    }
-    
-    if (![_timeoutSwitch isOn]) {
-        strTimeoutText  = nil;
-    }
-    
-    if (![_vrhelpSwitch isOn]) {
-        strVRHelpText = nil;
-    }
-    
-    if (![_vrhelpitemSwitch isOn]) {
-        arrVRHelpItemText = nil;
-    }
-    
-    FMCSetGlobalProperties *req = [FMCRPCRequestFactory buildSetGlobalPropertiesWithHelpText:strHelpText timeoutText:strTimeoutText vrHelpTitle:strVRHelpText vrHelp:arrVRHelpItemText correlationID: [[SyncBrain sharedInstance] getNextCorrID]];
-    [[SyncBrain sharedInstance] sendRPCMessage:req];*/
-
 }
 
 //Scrollable Message
 -(void)softButtonApplinkInfo{
-    [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"AppLink enabled applications \
-     shall communicate with SYNC over a known transport layer" timeOut:[NSNumber numberWithInt:10] softButtons:nil];
+    [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"AppLink enabled applications shall communicate with SYNC over a known transport layer." timeOut:[NSNumber numberWithInt:10000] softButtons:nil];
     
 }
 
 //Scrollable Message
 -(void)softButtonAppfeatureInfo{
     
-    NSString *feature = @"Application features. When this app is connected with SYNC a lock screen will apear then you can handle app threough SYNC only. For play and pause use ok button Or speek, stop playing. For previous and next song seek previous and seek next button used  Or speek, previous next. For select a random song use numeric keys combination Or speek, select song when sync ask for choice speek song title or say track with number or album name";
+    NSString *feature = @"Application features. When this app is connected with SYNC a lock screen will apear then you can handle app threough SYNC VR commands and buttons.";// For play and pause use ok button or speek, stop playing. For previous and next song seek previous and seek next button used or speek, previous next. For select a random song use numeric keys combination or speek, select song when sync ask for choice speek song title or say track with number or album name";
     
-    [syncBrain scrollableMessagePressedWithScrollableMessageBody:feature timeOut:[NSNumber numberWithInt:10] softButtons:nil];
+    [syncBrain scrollableMessagePressedWithScrollableMessageBody:feature timeOut:[NSNumber numberWithInt:10000] softButtons:nil];
 }
 
 
@@ -566,7 +745,7 @@ static int fileIndex = 1;
                          steeringWheelAngle:[NSNumber numberWithBool:TRUE]];
 }
 - (void)displayVehicleData:(NSNotification *)notify{
-    FMCOnVehicleData *notification = [notify object];
+    FMCOnVehicleData *notification = (FMCOnVehicleData *)notify;
     
     NSMutableString *vDataStr = [[NSMutableString alloc] init];
     [vDataStr appendString:[NSString stringWithFormat:@"Vehicle Speed :  %d\n    ", [notification.speed intValue]]];
@@ -660,7 +839,7 @@ static int fileIndex = 1;
                                                                 disPlayText1:@"Please speak !"
                                                                 disPlayText2:@"Please say something !"
                                                                 samplingRate:[FMCSamplingRate _16KHZ]
-                                                                 maxDuration:[NSNumber numberWithInt:1000]
+                                                                 maxDuration:[NSNumber numberWithInt:10000]
                                                                bitsPerSample:FMCBitsPerSample._16_BIT
                                                                    audioType:[FMCAudioType PCM]
                                                                    muteAudio:[NSNumber numberWithBool:1]];
@@ -669,13 +848,10 @@ static int fileIndex = 1;
 
 - (void)receiveAudioResponse:(NSNotification *)obj{
     
-    [syncBrain alert:@"Response Recived"];
     NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsFolde = [folders objectAtIndex:0];
     NSString *filename = [documentsFolde stringByAppendingPathComponent:@"Recording.pcm"];
     [self doConvertAudio:filename];
-    //[self setUpChoiceSetForAudioList:[self recordArray]];
-    
     fileIndex++;
 }
 
@@ -810,11 +986,10 @@ static int fileIndex = 1;
     }
     @catch (NSException *exception) {
         [syncBrain alert:@"Exception"];
-
+        
     }
     @finally {
         [syncBrain alert:@"File Converted pcm to wav"];
-        //[self endAudioPassThruPressed];
     }
 }
 
@@ -829,6 +1004,7 @@ static int fileIndex = 1;
     NSArray *folders = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsFolde = [folders objectAtIndex:0];
     result = [documentsFolde stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@_%@_%i.wav", @"16KHZ", @"16_BIT", dateString,fileIndex]];
+    //result = [documentsFolde stringByAppendingPathComponent:@"test.wav"];
     return (result);
     
 }
@@ -902,7 +1078,12 @@ static int fileIndex = 1;
     
 }
 
-
+-(void)displayConent :(NSString *)content1 withMessage2:(NSString *)msg2 withMessage3:(NSString *)msg3 withMessage4:(NSString *)msg4{
+    
+    NSMutableArray *medialist =[[NSMutableArray alloc]initWithArray:[syncPlayer getMediaFilesList] ];
+    NSLog(@"%@",medialist);
+    
+}
 
 -(void)playFinalTrack{
     
@@ -927,11 +1108,13 @@ static int fileIndex = 1;
 -(void)metaCuntentOfCurrentPlayingSong{
     
 #if TARGET_IPHONE_SIMULATOR
+    //[self displayConent:[[syncPlayer getMediaFilesList] objectAtIndex:[(SyncPlayerPlugin *)syncPlayer currentSongIndex]] withMessage2:@"Playing" withMessage3:@"" withMessage4:@""] ;
     [syncBrain showPressed:[[syncPlayer getMediaFilesList] objectAtIndex:[(SyncPlayerPlugin *)syncPlayer currentSongIndex]] WithSubMessage:@"Playing"];
 #else
     MPMediaItem *song = [[syncPlayer  getMediaFilesList] objectAtIndex:[syncPlayer   currentSongIndex]];
     NSString *songTitle = [song valueForProperty:MPMediaItemPropertyTitle];
     [syncBrain showPressed:songTitle WithSubMessage:@"Playing"];
+    //[self displayConent:songTitle withMessage2:@"Playing" withMessage3:@"" withMessage4:@""] ;
 #endif
     
     
@@ -994,9 +1177,10 @@ static int fileIndex = 1;
 #endif
             
         }else if([cmdText isEqualToString:VR_SELECT_SONG]){
-            [self setupChoiceSetIntractionPerformer:@"Please Say, Song title, or, Song Track number, or, Album Name"
+            [self setUpChoiceSet];
+            [self setupChoiceSetIntractionPerformer:@"Please Say, Song title, or, Song Track number"
                                         initialText:@"Select Song."
-                                           helpText:@"you can selct any song by saying it's title, or, Track number, or, Album Name"
+                                           helpText:@"you can selct any song by saying it's title, or, Track number"
                                         timeoutText:@"try again Later"
                                            choiceID:CHID_INTRACTION];
         }else if([cmdText isEqualToString:VR_RESUME_SONG]){
@@ -1017,28 +1201,13 @@ static int fileIndex = 1;
 }
 
 -(void)onChoice:(NSNotification *)notify{
-    /*/[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:[NSString stringWithFormat:@"%i",CHID_INTRACTION_AUDIOPASSTHROUGH]];
-    FMCPerformInteractionResponse *response = [notify object];
-    
-    if (response.choiceID == [ NSNumber numberWithInt:CHID_INTRACTION]) {
-        FMCPerformInteractionResponse *notification = [notify object];
-            NSArray * medialist=[syncPlayer getMediaFilesList];
-        
-        if ([notification.choiceID intValue]>=[medialist count]){
-            [self getAlbumFirstSong:(int)([notification.choiceID intValue]-[medialist count] )];
-        }else{
-            [syncPlayer playTrackForIndex:[notification.choiceID intValue]];
-            [self metaCuntentOfCurrentPlayingSong];
-        }
-        
-    }else  if (response.choiceID == [ NSNumber numberWithInt:CHID_INTRACTION_AUDIOPASSTHROUGH]){
-        
-        
-    }*/
     
     FMCPerformInteractionResponse *response = [notify object];
     [syncPlayer playTrackForIndex:[response.choiceID intValue]];
     [self metaCuntentOfCurrentPlayingSong];
+    //Delete IntractionChoiceSet
+    [syncBrain deleteInteractionChoiceSetPressedWithID:[NSNumber numberWithInt:CHID_INTRACTION]];
+    
 }
 
 -(void)getAlbumFirstSong:(int)albumIndex{
@@ -1121,15 +1290,7 @@ static int fileIndex = 1;
     }
     
     FMCInteractionMode *im = [FMCInteractionMode BOTH];;
-    /* if (_interactionModeSeg.selectedSegmentIndex == 0) {
-     im = [FMCInteractionMode MANUAL_ONLY];
-     }
-     else if (_interactionModeSeg.selectedSegmentIndex == 1) {
-     im = [FMCInteractionMode VR_ONLY];
-     }
-     else {
-     im = [FMCInteractionMode BOTH];
-     }*/
+    
     
     NSNumber *duration = nil;
     float  timeout=10.000000;
@@ -1138,9 +1299,6 @@ static int fileIndex = 1;
     }
     
     NSNumber *choiceID  = [NSNumber numberWithInt:1985];
-    // if (![[_choiceIDTextField text] isEqualToString:@""]) {
-    // choiceID = [NSNumber numberWithInt:1985];
-    // }
     
     
     
@@ -1152,9 +1310,7 @@ static int fileIndex = 1;
                                            interactionMode:im
                                                    timeout:duration
                                                     vrHelp:nil];
-
 }
-
 
 - (void)selectTTSwithIndex:(int)subMenue{
     if (subMenue==1) {
@@ -1242,10 +1398,7 @@ static int fileIndex = 1;
 
 
 - (IBAction)testRecord:(id)sender{
-    
-    //[self playRecoredAudio:nil];
     AudioRecordShowViewController *currentViewController = [[AudioRecordShowViewController alloc] init];
     [self.navigationController pushViewController:currentViewController animated:YES];
-    //[self playRecoredAudio:nil];
 }
 @end

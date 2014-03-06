@@ -98,13 +98,15 @@ static SyncBrain *gInstance = NULL;
 }
 
 -(void) onPutFileResponse:(FMCPutFileResponse*) response{
+    //[self alert:[NSString stringWithFormat:@"FMCPutFile : Avilable Space %@",response.spaceAvailable]];
     FMCListFiles * listFile=[[FMCListFiles alloc] init];
     [proxy sendRPCRequest:listFile];
 }
 
 -(void) onListFilesResponse:(FMCListFilesResponse*) response{
+    //[self alert:[NSString stringWithFormat:@"Number of PutFile : %lu  ", (unsigned long)[response.filenames count]]];
     if ([response.filenames count]) {
-
+        //[self alert:[NSString stringWithFormat:@"File Name : %@ ", [response.filenames  objectAtIndex:0]]];
     }
 }
 
@@ -152,10 +154,125 @@ static SyncBrain *gInstance = NULL;
     [self postToConsoleLog:msg];;
 }
 
-- (void)showPressed2:(NSString *)msg1 message2:(NSString *)msg2 message3:(NSString *)msg3 message4:(NSString *)msg4  count:(int)msgCount{
+- (void)showPressed2:(NSString *)msg1 message2:(NSString *)msg2 message3:(NSString *)msg3 message4:(NSString *)msg4  count:(int)msgCount next:(int)nextSftB
+            previous:(int)previousSftB{
     
     NSMutableArray *softButtonArray = [[NSMutableArray alloc] init];
     FMCSoftButton *softButton = [[FMCSoftButton alloc] init];
+    if (previousSftB) {
+        //previous
+        softButton.softButtonID = [NSNumber numberWithInt:1001];
+        softButton.text = @"<<";
+        softButton.type = [FMCSoftButtonType BOTH];
+        softButton.isHighlighted = [NSNumber numberWithBool:false];
+        softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+        [softButtonArray addObject:softButton];
+    }
+    
+    if (nextSftB) {
+        //next
+        softButton = [[FMCSoftButton alloc] init];
+        softButton.softButtonID = [NSNumber numberWithInt:1002];
+        softButton.text = @">>";
+        softButton.type = [FMCSoftButtonType BOTH];
+        softButton.isHighlighted = [NSNumber numberWithBool:false];
+        softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+        [softButtonArray addObject:softButton];
+    }
+    //Back
+    softButton = [[FMCSoftButton alloc] init];
+    softButton.softButtonID = [NSNumber numberWithInt:1003];
+    softButton.text = @"Back";
+    softButton.type = [FMCSoftButtonType BOTH];
+    softButton.isHighlighted = [NSNumber numberWithBool:false];
+    softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
+    [softButtonArray addObject:softButton];
+    
+    
+    if (msgCount==4) {
+        
+        //[self alert:@"Sync 4"];
+        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                          mainField2:msg2
+                                                          mainField3:msg3
+                                                          mainField4:msg4
+                                                           statusBar:nil
+                                                          mediaClock:nil
+                                                          mediaTrack:nil
+                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                             graphic:nil
+                                                         softButtons:softButtonArray
+                                                       customPresets:nil
+                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+        
+        [proxy sendRPCRequest:msg];
+        
+    }else if (msgCount == 3){
+        
+        // [self alert:@"Sync 3"];
+        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                          mainField2:msg2
+                                                          mainField3:msg3
+                                                          mainField4:@""
+                                                           statusBar:nil
+                                                          mediaClock:nil
+                                                          mediaTrack:nil
+                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                             graphic:nil
+                                                         softButtons:softButtonArray
+                                                       customPresets:nil
+                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+        
+        [proxy sendRPCRequest:msg];
+        
+    }else if (msgCount == 2){
+        
+        //[self alert:@"Sync 2"];
+        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                          mainField2:msg2
+                                                          mainField3:@""
+                                                          mainField4:@""
+                                                           statusBar:nil
+                                                          mediaClock:nil
+                                                          mediaTrack:nil
+                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                             graphic:nil
+                                                         softButtons:softButtonArray
+                                                       customPresets:nil
+                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+        
+        [proxy sendRPCRequest:msg];
+    }else if (msgCount == 1){
+        
+        //[self alert:@"Sync 1"];
+        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                          mainField2:@""
+                                                          mainField3:@""
+                                                          mainField4:@""
+                                                           statusBar:nil
+                                                          mediaClock:nil
+                                                          mediaTrack:nil
+                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                             graphic:nil
+                                                         softButtons:softButtonArray
+                                                       customPresets:nil
+                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+        
+        
+        [proxy sendRPCRequest:msg];
+    }
+    
+    
+    
+    
+    
+}
+
+- (void)showPressed2:(NSString *)msg1 message2:(NSString *)msg2 message3:(NSString *)msg3 message4:(NSString *)msg4  count:(int)msgCount  {
+    
+    NSMutableArray *softButtonArray = [[NSMutableArray alloc] init];
+    FMCSoftButton *softButton = [[FMCSoftButton alloc] init];
+    
     //previous
     softButton.softButtonID = [NSNumber numberWithInt:1001];
     softButton.text = @"<<";
@@ -163,6 +280,9 @@ static SyncBrain *gInstance = NULL;
     softButton.isHighlighted = [NSNumber numberWithBool:false];
     softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
     [softButtonArray addObject:softButton];
+    
+    
+    
     //next
     softButton = [[FMCSoftButton alloc] init];
     softButton.softButtonID = [NSNumber numberWithInt:1002];
@@ -183,6 +303,7 @@ static SyncBrain *gInstance = NULL;
     
     
     if (msgCount==4) {
+        
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:msg2
                                                           mainField3:msg3
@@ -199,6 +320,8 @@ static SyncBrain *gInstance = NULL;
         [proxy sendRPCRequest:msg];
         
     }else if (msgCount == 3){
+        
+        // [self alert:@"Sync 3"];
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:msg2
                                                           mainField3:msg3
@@ -215,6 +338,8 @@ static SyncBrain *gInstance = NULL;
         [proxy sendRPCRequest:msg];
         
     }else if (msgCount == 2){
+        
+        //[self alert:@"Sync 2"];
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:msg2
                                                           mainField3:@""
@@ -230,6 +355,8 @@ static SyncBrain *gInstance = NULL;
         
         [proxy sendRPCRequest:msg];
     }else if (msgCount == 1){
+        
+        //[self alert:@"Sync 1"];
         FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
                                                           mainField2:@""
                                                           mainField3:@""
@@ -356,9 +483,6 @@ static SyncBrain *gInstance = NULL;
     [softButtonArray addObject:softButton];
     softButton = nil;
     
-    
-    
-    [self alert:[NSString stringWithFormat:@"%@----%@",message,subMessage]];
     FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:message
                                                       mainField2:subMessage
                                                       mainField3:nil
@@ -497,9 +621,7 @@ static SyncBrain *gInstance = NULL;
 }
 
 -(void) performInteractionPressedwithInitialPrompt:(NSArray*)initialChunks initialText:(NSString*)initialText interactionChoiceSetIDList:(NSArray*)interactionChoiceSetIDList helpChunks:(NSArray*)helpChunks timeoutChunks:(NSArray*)timeoutChunks interactionMode:(FMCInteractionMode*) interactionMode timeout:(NSNumber*)timeout vrHelp:(NSArray*)vrHelp {
-    FMCPerformInteraction *req = [FMCRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp: vrHelp correlationID:[NSNumber numberWithInt:autoIncCorrID] ];
-    
-   // [_allVoiceCommand setObject:[NSString stringWithFormat:@"%d",autoIncCorrID++] forKey:[NSString stringWithFormat:@"%d",CHID_INTRACTION_AUDIOPASSTHROUGH]];
+    FMCPerformInteraction *req = [FMCRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp: vrHelp correlationID:[NSNumber numberWithInt:autoIncCorrID++] ];
     [proxy sendRPCRequest:req];
     [self postToConsoleLog:req];
 }
@@ -763,13 +885,6 @@ sliderFooter timeOut :(NSNumber *)timeout
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
     
 }
-
-//ReadDiD
-- (void)periodicVehicleDataRequestWithECUName:(int)ecuName didLocation:(NSArray *)didLocation{
-    FMCReadDID *req = [FMCRPCRequestFactory buildReadDIDWithECUName:[NSNumber numberWithInt:ecuName] didLocation:didLocation correlationID:[NSNumber numberWithInt: autoIncCorrID++]];
-    [proxy sendRPCRequest:req];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
-}
 -(int)getCMDID {
     return cmdID;
 }
@@ -817,7 +932,7 @@ sliderFooter timeOut :(NSNumber *)timeout
         proxy = [FMCSyncProxyFactory buildSyncProxyWithListener: self];
     
     NSLog(@"%@",[proxy getProxyVersion]);
-   
+    
     
     [proxy.getTransport addTransportListener:self];
     
@@ -839,16 +954,9 @@ sliderFooter timeOut :(NSNumber *)timeout
 
 -(void) onProxyClosed {
     [FMCDebugTool logInfo:@"onProxyClosed"];
-    
-    //UnlockScreen
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
-    
-    //UnsubscribeButtonAndDeleteCommand Notification
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UnsubscribeButtonAndDeleteCommand" object:nil]];
     [self tearDownProxy];
 	[self setupProxy];
-    
-    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
 }
 
 -(void) onOnHMIStatus:(FMCOnHMIStatus*) notification {
@@ -865,6 +973,9 @@ sliderFooter timeOut :(NSNumber *)timeout
             return;
         syncInitialized = YES;
         [self setup];
+        /* FMCShow* msg = [FMCRPCRequestFactory buildShowWithMainField1:@"Sync" mainField2:@"Music Player" alignment:[FMCTextAlignment CENTERED] correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+         [proxy sendRPCRequest:msg];*/
+        
     } else if (notification.hmiLevel == FMCHMILevel.HMI_BACKGROUND ) {
         
         [FMCDebugTool logInfo:@"HMI_BACKGROUND"];
@@ -877,9 +988,12 @@ sliderFooter timeOut :(NSNumber *)timeout
 
 -(void) tearDownProxy {
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UnsubscribeVehicleData" object:nil]];
+    
 	[FMCDebugTool logInfo:@"tearDownProxy"];
 	[proxy dispose];
+    
 	proxy = nil;
+    //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
 }
 
 -(void) onOnDriverDistraction:(FMCOnDriverDistraction*)notification {
@@ -953,6 +1067,9 @@ sliderFooter timeOut :(NSNumber *)timeout
     [self postToConsoleLog:response];
 }
 -(void) onPerformInteractionResponse:(FMCPerformInteractionResponse*) response {
+    
+    NSLog(@"responce : %i",[response.choiceID intValue]);
+    
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onChoice" object:response]];
 	[self postToConsoleLog:response];
 }
@@ -960,7 +1077,7 @@ sliderFooter timeOut :(NSNumber *)timeout
 	[self postToConsoleLog:response];
 }
 -(void) onSetGlobalPropertiesResponse:(FMCSetGlobalPropertiesResponse*) response {
-    [self alert:@"Set global Plroperties"];
+   // [self alert:@"Set global Plroperties"];
 	[self postToConsoleLog:response];
 }
 -(void) onResetGlobalPropertiesResponse:(FMCResetGlobalPropertiesResponse*) response {
@@ -1021,7 +1138,7 @@ sliderFooter timeOut :(NSNumber *)timeout
 
 -(void) onEndAudioPassThruResponse:(FMCEndAudioPassThruResponse*) response {
     [self postToConsoleLog:response];
-    [self alert:@"EndAudioPassThroughResponse"];
+    //[self alert:@"EndAudioPassThroughResponse"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"EndAudioPassThruResponse" object:nil];
     
 }
@@ -1036,7 +1153,7 @@ sliderFooter timeOut :(NSNumber *)timeout
     [self postToConsoleLog:notification];
     
     //Fill Buffer
-     NSData *test = [NSData dataWithData:notification.bulkData];
+    NSData *test = [NSData dataWithData:notification.bulkData];
     [audioPassThruData appendData:test];
     //Write Data To File
     
@@ -1050,9 +1167,9 @@ sliderFooter timeOut :(NSNumber *)timeout
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *savePath = [documentsDirectory stringByAppendingPathComponent:@"Recording.pcm"];
     [dataToWrite writeToFile:savePath atomically:NO];
-   
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PerformAudioPassThruResponse" object:nil];
-
+    
 }
 
 -(void) onOnLanguageChange:(FMCOnLanguageChange*) notification {
@@ -1066,9 +1183,11 @@ sliderFooter timeOut :(NSNumber *)timeout
 }
 -(void) onOnVehicleData:(FMCOnVehicleData*) notification {
     [self postToConsoleLog:notification];
-    
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"DisplayVehicleData" object:nil]];
+    
+    
 }
+
 
 -(void) onReadDIDResponse:(FMCReadDIDResponse*) response {
     [self postToConsoleLog:response];

@@ -157,8 +157,17 @@
             message4:(NSString *)msg4
                count:(int)msgCount;
 
+- (void)showPressed2:(NSString *)msg1
+            message2:(NSString *)msg2
+            message3:(NSString *)msg3
+            message4:(NSString *)msg4
+               count:(int)msgCount
+                next:(int)nextSftB
+            previous:(int)previousSftB;
+
 -(void) postToConsoleLog:(id) object;
 - (void)subscribeVehicalData;
+
 @end
 
 
