@@ -373,282 +373,107 @@ static int fileIndex = 1;
 }
 
 //SoftButton Functionality
-/*
- -(void)softButtonAlbumAndSongList:(NSMutableArray *)tempArray1{
- NSMutableArray * tempArray;
- if (ifAlbum) {
- tempArray =[[NSMutableArray alloc] initWithArray:songAlbum];
- }else{
- tempArray =[[NSMutableArray alloc] initWithArray:songTitles];
- }
- 
- int songcount= (int)[songAlbum count];
- int countDiffrent= (albumCount-songcount);
- if (countDiffrent<0) {
- countDiffrent=countDiffrent*(-1);
- }
- 
- NSLog(@"Next albumCount : %d",albumCount);
- [syncBrain alert:[NSString stringWithFormat:@"albumCount: %lu  songcount: %d countDiffrent : %d",(unsigned long)[songAlbum count],songcount,countDiffrent]];
- if (albumCount<=songcount) {
- 
- if (countDiffrent>=4) {
- [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
- message2:[tempArray objectAtIndex:albumCount+1]
- message3:[tempArray objectAtIndex:albumCount+2]
- message4:[tempArray objectAtIndex:albumCount+3]
- count:4];
- 
- albumCount=albumCount+4;
- }else  if (countDiffrent==3)
- {
- [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
- message2:[tempArray objectAtIndex:albumCount+1]
- message3:[tempArray objectAtIndex:albumCount+2]
- message4:nil
- count:3];
- 
- albumCount=albumCount+3;
- 
- }else  if (countDiffrent==2)
- {
- [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
- message2:[tempArray objectAtIndex:albumCount+1]
- message3:nil
- message4:nil
- count:2];
- 
- albumCount=albumCount+2;
- 
- }else  if (countDiffrent==1)
- {
- [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
- message2:nil
- message3:nil
- message4:nil
- count:1];
- 
- albumCount=albumCount+1;
- 
- }
- 
- }
- }
- */
-
 
 -(void)softButtonAlbumAndSongList:(NSMutableArray *)tempArray{
-   // [syncBrain alert:[NSString stringWithFormat:@"Next albumCount : %d  albumCountPrevious: %d",albumCount,albumCountPrevious]];
+    
     int songcount=(int) [tempArray count];
-    int countDiffrent= (albumCount-songcount);
-    if (countDiffrent<0) {
-        countDiffrent=countDiffrent*(-1);
-    }
+    int countDiffrent= (songcount-albumCount);
+    albumCountPrevious=albumCount;
     int next;
     int previous;
-    if (songcount>4) {
+    if (albumCount == 0 && songcount>4) {
         next=1;
-        previous=1;
-    }else{
+        previous=0;
+    }else if(albumCount == 0 && songcount<4)
+    {
         next=0;
         previous=0;
+    }else if(albumCount>0 && countDiffrent<4)
+    {
+        next=0;
+        previous=1;
+    }else if(albumCount>0 && countDiffrent>4)
+    {
+        next=1;
+        previous=1;
     }
-    albumCountPrevious=albumCount;
-    if (albumCount<=songcount) {
-        if (countDiffrent>4) {
-            
-            if (next==0 && previous ==0) {
-                next=0;
-                previous=0;
-            }else{
-                if (albumCount==0) {
-                    next=1;
-                    previous=0;
-                }else{
-                    next=1;
-                    previous=1;
-                }
-                
-            }
-        }else{
-            if (next==0 && previous ==0) {
-                
-                next=0;
-                previous=0;
-            }else{
-                if (albumCount==0) {
-                    next=0;
-                    previous=0;
-                }else{
-                    next=0;
-                    previous=1;
-                }
-                
-            }
-        }
+    if (countDiffrent>=4) {
+        [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+                       message2:[tempArray objectAtIndex:albumCount+1]
+                       message3:[tempArray objectAtIndex:albumCount+2]
+                       message4:[tempArray objectAtIndex:albumCount+3]
+                          count:4
+                           next:next
+                       previous:previous];
         
-       /* if (countDiffrent>4) {
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount+1]
-                           message3:[tempArray objectAtIndex:albumCount+2]
-                           message4:[tempArray objectAtIndex:albumCount+3]
-                              count:4
-                               next:next
-                           previous:previous];
-            
-            albumCount=albumCount+4;
-        }else */
-        if (countDiffrent>=4) {
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount+1]
-                           message3:[tempArray objectAtIndex:albumCount+2]
-                           message4:[tempArray objectAtIndex:albumCount+3]
-                              count:4
-                               next:next
-                           previous:previous];
-            
-            albumCount=albumCount+4;
-        }else  if (countDiffrent==3)
-        {
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount+1]
-                           message3:[tempArray objectAtIndex:albumCount+2]
-                           message4:nil
-                              count:3
-                               next:next
-                           previous:previous];
-            
-            albumCount=albumCount+3;
-            
-        }else  if (countDiffrent==2)
-        {
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount+1]
-                           message3:nil
-                           message4:nil
-                              count:2
-                               next:next
-                           previous:previous];
-            
-            albumCount=albumCount+2;
-            
-        }else  if (countDiffrent==1)
-        {
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:nil
-                           message3:nil
-                           message4:nil
-                              count:1
-                               next:next
-                           previous:previous];
-            
-            albumCount=albumCount+1;
-            
-        }
+        albumCount=albumCount+4;
+    }else  if (countDiffrent==3)
+    {
+        [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+                       message2:[tempArray objectAtIndex:albumCount+1]
+                       message3:[tempArray objectAtIndex:albumCount+2]
+                       message4:nil
+                          count:3
+                           next:0
+                       previous:previous];
         
+        albumCount=albumCount+3;
+    }else  if (countDiffrent==2)
+    {
+        [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+                       message2:[tempArray objectAtIndex:albumCount+1]
+                       message3:nil
+                       message4:nil
+                          count:2
+                           next:0
+                       previous:previous];
+        
+        albumCount=albumCount+2;
+    }else  if (countDiffrent==1)
+    {
+        [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
+                       message2:nil
+                       message3:nil
+                       message4:nil
+                          count:1
+                           next:0
+                       previous:previous];
+        
+        albumCount=albumCount+1;
     }
+    
 }
+
+
+
 
 -(void)softButtonAlbumAndSongListPrevious:(NSMutableArray *)tempArray{
-    //[syncBrain alert:[NSString stringWithFormat:@"Previous albumCount : %d  albumCountPrevious: %d",albumCount,albumCountPrevious]];
     
-     albumCount= albumCountPrevious;
+    albumCount= albumCountPrevious;
     int songcount= (int)[tempArray count];
-    int countDiffrent= (albumCount-songcount);
-    if (countDiffrent<0) {
-        countDiffrent=countDiffrent*(-1);
-    }
+    
     int next;
     int previous;
-    if (songcount>4) {
+    
+    if(albumCount >4 &&  albumCount< songcount)
+    {
+        
         next=1;
         previous=1;
-    }else{
-        next=0;
+    }else { next=1;
         previous=0;
     }
-   
-    //[syncBrain alert:[NSString stringWithFormat:@"albumCount : %d",albumCount]];
     
-    if (albumCount>0) {
-        if (countDiffrent>=4) {
-            
-            if (next==0 && previous ==0) {
-                next=0;
-                previous=0;
-            }else{
-                 if (albumCount<= 4) {
-                next=1;
-                previous=0;
-                 }else{
-                     next=1;
-                     previous=1;
-                 }
-            }
-        }else{
-            if (next==0 && previous ==0) {
-                next=0;
-                previous=0;
-            }else{
-                next=1;
-                previous=0;
-            }
-        }
-        if (albumCount>=4) {
-              albumCount=albumCount-4;
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount+1]
-                           message3:[tempArray objectAtIndex:albumCount+2]
-                           message4:[tempArray objectAtIndex:albumCount+3]
-                              count:4
-                               next:next
-                           previous:previous];
-          
-            
-        }else  if (albumCount==3)
-        {
-            albumCount=albumCount-3;
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount+1]
-                           message3:[tempArray objectAtIndex:albumCount+2]
-                           message4:nil
-                              count:3
-                               next:next
-                           previous:previous];
-            
-            
-        }else  if (albumCount==2)
-        {
-            albumCount=albumCount-2;
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:[tempArray objectAtIndex:albumCount+1]
-                           message3:nil
-                           message4:nil
-                              count:2
-                               next:next
-                           previous:previous];
-            
-            
-        }else  if (albumCount==1)
-        {
-            albumCount=albumCount-1;
-            [syncBrain showPressed2:[tempArray objectAtIndex:albumCount]
-                           message2:nil
-                           message3:nil
-                           message4:nil
-                              count:1
-                               next:next
-                           previous:previous];
-            
-            
-        }
-        
-    }
-    int temp =albumCountPrevious;
-    albumCountPrevious= albumCount;
-    albumCount=temp;
+    [syncBrain showPressed2:[tempArray objectAtIndex:albumCount-4]
+                   message2:[tempArray objectAtIndex:albumCount-3]
+                   message3:[tempArray objectAtIndex:albumCount-2]
+                   message4:[tempArray objectAtIndex:albumCount-1]
+                      count:4
+                       next:next
+                   previous:previous];
+    albumCountPrevious=albumCountPrevious-4;
+    
 }
-
 
 -(void)softButtonSongInfo{
     MPMediaItem *song = [[syncPlayer  getMediaFilesList] objectAtIndex:[syncPlayer   currentSongIndex]];
@@ -702,14 +527,14 @@ static int fileIndex = 1;
 
 //Scrollable Message
 -(void)softButtonApplinkInfo{
-    [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"AppLink enabled applications shall communicate with SYNC over a known transport layer." timeOut:[NSNumber numberWithInt:10000] softButtons:nil];
+    [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"AppLink enabled application shall communicate with SYNC over a known transport layer." timeOut:[NSNumber numberWithInt:10000] softButtons:nil];
     
 }
 
 //Scrollable Message
 -(void)softButtonAppfeatureInfo{
     
-    NSString *feature = @"Application features. When this app is connected with SYNC a lock screen will apear then you can handle app threough SYNC VR commands and buttons.";// For play and pause use ok button or speek, stop playing. For previous and next song seek previous and seek next button used or speek, previous next. For select a random song use numeric keys combination or speek, select song when sync ask for choice speek song title or say track with number or album name";
+    NSString *feature = @"Application features. When this app is connected with SYNC a lock screen will apear then you can handle app through SYNC VR commands and buttons.";// For play and pause use ok button or speek, stop playing. For previous and next song seek previous and seek next button used or speek, previous next. For select a random song use numeric keys combination or speek, select song when sync ask for choice speek song title or say track with number or album name";
     
     [syncBrain scrollableMessagePressedWithScrollableMessageBody:feature timeOut:[NSNumber numberWithInt:10000] softButtons:nil];
 }
@@ -1311,6 +1136,8 @@ static int fileIndex = 1;
                                                    timeout:duration
                                                     vrHelp:nil];
 }
+
+
 
 - (void)selectTTSwithIndex:(int)subMenue{
     if (subMenue==1) {

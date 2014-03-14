@@ -188,84 +188,72 @@ static SyncBrain *gInstance = NULL;
     softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
     [softButtonArray addObject:softButton];
     
-    
+    FMCShow *msg;
     if (msgCount==4) {
-        
         //[self alert:@"Sync 4"];
-        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
-                                                          mainField2:msg2
-                                                          mainField3:msg3
-                                                          mainField4:msg4
-                                                           statusBar:nil
-                                                          mediaClock:nil
-                                                          mediaTrack:nil
-                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
-                                                             graphic:nil
-                                                         softButtons:softButtonArray
-                                                       customPresets:nil
-                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-        
-        [proxy sendRPCRequest:msg];
-        
+        msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                 mainField2:msg2
+                                                 mainField3:msg3
+                                                 mainField4:msg4
+                                                  statusBar:nil
+                                                 mediaClock:nil
+                                                 mediaTrack:nil
+                                                  alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                    graphic:nil
+                                                softButtons:softButtonArray
+                                              customPresets:nil
+                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     }else if (msgCount == 3){
         
         // [self alert:@"Sync 3"];
-        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
-                                                          mainField2:msg2
-                                                          mainField3:msg3
-                                                          mainField4:@""
-                                                           statusBar:nil
-                                                          mediaClock:nil
-                                                          mediaTrack:nil
-                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
-                                                             graphic:nil
-                                                         softButtons:softButtonArray
-                                                       customPresets:nil
-                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-        
-        [proxy sendRPCRequest:msg];
+        msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                 mainField2:msg2
+                                                 mainField3:msg3
+                                                 mainField4:@""
+                                                  statusBar:nil
+                                                 mediaClock:nil
+                                                 mediaTrack:nil
+                                                  alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                    graphic:nil
+                                                softButtons:softButtonArray
+                                              customPresets:nil
+                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
         
     }else if (msgCount == 2){
         
         //[self alert:@"Sync 2"];
-        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
-                                                          mainField2:msg2
-                                                          mainField3:@""
-                                                          mainField4:@""
-                                                           statusBar:nil
-                                                          mediaClock:nil
-                                                          mediaTrack:nil
-                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
-                                                             graphic:nil
-                                                         softButtons:softButtonArray
-                                                       customPresets:nil
-                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+        msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                 mainField2:msg2
+                                                 mainField3:@""
+                                                 mainField4:@""
+                                                  statusBar:nil
+                                                 mediaClock:nil
+                                                 mediaTrack:nil
+                                                  alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                    graphic:nil
+                                                softButtons:softButtonArray
+                                              customPresets:nil
+                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
         
-        [proxy sendRPCRequest:msg];
     }else if (msgCount == 1){
         
         //[self alert:@"Sync 1"];
-        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
-                                                          mainField2:@""
-                                                          mainField3:@""
-                                                          mainField4:@""
-                                                           statusBar:nil
-                                                          mediaClock:nil
-                                                          mediaTrack:nil
-                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
-                                                             graphic:nil
-                                                         softButtons:softButtonArray
-                                                       customPresets:nil
-                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
+        msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                 mainField2:@""
+                                                 mainField3:@""
+                                                 mainField4:@""
+                                                  statusBar:nil
+                                                 mediaClock:nil
+                                                 mediaTrack:nil
+                                                  alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                    graphic:nil
+                                                softButtons:softButtonArray
+                                              customPresets:nil
+                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
         
         
-        [proxy sendRPCRequest:msg];
     }
-    
-    
-    
-    
-    
+    [proxy sendRPCRequest:msg];
 }
 
 - (void)showPressed2:(NSString *)msg1 message2:(NSString *)msg2 message3:(NSString *)msg3 message4:(NSString *)msg4  count:(int)msgCount  {
@@ -301,80 +289,71 @@ static SyncBrain *gInstance = NULL;
     softButton.systemAction = [FMCSystemAction KEEP_CONTEXT];
     [softButtonArray addObject:softButton];
     
-    
+    FMCShow *msg ;
     if (msgCount==4) {
         
-        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
-                                                          mainField2:msg2
-                                                          mainField3:msg3
-                                                          mainField4:msg4
-                                                           statusBar:nil
-                                                          mediaClock:nil
-                                                          mediaTrack:nil
-                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
-                                                             graphic:nil
-                                                         softButtons:softButtonArray
-                                                       customPresets:nil
-                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-        
-        [proxy sendRPCRequest:msg];
+        msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                 mainField2:msg2
+                                                 mainField3:msg3
+                                                 mainField4:msg4
+                                                  statusBar:nil
+                                                 mediaClock:nil
+                                                 mediaTrack:nil
+                                                  alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                    graphic:nil
+                                                softButtons:softButtonArray
+                                              customPresets:nil
+                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
         
     }else if (msgCount == 3){
         
         // [self alert:@"Sync 3"];
-        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
-                                                          mainField2:msg2
-                                                          mainField3:msg3
-                                                          mainField4:@""
-                                                           statusBar:nil
-                                                          mediaClock:nil
-                                                          mediaTrack:nil
-                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
-                                                             graphic:nil
-                                                         softButtons:softButtonArray
-                                                       customPresets:nil
-                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-        
-        [proxy sendRPCRequest:msg];
+        msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                 mainField2:msg2
+                                                 mainField3:msg3
+                                                 mainField4:@""
+                                                  statusBar:nil
+                                                 mediaClock:nil
+                                                 mediaTrack:nil
+                                                  alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                    graphic:nil
+                                                softButtons:softButtonArray
+                                              customPresets:nil
+                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
         
     }else if (msgCount == 2){
         
         //[self alert:@"Sync 2"];
-        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
-                                                          mainField2:msg2
-                                                          mainField3:@""
-                                                          mainField4:@""
-                                                           statusBar:nil
-                                                          mediaClock:nil
-                                                          mediaTrack:nil
-                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
-                                                             graphic:nil
-                                                         softButtons:softButtonArray
-                                                       customPresets:nil
-                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-        
-        [proxy sendRPCRequest:msg];
+        msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                 mainField2:msg2
+                                                 mainField3:@""
+                                                 mainField4:@""
+                                                  statusBar:nil
+                                                 mediaClock:nil
+                                                 mediaTrack:nil
+                                                  alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                    graphic:nil
+                                                softButtons:softButtonArray
+                                              customPresets:nil
+                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     }else if (msgCount == 1){
         
         //[self alert:@"Sync 1"];
-        FMCShow *msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
-                                                          mainField2:@""
-                                                          mainField3:@""
-                                                          mainField4:@""
-                                                           statusBar:nil
-                                                          mediaClock:nil
-                                                          mediaTrack:nil
-                                                           alignment:[FMCTextAlignment LEFT_ALIGNED]
-                                                             graphic:nil
-                                                         softButtons:softButtonArray
-                                                       customPresets:nil
-                                                       correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
-        
-        
-        [proxy sendRPCRequest:msg];
+        msg = [FMCRPCRequestFactory buildShowWithMainField1:msg1
+                                                 mainField2:@""
+                                                 mainField3:@""
+                                                 mainField4:@""
+                                                  statusBar:nil
+                                                 mediaClock:nil
+                                                 mediaTrack:nil
+                                                  alignment:[FMCTextAlignment LEFT_ALIGNED]
+                                                    graphic:nil
+                                                softButtons:softButtonArray
+                                              customPresets:nil
+                                              correlationID:[NSNumber numberWithInt:autoIncCorrID++]];
     }
     
-    
+    [proxy sendRPCRequest:msg];
     
     
     
@@ -1077,7 +1056,7 @@ sliderFooter timeOut :(NSNumber *)timeout
 	[self postToConsoleLog:response];
 }
 -(void) onSetGlobalPropertiesResponse:(FMCSetGlobalPropertiesResponse*) response {
-   // [self alert:@"Set global Plroperties"];
+    // [self alert:@"Set global Plroperties"];
 	[self postToConsoleLog:response];
 }
 -(void) onResetGlobalPropertiesResponse:(FMCResetGlobalPropertiesResponse*) response {
