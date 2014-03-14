@@ -966,13 +966,9 @@ sliderFooter timeOut :(NSNumber *)timeout
 }
 
 -(void) tearDownProxy {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UnsubscribeVehicleData" object:nil]];
-    
-	[FMCDebugTool logInfo:@"tearDownProxy"];
+  	[FMCDebugTool logInfo:@"tearDownProxy"];
 	[proxy dispose];
-    
 	proxy = nil;
-    //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
 }
 
 -(void) onOnDriverDistraction:(FMCOnDriverDistraction*)notification {
@@ -996,6 +992,7 @@ sliderFooter timeOut :(NSNumber *)timeout
     NSLog(@"--------------------------------------2");
     
     [FMCDebugTool logInfo:@"onTransportDisconnected"];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
     
 }
 - (void) onBytesReceived:(Byte*)bytes length:(long) length{
@@ -1039,7 +1036,7 @@ sliderFooter timeOut :(NSNumber *)timeout
 -(void) onDeleteCommandResponse:(FMCDeleteCommandResponse*) response {
 	[self postToConsoleLog:response];
 }
--(void) onDeleteInteractionChoiceSetResponse:(FMCDeleteInteractionChoiceSetResponse*) response {
+-(void) onDeleteInteractionChoiceSetRespfhonse:(FMCDeleteInteractionChoiceSetResponse*) response {
     [self postToConsoleLog:response];
 }
 -(void) onDeleteSubMenuResponse:(FMCDeleteSubMenuResponse*) response {

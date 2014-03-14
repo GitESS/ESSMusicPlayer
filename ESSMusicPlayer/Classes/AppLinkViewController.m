@@ -488,7 +488,7 @@ static int fileIndex = 1;
 //Scrollable Message
 -(void)softButtonApplicationInfo{
     //
-    [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"It is a Music player appliction, which is applink enabled, We can handle songs through SYNC." timeOut:[NSNumber numberWithInt:10000] softButtons:nil];
+    [syncBrain scrollableMessagePressedWithScrollableMessageBody:@"It is a Music player application, which is applink enabled, We can handle songs through SYNC." timeOut:[NSNumber numberWithInt:10000] softButtons:nil];
     
     /* NSString *strHelpText = @"Help Test";//[NSString stringWithString:[_helpTextView text]];
      NSString *strTimeoutText =@"Time out text";// [NSString stringWithString:[_timeoutTextView text]];

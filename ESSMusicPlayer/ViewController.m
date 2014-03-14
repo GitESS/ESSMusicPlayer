@@ -40,7 +40,6 @@
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[SyncPlayerPlugin sharedMPInstance].currentItem];
 
-
 }
 
 
