@@ -58,6 +58,10 @@ static int fileIndex = 1;
                              object:nil];
     [notificationCenter addObserver:self
                            selector:@selector(NavigateToMusicPlayer)
+                               name:EAAccessoryDidDisconnectNotification//@""
+                             object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(NavigateToMusicPlayer)
                                name:@"HMIStatusForNavigateToMusicPlayer"
                              object:nil];
     [notificationCenter addObserver:self
@@ -132,7 +136,7 @@ static int fileIndex = 1;
     for (j = 0 ; j < [songTitles count]; j++) {
         FMCChoice *FMCc = [[FMCChoice alloc] init];
         FMCc.menuName = [self specialChar:[NSString stringWithFormat:@"%@",[songTitles objectAtIndex:j]]];
-        FMCc.choiceID = [NSNumber numberWithInt: j];
+        FMCc.choiceID = [NSNumber numberWithInt:j];
         FMCc.vrCommands=[NSMutableArray arrayWithObjects:[songTitles objectAtIndex:j],
                          [NSString stringWithFormat:@"Track %d",j],
                          nil];
@@ -166,6 +170,7 @@ static int fileIndex = 1;
 -(void)NavigateToMusicPlayer{
     self.navigationController.navigationBar.hidden=FALSE;
     [self.navigationController popViewControllerAnimated:YES];
+    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
 }
 
 - (void)setGlobalProperties{

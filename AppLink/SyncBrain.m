@@ -935,14 +935,22 @@ sliderFooter timeOut :(NSNumber *)timeout
     [FMCDebugTool logInfo:@"onProxyClosed"];
     [self tearDownProxy];
 	[self setupProxy];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
+   [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
+    [self registerAcessory];
 }
 
+
+-(void)registerAcessory{
+    [[EAAccessoryManager sharedAccessoryManager]
+     connectedAccessories];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:EAAccessoryDidDisconnectNotification object:nil]];
+}
 -(void) onOnHMIStatus:(FMCOnHMIStatus*) notification {
     
     if (notification.hmiLevel == FMCHMILevel.HMI_NONE ) {
 		
         [FMCDebugTool logInfo:@"HMI_NONE"];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
         
         
 	} else if (notification.hmiLevel == FMCHMILevel.HMI_FULL ) {

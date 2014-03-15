@@ -167,6 +167,7 @@
 
 -(void) postToConsoleLog:(id) object;
 - (void)subscribeVehicalData;
+-(void)registerAcessory;
 
 @end
 
