@@ -15,8 +15,10 @@
 {
     // Override point for customization after application launch.
     [[SyncBrain sharedInstance] setupProxy];
-    //[self fileList];
+
     
+    [self performSelector:@selector(fbSetup) withObject:self afterDelay:3.0];
+  
     
     CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
     
@@ -40,30 +42,24 @@
     return YES;
 }
 
-
--(void)fileList
-{
-    NSString *bundlePathName = [[NSBundle mainBundle] bundlePath];
-    NSString *dataPathName = [bundlePathName stringByAppendingPathComponent:@"Resource/Media"];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:dataPathName]) {
-        NSLog(@"%@ exists", dataPathName);
-        BOOL isDir = NO;
-        [fileManager fileExistsAtPath:dataPathName isDirectory:(&isDir)];
-        if (isDir == YES) {
-            NSLog(@"%@ is a directory", dataPathName);
-            NSArray *contents;
-            contents = [fileManager contentsOfDirectoryAtPath:dataPathName error:nil];
-            for (NSString *entity in contents) {
-                NSLog(@"%@ is within", entity);
-            }
-        } else {
-            NSLog(@"%@ is not a directory", dataPathName);
-        }
-    } else {
-        NSLog(@"%@ does not exist", dataPathName);
-    }
+- (void)fbSetup{
+    [FBLoginView class];
+    [FBProfilePictureView class];
 }
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    
+    // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
+    BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    
+    // You can add your app-specific url handling code here if needed
+    
+    return wasHandled;
+}
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -85,11 +81,19 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+   // [FBAppEvents activateApp];
+    
+    // FBSample logic
+    // We need to properly handle activation of the application with regards to SSO
+    //  (e.g., returning from iOS 6.0 authorization dialog or from fast app switching).
+    //[FBAppCall handleDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+   // [FBSession.activeSession close];
+
 }
 
 @end

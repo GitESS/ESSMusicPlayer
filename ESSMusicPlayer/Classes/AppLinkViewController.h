@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SyncPlayerPlugin.h"
 #import "AudioRecordShowViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "GraphAPICallsViewController.h"
 
-@interface AppLinkViewController : UIViewController<AVAudioPlayerDelegate>{
+@interface AppLinkViewController : UIViewController<AVAudioPlayerDelegate,FBLoginViewDelegate>{
     BOOL musicIsPlaying;
     BOOL trackCombination;
     int trackNumber;
@@ -24,7 +26,7 @@
     int albumCountPrevious;
     int songCount;
     BOOL ifAlbum;
-    
+    GraphAPICallsViewController * gAPI;
 }
 
 - (void)NextSong;

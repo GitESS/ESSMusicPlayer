@@ -39,16 +39,52 @@
                                              selector:@selector(playNextTrack)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[SyncPlayerPlugin sharedMPInstance].currentItem];
-
+    UIView * fbView2=[[UIView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width,75)];
+    fbView2.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:fbView2];
+    fbView2.alpha=0.5;
+    
+    UIView * fbView=[[UIView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width,75)];
+    fbView.backgroundColor=[UIColor clearColor];
+    [self.view addSubview:fbView];
+    
+    
+    
+    [[GraphAPICallsViewController  sharedInstance].fbLoginView setReadPermissions:@[@"basic_info"]];
+    [[GraphAPICallsViewController  sharedInstance].fbLoginView setDelegate:[GraphAPICallsViewController  sharedInstance]];
+    [GraphAPICallsViewController  sharedInstance].objectID = nil;
+    
+    //gAPI=[[GraphAPICallsViewController alloc] init];
+    [GraphAPICallsViewController  sharedInstance].fbLoginView=[[FBLoginView alloc] initWithFrame:CGRectMake(fbView.frame.size.width-230,2,40, 40)];
+    [GraphAPICallsViewController  sharedInstance].fbLoginView.backgroundColor=[UIColor clearColor];
+    [fbView addSubview: [GraphAPICallsViewController  sharedInstance].fbLoginView];
+    [GraphAPICallsViewController  sharedInstance].profilePictureView =[[FBProfilePictureView alloc] initWithFrame:CGRectMake(fbView.frame.size.width-305, 2,70, 70)];
+    [[GraphAPICallsViewController  sharedInstance] viewDidLoad];
+    [GraphAPICallsViewController  sharedInstance].profilePictureView.layer.cornerRadius = 5.0;
+    [GraphAPICallsViewController  sharedInstance].profilePictureView.layer.masksToBounds = YES;
+    
+    [fbView  addSubview: [GraphAPICallsViewController  sharedInstance].profilePictureView];
+    [GraphAPICallsViewController  sharedInstance].nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(fbView.frame.size.width-230,45 ,220, 30)];
+    [fbView  addSubview: [GraphAPICallsViewController  sharedInstance].nameLabel];
+    //[GraphAPICallsViewController  sharedInstance].nameLabel.backgroundColor=[UIColor clearColor];
+    [GraphAPICallsViewController  sharedInstance].nameLabel.textAlignment=NSTextAlignmentCenter;
+    [GraphAPICallsViewController  sharedInstance].nameLabel.textColor=[UIColor grayColor];
+    
+    [self.navigationController.navigationBar removeFromSuperview];
+    //  [_togglePlayPause setImage:[UIImage imageNamed:@"pause_button.png"] forState:UIControlStateNormal];
 }
 
+-(IBAction)faceBookLogin:(id)sender{
+    // ShareViewController * svc =[[ShareViewController alloc] init];
+    // [svc shareLinkWithShareDialog:self];
+}
 
 // navigate to Sync lock Screen
 -(void)NavigateToSync:(NSNotification *)notify{
     
     if(![self.navigationController.visibleViewController isKindOfClass:[AppLinkViewController class]])
         [self performSegueWithIdentifier:@"segueToSync" sender:nil];
-        
+    
 }
 
 // fetch all music files
@@ -66,7 +102,7 @@
                                        userInfo:nil
                                         repeats:YES];
     }
-
+    
     self.tableView.dataSource =self;
     self.tableView.delegate = self;
     [self.tableView reloadData];
@@ -98,7 +134,7 @@
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-            return self.songsList.count;
+    return self.songsList.count;
 }
 
 
@@ -109,24 +145,24 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     
-    #if TARGET_IPHONE_SIMULATOR
+#if TARGET_IPHONE_SIMULATOR
     
     cell.textLabel.text = [self.songsList objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = @"";
     
-    #else
-            MPMediaItem *song = [self.songsList objectAtIndex:indexPath.row];
-
-            cell.textLabel.text = [song valueForProperty: MPMediaItemPropertyTitle];
-            cell.detailTextLabel.text = [song valueForProperty: MPMediaItemPropertyGenre];
-            cell.imageView.image = [[song valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(30, 30)];
-            NSData *imageData = UIImagePNGRepresentation( cell.imageView.image );
+#else
+    MPMediaItem *song = [self.songsList objectAtIndex:indexPath.row];
     
-            if(![imageData length]){
-                    cell.imageView.image = [UIImage imageNamed:@"NoArtworkAvilable.png" ];
-                }
+    cell.textLabel.text = [song valueForProperty: MPMediaItemPropertyTitle];
+    cell.detailTextLabel.text = [song valueForProperty: MPMediaItemPropertyGenre];
+    cell.imageView.image = [[song valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(30, 30)];
+    NSData *imageData = UIImagePNGRepresentation( cell.imageView.image );
     
-    #endif
+    if(![imageData length]){
+        cell.imageView.image = [UIImage imageNamed:@"NoArtworkAvilable.png" ];
+    }
+    
+#endif
     
     return cell;
 }
@@ -135,13 +171,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    #if TARGET_IPHONE_SIMULATOR
-        [ [SyncPlayerPlugin sharedMPInstance]       playTrackForIndex:indexPath.row];
-    #else
-        [SyncPlayerPlugin sharedMPInstance]      .currentSongIndex=indexPath.row;
-        [[SyncPlayerPlugin sharedMPInstance]       playTrackForIndex:indexPath.row];
-        [self changeTableRowHilight];
-    #endif
+#if TARGET_IPHONE_SIMULATOR
+    [ [SyncPlayerPlugin sharedMPInstance]       playTrackForIndex:indexPath.row];
+#else
+    [SyncPlayerPlugin sharedMPInstance]      .currentSongIndex=indexPath.row;
+    [[SyncPlayerPlugin sharedMPInstance]       playTrackForIndex:indexPath.row];
+    [self changeTableRowHilight];
+#endif
     
 }
 
@@ -168,7 +204,7 @@
                                              selector:@selector(playNextTrack)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[SyncPlayerPlugin sharedMPInstance].currentItem];
-
+    
 }
 
 // chanege  track to next track nember
@@ -180,7 +216,7 @@
                                              selector:@selector(playNextTrack)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[SyncPlayerPlugin sharedMPInstance].currentItem];
-
+    
 }
 
 // highlight the row of song list to the current playing song
@@ -189,7 +225,7 @@
     NSIndexPath * indexPath= [NSIndexPath indexPathForRow: [SyncPlayerPlugin sharedMPInstance]      .currentSongIndex inSection:0];
     [_tableView selectRowAtIndexPath:indexPath animated:NO  scrollPosition:UITableViewScrollPositionNone];
     [self updateViewOnSongChange];
-  
+    
 }
 
 - (void)didReceiveMemoryWarning{
@@ -200,17 +236,17 @@
 // update the Songtitle, Artist name, Artwork and play/pause button
 -(void)updateViewOnSongChange{
     
-    #if TARGET_IPHONE_SIMULATOR
-        songTitle.text =[self.songsList objectAtIndex: [SyncPlayerPlugin sharedMPInstance].currentSongIndex];;
-    #else
-        MPMediaItem *song = [self.songsList objectAtIndex: [SyncPlayerPlugin sharedMPInstance].currentSongIndex];
-        songTitle.text = [song valueForProperty: MPMediaItemPropertyTitle];
-        artistName.text= [song valueForProperty: MPMediaItemPropertyArtist];
-        artWork.image = [[song valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(326, 187)];
-        NSData *imageData = UIImagePNGRepresentation(artWork.image);
-        if(![imageData length])
-            artWork.image = [UIImage imageNamed:@"NoArtworkAvilableBigThumb.png" ];
-    #endif
+#if TARGET_IPHONE_SIMULATOR
+    songTitle.text =[self.songsList objectAtIndex: [SyncPlayerPlugin sharedMPInstance].currentSongIndex];;
+#else
+    MPMediaItem *song = [self.songsList objectAtIndex: [SyncPlayerPlugin sharedMPInstance].currentSongIndex];
+    songTitle.text = [song valueForProperty: MPMediaItemPropertyTitle];
+    artistName.text= [song valueForProperty: MPMediaItemPropertyArtist];
+    artWork.image = [[song valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(326, 187)];
+    NSData *imageData = UIImagePNGRepresentation(artWork.image);
+    if(![imageData length])
+        artWork.image = [UIImage imageNamed:@"NoArtworkAvilableBigThumb.png" ];
+#endif
     
     if([[[SyncPlayerPlugin sharedMPInstance]   player] rate] !=0.0){
         [_togglePlayPause setImage:[UIImage imageNamed:@"pause_button.png"] forState:UIControlStateNormal];
@@ -244,7 +280,7 @@
     
 }
 
-// Change the view controler 
+// Change the view controler
 - (IBAction)connectWithSync:(id)sender{
     [[SyncBrain sharedInstance] setupProxy];
     //[self performSegueWithIdentifier:@"segueToSync" sender:nil];

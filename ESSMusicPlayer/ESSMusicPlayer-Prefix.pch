@@ -14,8 +14,10 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <AppLink/AppLink.h>
+    #import <FacebookSDK/FacebookSDK.h>
     #import "SyncBrain.h"
     #import "AppDelegate.h"
+    #import "GraphAPICallsViewController.h"
 
     # define ESS_OK @"OK"
     # define ESS_SEEKLEFT @"SEEKLEFT"
@@ -33,6 +35,7 @@
     # define ESS_PRESET_8 @"PRESET_8"
     # define ESS_PRESET_9 @"PRESET_9"
     # define VR_SELECT_SONG @"Select Song"
+    # define VR_FBPOST @"Post"
     # define VR_RESUME_SONG @"Start Playing"
     # define VR_STOP_PLAYING @"Stop playing"
     # define VR_NEXT @"Next"

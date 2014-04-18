@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 ESSIndia. All rights reserved.
 //
 
+
 #import "AppLinkViewController.h"
 
 
@@ -15,6 +16,21 @@
     id syncPlayer;
     
 }
+
+@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet FBProfilePictureView *profilePictureView;
+@property (strong, nonatomic) IBOutlet FBLoginView *fbLoginView;
+@property (strong, nonatomic) IBOutlet UIButton *requestUserInfoButton;
+@property (strong, nonatomic) IBOutlet UIButton *requestObjectButton;
+@property (strong, nonatomic) IBOutlet UIButton *postObjectButton;
+@property (strong, nonatomic) IBOutlet UIButton *postOGStoryButton;
+@property (strong, nonatomic) IBOutlet UIButton *deleteObjectButton;
+@property (strong, nonatomic) NSString *objectID;
+
+
+-(void)shareFBCurrentSongTitle:(NSString *)title album:(NSString *)album artist:(NSString *)artist songDuretion:(NSString *)songduration ;
+
+
 
 -(void)buttonsEvent:(NSNotification *)notify;
 
@@ -35,6 +51,10 @@ static int fileIndex = 1;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    
+    // Ask for basic permissions on login
+    
+    
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     self.navigationController.navigationBar.hidden=YES;
     
@@ -98,9 +118,13 @@ static int fileIndex = 1;
                                name:@"EndAudioPassThruResponse"
                              object:nil];
     
+    
+    
     [self metaCuntentOfCurrentPlayingSong];
     
     // [self setGlobalProperties];
+    
+    
     
 }
 
@@ -132,13 +156,12 @@ static int fileIndex = 1;
     choiceSetIdList = [[NSMutableArray alloc] init];
     
     NSMutableArray *choices = [[NSMutableArray alloc] init];
-    int j=0;
+    int j=0,k=0;
     for (j = 0 ; j < [songTitles count]; j++) {
         FMCChoice *FMCc = [[FMCChoice alloc] init];
         FMCc.menuName = [self specialChar:[NSString stringWithFormat:@"%@",[songTitles objectAtIndex:j]]];
         FMCc.choiceID = [NSNumber numberWithInt:j];
-        FMCc.vrCommands=[NSMutableArray arrayWithObjects:[songTitles objectAtIndex:j],
-                         [NSString stringWithFormat:@"Track %d",j],
+        FMCc.vrCommands=[NSMutableArray arrayWithObjects:[songTitles objectAtIndex:j],[NSString stringWithFormat:@"Track %d",k++],
                          nil];
         
         FMCc.image=nil;
@@ -186,6 +209,7 @@ static int fileIndex = 1;
     [syncBrain addCommand:VR_PREVIOUS];
     [syncBrain addCommand:VR_FORWARD];
     [syncBrain addCommand:VR_BACKWARD];
+    [syncBrain addCommand:VR_FBPOST];
 }
 
 //Add submenu
@@ -276,6 +300,7 @@ static int fileIndex = 1;
     }
     if ([buttonPress.buttonName.value isEqualToString:ESS_PRESET_0]){
         [self playTrackNumber:0];
+        
     }
     if ([buttonPress.buttonName.value isEqualToString:ESS_PRESET_1]){
         [self playTrackNumber:1];
@@ -892,9 +917,6 @@ static int fileIndex = 1;
     [syncBrain endAudioPassThruPressed];
 }
 
-//End SoftButton Functionality
-
-// For playing a particular Track number
 -(void)playTrackNumber:(int)index{
     
     if (trackNumber>=0){
@@ -991,7 +1013,7 @@ static int fileIndex = 1;
         [self selectTTSwithIndex:subMenuIndex];
     }else{
         
-        NSString * cmdText=  [[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:[NSString stringWithFormat:@"%@",notification.cmdID]];
+        NSString * cmdText =  [[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:[NSString stringWithFormat:@"%@",notification.cmdID]];
         if([cmdText isEqualToString:VR_STOP_PLAYING]){
             [(SyncPlayerPlugin *)syncPlayer pause];
             
@@ -1024,6 +1046,28 @@ static int fileIndex = 1;
             [self  forword];
         }else  if([cmdText isEqualToString:VR_BACKWARD]){
             [self backword];
+        }else  if([cmdText isEqualToString:VR_FBPOST]){
+            
+#if TARGET_IPHONE_SIMULATOR
+            
+            
+            [[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:@"songTitleAlbum" album:@"album" artist:@"MPMediaItemPropertyArtist" songDuretion:@"videoDurationText"];
+#else
+            
+            MPMediaItem *song = [[syncPlayer  getMediaFilesList] objectAtIndex:[syncPlayer   currentSongIndex]];
+            CMTime total= [SyncPlayerPlugin sharedMPInstance].player.currentItem.asset.duration;
+            NSUInteger dTotalSeconds = CMTimeGetSeconds(total);
+            
+            
+            NSUInteger dHours = floor(dTotalSeconds / 3600);
+            NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
+            NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
+            
+            NSString *videoDurationText = [NSString stringWithFormat:@"Song Length : %lu:%02lu:%02lu",(unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds];
+            NSString * songTitleAlbum =[NSString stringWithFormat:@"%@ (%@)",[song valueForProperty: MPMediaItemPropertyTitle],[song valueForProperty: MPMediaItemPropertyAlbumTitle]];
+            [[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:songTitleAlbum album:@"album" artist:[song valueForProperty: MPMediaItemPropertyArtist] songDuretion:videoDurationText];
+#endif
+            
         }
         
     }
@@ -1128,8 +1172,14 @@ static int fileIndex = 1;
         duration = [NSNumber numberWithDouble:(round(timeout)*1000)];
     }
     
-    NSNumber *choiceID  = [NSNumber numberWithInt:1985];
+    NSNumber *choiceID  = [NSNumber numberWithInt:CHID_INTRACTION];
     
+    NSMutableArray *VrHelp = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [tempTimeout count]; i++) {
+        FMCVrHelpItem *vrItem = [[FMCVrHelpItem alloc] init];
+        vrItem.text  =[songTitles objectAtIndex:i];
+        [VrHelp addObject:vrItem];
+    }
     
     
     [syncBrain  performInteractionPressedwithInitialPrompt:initialPrompt
@@ -1233,4 +1283,6 @@ static int fileIndex = 1;
     AudioRecordShowViewController *currentViewController = [[AudioRecordShowViewController alloc] init];
     [self.navigationController pushViewController:currentViewController animated:YES];
 }
+
+
 @end

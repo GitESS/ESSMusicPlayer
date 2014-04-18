@@ -408,7 +408,7 @@ static SyncBrain *gInstance = NULL;
     softButton = nil;
     softButton = [[FMCSoftButton alloc] init];
     softButton.softButtonID = [NSNumber numberWithInt:5004];
-    softButton.text = @"Vehicle";
+    softButton.text = @"FBShare";
     //softButton.image = [[FMCImage alloc] init] ;
     //softButton.image.imageType = [FMCImageType STATIC];
     //softButton.image.value = [NSString stringWithFormat:@"%d", i];
@@ -808,7 +808,7 @@ sliderFooter timeOut :(NSNumber *)timeout
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
 }
 
-//ShowConstantTBT
+/*/ShowConstantTBT
 - (void)showConstantTBTPressedWithNavigationText1:(NSString *)navigationText1 WithNavigationText2:(NSString *)navigationText2 eta:(NSString *)eta
                                     totalDistance:(NSString *)totalDistance turnIcon :(FMCImage *)turnImage
                                distanceToManeuver:(NSNumber *)distanceToManeuver
@@ -853,7 +853,7 @@ sliderFooter timeOut :(NSNumber *)timeout
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"consoleLog" object:req]];
 }
-
+*/
 //ChangeRegistration
 - (void)changeRegistrationPressedWithLanguage:(FMCLanguage *)language WithHmiDisplayLanguage:(FMCLanguage *)hmiDisplayLanguage
 {
@@ -984,6 +984,7 @@ sliderFooter timeOut :(NSNumber *)timeout
     
     if (notification.state == FMCDriverDistractionState.DD_OFF ) {
         isDD = NO;
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
         [FMCDebugTool logInfo:@"DD Off"];
         
 	} else if (notification.state == FMCDriverDistractionState.DD_ON ) {
@@ -1013,23 +1014,18 @@ sliderFooter timeOut :(NSNumber *)timeout
 // =====================================
 
 -(void) onOnButtonEvent:(FMCOnButtonEvent*) notification {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:notification]];
+	    [self postToConsoleLog:notification];
 }
 
 -(void) onOnButtonPress:(FMCOnButtonPress*) notification {
-    //int idBtn = [notification.customButtonID intValue];
-    //[self alert: [NSString stringWithFormat:@"Soft Button Press %i",idBtn]];
-    
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"musicPlay" object:notification]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:notification]];
 }
 -(void) onOnCommand:(FMCOnCommand*) notification {
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"CommandAction" object:notification]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:notification]];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onVoiceCommand" object:notification]];
 }
 -(void) onOnAppInterfaceUnregistered:(FMCOnAppInterfaceUnregistered*) notification {
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewConsoleControllerObject" object:notification]];
+	
 }
 
 -(void) onAddCommandResponse:(FMCAddCommandResponse*) response {
@@ -1107,11 +1103,11 @@ sliderFooter timeOut :(NSNumber *)timeout
     
 }
 
-
+/*
 -(void) onAlertManeuverResponse:(FMCAlertManeuverResponse*) response {
     [self postToConsoleLog:response];
 }
-
+*/
 -(void) onChangeRegistrationResponse:(FMCChangeRegistrationResponse*) response {
     [self postToConsoleLog:response];
 }
@@ -1124,7 +1120,6 @@ sliderFooter timeOut :(NSNumber *)timeout
     [self postToConsoleLog:response];
     //[self alert:@"EndAudioPassThroughResponse"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"EndAudioPassThruResponse" object:nil];
-    
 }
 
 
@@ -1162,14 +1157,17 @@ sliderFooter timeOut :(NSNumber *)timeout
 -(void) onOnPermissionsChange:(FMCOnPermissionsChange*) notification {
     [self postToConsoleLog:notification];
 }
+/*
 -(void) onOnTBTClientState:(FMCOnTBTClientState*) notification {
 	[self postToConsoleLog:notification];
-}
+}*/
 -(void) onOnVehicleData:(FMCOnVehicleData*) notification {
     [self postToConsoleLog:notification];
+    if ([notification.speed intValue]<=12) {
+        
+    }
+
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"DisplayVehicleData" object:nil]];
-    
-    
 }
 
 
@@ -1184,27 +1182,27 @@ sliderFooter timeOut :(NSNumber *)timeout
 -(void) onSetDisplayLayoutResponse:(FMCSetDisplayLayoutResponse*) response {
     [self postToConsoleLog:response];
 }
-
+/*
 -(void) onShowConstantTBTResponse:(FMCShowConstantTBTResponse*) response {
     [self postToConsoleLog:response];
-}
+}*/
 -(void) onSliderResponse:(FMCSliderResponse*) response {
     [self postToConsoleLog:response];
 }
 
 -(void) onSubscribeVehicleDataResponse:(FMCSubscribeVehicleDataResponse*) response {
     [self postToConsoleLog:response];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GetVehicleData" object:nil]];
-    
+    //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GetVehicleData" object:nil]];
 }
 
 -(void) onUnsubscribeVehicleDataResponse:(FMCUnsubscribeVehicleDataResponse*) response {
 	[self postToConsoleLog:response];
 }
+/*
 -(void) onUpdateTurnListResponse:(FMCUpdateTurnListResponse*) response {
     [self postToConsoleLog:response];
 }
-
+*/
 -(void) postToConsoleLog:(id) object {
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"onRPCResponse" object :object]];
 }

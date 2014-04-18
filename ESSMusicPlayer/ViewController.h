@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SyncPlayerPlugin.h"
 #import  "AppLinkViewController.h"
+#import "GraphAPICallsViewController.h"
 
 @interface ViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
@@ -28,5 +29,5 @@
 -(IBAction)playNextTrack;
 -(IBAction)playPreviousTrack;
 -(IBAction)playPause;
-
+-(IBAction)faceBookLogin:(id)sender;
 @end
