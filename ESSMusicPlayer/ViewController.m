@@ -285,5 +285,7 @@
     [[SyncBrain sharedInstance] setupProxy];
     //[self performSegueWithIdentifier:@"segueToSync" sender:nil];
 }
-
+-(IBAction)post:(id)sender{
+      [[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:@"songTitleAlbum" album:@"album" artist:@"MPMediaItemPropertyArtist" songDuretion:@"videoDurationText"];
+}
 @end

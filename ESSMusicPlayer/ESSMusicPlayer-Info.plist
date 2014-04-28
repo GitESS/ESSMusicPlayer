@@ -56,8 +56,6 @@
 	</array>
 	<key>FacebookDisplayName</key>
 	<string>SyncMusicApp</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>App external-assesarey</string>

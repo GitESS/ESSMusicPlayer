@@ -30,4 +30,5 @@
 -(IBAction)playPreviousTrack;
 -(IBAction)playPause;
 -(IBAction)faceBookLogin:(id)sender;
+-(IBAction)post:(id)sender;
 @end
