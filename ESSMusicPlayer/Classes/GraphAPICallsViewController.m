@@ -11,7 +11,7 @@ static GraphAPICallsViewController *gInstance = NULL;
 {
 	@synchronized(self)
 	{
-		if (gInstance == NULL)
+		if (gInstance == NULL) 
 			gInstance = [[self alloc] init];
 	}
     
@@ -38,6 +38,7 @@ static GraphAPICallsViewController *gInstance = NULL;
     [_postObjectButton setHidden:NO];
     [_postOGStoryButton setHidden:NO];
     [_deleteObjectButton setHidden:NO];
+    [self requestUserInfo:self];
 }
 
 // Implement the loginViewShowingLoggedOutUser: delegate method to modify your app's UI for a logged-out user experience
@@ -111,7 +112,7 @@ static GraphAPICallsViewController *gInstance = NULL;
 {
     // We will request the user's public picture and the user's birthday
     // These are the permissions we need:
-    NSArray *permissionsNeeded = @[@"basic_info", @"user_birthday"];
+    NSArray *permissionsNeeded = @[@"basic_info", @"user_birthday",@"status_update"];
     
     // Request the permissions the user currently has
     [FBRequestConnection startWithGraphPath:@"/me/permissions"
@@ -134,6 +135,7 @@ static GraphAPICallsViewController *gInstance = NULL;
                                   // If we have permissions to request
                                   if ([requestPermissions count] > 0){
                                       // Ask for the missing permissions
+                                      
                                       [FBSession.activeSession
                                        requestNewReadPermissions:requestPermissions
                                        completionHandler:^(FBSession *session, NSError *error) {
@@ -143,7 +145,7 @@ static GraphAPICallsViewController *gInstance = NULL;
                                            } else {
                                                // An error occurred, we need to handle the error
                                                // Check out our error handling guide: https://developers.facebook.com/docs/ios/errors/
-                                               NSLog([NSString stringWithFormat:@"error %@", error.description]);
+                                               NSLog(@"%@",[NSString stringWithFormat:@"error %@", error.description]);
                                            }
                                        }];
                                   } else {
@@ -155,7 +157,7 @@ static GraphAPICallsViewController *gInstance = NULL;
                               } else {
                                   // An error occurred, we need to handle the error
                                   // Check out our error handling guide: https://developers.facebook.com/docs/ios/errors/
-                                  NSLog([NSString stringWithFormat:@"error %@", error.description]);
+                                  NSLog(@"%@",[NSString stringWithFormat:@"error %@", error.description]);
                               }
                           }];
     
@@ -168,18 +170,19 @@ static GraphAPICallsViewController *gInstance = NULL;
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (!error) {
             // Success! Include your code to handle the results here
-            NSLog([NSString stringWithFormat:@"user info: %@", result]);
+            NSLog(@"%@",[NSString stringWithFormat:@"user info: %@", result]);
         } else {
             // An error occurred, we need to handle the error
             // Check out our error handling guide: https://developers.facebook.com/docs/ios/errors/
-            NSLog([NSString stringWithFormat:@"error %@", error.description]);
+            NSLog(@"%@",[NSString stringWithFormat:@"error %@", error.description]);
         }
     }];
 }
 
 
--(void)shareFBCurrentSongTitle:(NSString *)title album:(NSString *)album artist:(NSString *)artist songDuretion:(NSString *)songduration {
-    
+-(BOOL)shareFBCurrentSongTitle:(NSString *)title album:(NSString *)album artist:(NSString *)artist songDuretion:(NSString *)songduration {
+      if([FBSession.activeSession isOpen])
+      {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    @"Sync Music App", @"name",title, @"caption",songduration, @"description",
                                    @"https://developer.ford.com/", @"link",
@@ -190,6 +193,7 @@ static GraphAPICallsViewController *gInstance = NULL;
                                  parameters:params
                                  HTTPMethod:@"POST"
                           completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                              
                               if (!error) {
                                   NSLog(@"result: %@", result);
                               } else {
@@ -197,6 +201,41 @@ static GraphAPICallsViewController *gInstance = NULL;
                               }
                           }
      ];
+
+          return true;
+          
+      }else{
+          
+          return false;
+      }
+
+    return false;
+}
+
+
+
+- (void)facebookSessionStateChanged:(FBSession *)session state:(FBSessionState)state error:(NSError *)error
+{
+    switch (state) {
+        case FBSessionStateOpen:
+            // handle successful login here
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            [FBSession.activeSession closeAndClearTokenInformation];
+            
+            if (error) {
+                // handle error here, for example by showing an alert to the user
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not login with Facebook"
+                                                                message:@"Facebook login failed. Please check your Facebook settings on your phone."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 @end

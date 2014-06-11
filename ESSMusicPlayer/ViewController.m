@@ -33,8 +33,14 @@
     [self getMidiaList];
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(NavigateToSync:)
+                                                name:EAAccessoryDidConnectNotification
+                                              object:nil];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(NavigateToSync:)
                                                 name:@"HMIStatusForNavigate"
                                               object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playNextTrack)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
@@ -127,6 +133,7 @@
 // button action for Track timer Slider
 - (IBAction)sliderDragged:(id)sender {
     [self.audioPlayer seekToTime:CMTimeMakeWithSeconds((int)(self.sliderOutlet.value) , 1)];
+    
 }
 
 
@@ -286,6 +293,37 @@
     //[self performSegueWithIdentifier:@"segueToSync" sender:nil];
 }
 -(IBAction)post:(id)sender{
-      [[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:@"songTitleAlbum" album:@"album" artist:@"MPMediaItemPropertyArtist" songDuretion:@"videoDurationText"];
+    
+    
+    MPMediaItem *song = [[[SyncPlayerPlugin  sharedMPInstance] getMediaFilesList] objectAtIndex:[[SyncPlayerPlugin  sharedMPInstance]   currentSongIndex]];
+    CMTime total= [SyncPlayerPlugin sharedMPInstance].player.currentItem.asset.duration;
+    NSUInteger dTotalSeconds = CMTimeGetSeconds(total);
+    
+    
+    NSUInteger dHours = floor(dTotalSeconds / 3600);
+    NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
+    NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
+    
+    NSString *videoDurationText = [NSString stringWithFormat:@"Song Length : %lu:%02lu:%02lu",(unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds];
+    NSString * songTitleAlbum =[NSString stringWithFormat:@"%@ (%@)",[song valueForProperty: MPMediaItemPropertyTitle],[song valueForProperty: MPMediaItemPropertyAlbumTitle]];
+    
+
+    if (![[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:songTitleAlbum album:@"album" artist:[song valueForProperty: MPMediaItemPropertyArtist] songDuretion:videoDurationText]) {
+        UIAlertView *FBmessage = [[UIAlertView alloc] initWithTitle:@""
+                                                          message:@"FB sesssion is not Active. Please login to your FB account"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        
+        [FBmessage show];
+    }else{
+        UIAlertView *FBmessage = [[UIAlertView alloc] initWithTitle:@"Post succesfuly"
+                                                            message:@"Succesfuly post your current song details."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        
+        [FBmessage show];
+    }
 }
 @end

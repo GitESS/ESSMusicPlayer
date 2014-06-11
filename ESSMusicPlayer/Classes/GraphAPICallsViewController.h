@@ -14,7 +14,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *postOGStoryButton;
 @property (strong, nonatomic) IBOutlet UIButton *deleteObjectButton;
 @property (strong, nonatomic) NSString *objectID;
--(void)shareFBCurrentSongTitle:(NSString *)title
+-(BOOL)shareFBCurrentSongTitle:(NSString *)title
                          album:(NSString *)album
                         artist:(NSString *)artist
                   songDuretion:(NSString *)songduration ;

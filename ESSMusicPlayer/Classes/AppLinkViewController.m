@@ -8,6 +8,7 @@
 
 
 #import "AppLinkViewController.h"
+#import "SyncBrain.h"
 
 
 @interface AppLinkViewController (){
@@ -28,7 +29,7 @@
 @property (strong, nonatomic) NSString *objectID;
 
 
--(void)shareFBCurrentSongTitle:(NSString *)title album:(NSString *)album artist:(NSString *)artist songDuretion:(NSString *)songduration ;
+//-(void)shareFBCurrentSongTitle:(NSString *)title album:(NSString *)album artist:(NSString *)artist songDuretion:(NSString *)songduration ;
 
 
 
@@ -68,6 +69,7 @@ static int fileIndex = 1;
     [self subcribeButton];
     [self addSubMenu];
     
+    
     [notificationCenter addObserver:self
                            selector:@selector(buttonsEvent:)
                                name:@"musicPlay"
@@ -84,6 +86,11 @@ static int fileIndex = 1;
                            selector:@selector(NavigateToMusicPlayer)
                                name:@"HMIStatusForNavigateToMusicPlayer"
                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(NavigateToMusicPlayer)
+                               name:EAAccessoryDidConnectNotification
+                             object:nil];
+
     [notificationCenter addObserver:self
                            selector:@selector(onChoice:)
                                name:@"onChoice"
@@ -347,8 +354,8 @@ static int fileIndex = 1;
         [self softButtonSongInfo];
     }
     if ([buttonPress.customButtonID intValue] == 5004) {
-        [self vehicleData];
-        
+        //[self vehicleData];
+             [self postToFB];
     }
     if ([buttonPress.customButtonID intValue] == 5005) {
         
@@ -1048,32 +1055,43 @@ static int fileIndex = 1;
             [self backword];
         }else  if([cmdText isEqualToString:VR_FBPOST]){
             
-#if TARGET_IPHONE_SIMULATOR
-            
-            
-            [[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:@"songTitleAlbum" album:@"album" artist:@"MPMediaItemPropertyArtist" songDuretion:@"videoDurationText"];
-#else
-            
-            MPMediaItem *song = [[syncPlayer  getMediaFilesList] objectAtIndex:[syncPlayer   currentSongIndex]];
-            CMTime total= [SyncPlayerPlugin sharedMPInstance].player.currentItem.asset.duration;
-            NSUInteger dTotalSeconds = CMTimeGetSeconds(total);
-            
-            
-            NSUInteger dHours = floor(dTotalSeconds / 3600);
-            NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
-            NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
-            
-            NSString *videoDurationText = [NSString stringWithFormat:@"Song Length : %lu:%02lu:%02lu",(unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds];
-            NSString * songTitleAlbum =[NSString stringWithFormat:@"%@ (%@)",[song valueForProperty: MPMediaItemPropertyTitle],[song valueForProperty: MPMediaItemPropertyAlbumTitle]];
-            [[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:songTitleAlbum album:@"album" artist:[song valueForProperty: MPMediaItemPropertyArtist] songDuretion:videoDurationText];
-#endif
-            
+            [self postToFB];
         }
         
     }
     
 }
+-(void)postToFB{
+#if TARGET_IPHONE_SIMULATOR
+    
+    
+    [[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:@"songTitleAlbum" album:@"album" artist:@"MPMediaItemPropertyArtist" songDuretion:@"videoDurationText"];
+#else
+    
+    MPMediaItem *song = [[syncPlayer  getMediaFilesList] objectAtIndex:[syncPlayer   currentSongIndex]];
+    CMTime total= [SyncPlayerPlugin sharedMPInstance].player.currentItem.asset.duration;
+    NSUInteger dTotalSeconds = CMTimeGetSeconds(total);
+    
+    
+    NSUInteger dHours = floor(dTotalSeconds / 3600);
+    NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
+    NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
+    
+    NSString *videoDurationText = [NSString stringWithFormat:@"Song Length : %lu:%02lu:%02lu",(unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds];
+    NSString * songTitleAlbum =[NSString stringWithFormat:@"%@ (%@)",[song valueForProperty: MPMediaItemPropertyTitle],[song valueForProperty: MPMediaItemPropertyAlbumTitle]];
+   // [[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:songTitleAlbum album:@"album" artist:[song valueForProperty: MPMediaItemPropertyArtist] songDuretion:videoDurationText];
+    if (![[GraphAPICallsViewController  sharedInstance] shareFBCurrentSongTitle:songTitleAlbum album:@"album" artist:[song valueForProperty: MPMediaItemPropertyArtist] songDuretion:videoDurationText]) {
+       
+        [syncBrain speakPressed :@"You are not loged in , Please login to your FB account"];
 
+    }else{
+     
+        [syncBrain speakPressed:@"Succesfuly posted your current song details."];
+        
+       }
+#endif
+    
+}
 -(void)onChoice:(NSNotification *)notify{
     
     FMCPerformInteractionResponse *response = [notify object];
@@ -1181,8 +1199,7 @@ static int fileIndex = 1;
         [VrHelp addObject:vrItem];
     }
     
-    
-    [syncBrain  performInteractionPressedwithInitialPrompt:initialPrompt
+    [[SyncBrain sharedInstance]  performInteractionPressedwithInitialPrompt:initialPrompt
                                                initialText:initialText
                                 interactionChoiceSetIDList:[NSArray arrayWithObject:choiceID]
                                                 helpChunks:helpChunks

@@ -10,6 +10,7 @@
 #import "SyncPlayerPlugin.h"
 #import  "AppLinkViewController.h"
 #import "GraphAPICallsViewController.h"
+#import "SyncBrain.h"
 
 @interface ViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {

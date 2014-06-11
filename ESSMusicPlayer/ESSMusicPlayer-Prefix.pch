@@ -15,7 +15,6 @@
     #import <Foundation/Foundation.h>
     #import <AppLink/AppLink.h>
     #import <FacebookSDK/FacebookSDK.h>
-    #import "SyncBrain.h"
     #import "AppDelegate.h"
     #import "GraphAPICallsViewController.h"
 

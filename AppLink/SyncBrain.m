@@ -893,6 +893,7 @@ sliderFooter timeOut :(NSNumber *)timeout
 }
 
 -(void) setupProxy {
+   
     
     [FMCDebugTool logInfo:@"setupProxy"];
     
@@ -936,7 +937,7 @@ sliderFooter timeOut :(NSNumber *)timeout
     [self tearDownProxy];
 	[self setupProxy];
    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
-    [self registerAcessory];
+    //[self registerAcessory];
 }
 
 
@@ -947,14 +948,15 @@ sliderFooter timeOut :(NSNumber *)timeout
 }
 -(void) onOnHMIStatus:(FMCOnHMIStatus*) notification {
     
+ NSString * hmi=@"";
     if (notification.hmiLevel == FMCHMILevel.HMI_NONE ) {
-		
+		hmi=@"HMI_NONE";
         [FMCDebugTool logInfo:@"HMI_NONE"];
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"HMIStatusForNavigateToMusicPlayer" object:nil]];
         
         
 	} else if (notification.hmiLevel == FMCHMILevel.HMI_FULL ) {
-        
+        		hmi=@"HMI_FULL";
         [FMCDebugTool logInfo:@"HMI_FULL"];
         if	(syncInitialized)
             return;
@@ -964,13 +966,15 @@ sliderFooter timeOut :(NSNumber *)timeout
          [proxy sendRPCRequest:msg];*/
         
     } else if (notification.hmiLevel == FMCHMILevel.HMI_BACKGROUND ) {
-        
+        		hmi=@"HMI_BACKGROUND";
         [FMCDebugTool logInfo:@"HMI_BACKGROUND"];
         
     } else if (notification.hmiLevel == FMCHMILevel.HMI_LIMITED ) {
-        
+        		hmi=@"HMI_LIMITED";
         [FMCDebugTool logInfo:@"HMI_LIMTED"];
 	}
+    
+     //  [self alert:[NSString stringWithFormat: @"HMI :%@",hmi]];
 }
 
 -(void) tearDownProxy {

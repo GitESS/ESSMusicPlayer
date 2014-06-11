@@ -7,6 +7,7 @@
 //
 
 #import "AudioRecordShowViewController.h"
+#import "SyncBrain.h"
 
 @interface AudioRecordShowViewController ()
 

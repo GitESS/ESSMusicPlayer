@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SyncBrain.h"
 
 @implementation AppDelegate
 
@@ -16,6 +17,7 @@
     // Override point for customization after application launch.
     [[SyncBrain sharedInstance] setupProxy];
 
+   // [[EAAccessoryManager sharedAccessoryManager]registerForLocalNotifications];
     
     [self performSelector:@selector(fbSetup) withObject:self afterDelay:3.0];
   
