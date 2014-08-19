@@ -1260,16 +1260,7 @@ static int fileIndex = 1;
 
 -(IBAction)deleteAndUnsubscribe:(id)sender{
     //Delete Command from Sync
-    /*
-     [syncBrain deleteCommandPressed:[NSNumber numberWithInt:(int)[NSString stringWithFormat:@"%@",(NSString *)[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:VR_SELECT_SONG]]]];
-     [syncBrain deleteCommandPressed:[NSNumber numberWithInt:(int)[NSString stringWithFormat:@"%@",(NSString *)[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:VR_RESUME_SONG]]]];
-     [syncBrain deleteCommandPressed:[NSNumber numberWithInt:(int)[NSString stringWithFormat:@"%@",(NSString *)[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:VR_NEXT]]]];
-     [syncBrain deleteCommandPressed:[NSNumber numberWithInt:(int)[NSString stringWithFormat:@"%@",(NSString *)[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:VR_PREVIOUS]]]];
-     [syncBrain deleteCommandPressed:[NSNumber numberWithInt:(int)[NSString stringWithFormat:@"%@",(NSString *)[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:SUBMENU_OPTION_APPLICATION]]]];
-     [syncBrain deleteCommandPressed:[NSNumber numberWithInt:(int)[NSString stringWithFormat:@"%@",(NSString *)[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:SUBMENU_OPTION_APPLINK]]]];
-     [syncBrain deleteCommandPressed:[NSNumber numberWithInt:(int)[NSString stringWithFormat:@"%@",(NSString *)[[(SyncBrain *)syncBrain allVoiceCommand] objectForKey:SUBMENU_OPTION_APPLICATION_FEATURE]]]];
-     */
-    //Unsubscribe button
+  
     [syncBrain unsubscribeButtonPressed:[FMCButtonName OK]];
     [syncBrain unsubscribeButtonPressed:[FMCButtonName SEEKLEFT]];
     [syncBrain unsubscribeButtonPressed:[FMCButtonName SEEKRIGHT]];

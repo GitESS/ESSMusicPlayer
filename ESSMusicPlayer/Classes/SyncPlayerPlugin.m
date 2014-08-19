@@ -185,6 +185,17 @@ static SyncPlayerPlugin *getInstance = NULL;
     }
 }
 
+//  Play Song for given track index
+-(void)playMediaFile:(NSString *)mediaFilePath{
+        NSURL * url = [[NSBundle mainBundle] URLForResource:mediaFilePath withExtension:@"mp3"];
+        
+        NSLog(@"%@",url);
+        
+        self.currentItem = [AVPlayerItem playerItemWithURL:url];
+        
+        [self.player replaceCurrentItemWithPlayerItem:self.currentItem];
+        [self.player play];
+}
 
 // Volume Increse
 -(void)setValumeUP:(float)volume{
